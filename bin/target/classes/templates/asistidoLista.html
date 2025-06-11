@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Personas Asistidas</title>
+</head>
+<body>
+<h1>Asistidos Registrados</h1>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>DNI</th>
+        <th>Nombre</th>
+        <th>Apellido</th>
+        <th>Domicilio</th>
+        <th>Ocupación</th>
+        <th>Fecha de Registro</th>
+        <th>Familia</th>
+        <th>Acciones</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="asistido : ${asistidos}">
+        <td th:text="${asistido.dni}">DNI</td>
+        <td th:text="${asistido.nombre}">Nombre</td>
+        <td th:text="${asistido.apellido}">Apellido</td>
+        <td th:text="${asistido.domicilio}">Domicilio</td>
+        <td th:text="${asistido.ocupacion}">Ocupación</td>
+        <td th:text="${asistido.familia != null ? asistido.familia.nombre : 'Sin familia'}">Familia</td>
+        <td>
+            <a th:href="@{/asistidos/editar/{id}(id=${asistido.id})}">✏️ Editar</a>
+            &nbsp;|&nbsp;
+            <a th:href="@{/asistidos/eliminar/{id}(id=${asistido.id})}"
+               onclick="return confirm('¿Estás seguro de que querés eliminar este asistido?')">
+               ❌ Eliminar
+            </a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<br/>
+<a th:href="@{/asistidos/form}">➕ Cargar nuevo asistido</a>
+</body>
+</html>

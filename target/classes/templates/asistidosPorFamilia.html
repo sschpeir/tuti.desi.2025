@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Miembros de la Familia</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            padding: 40px;
+        }
+
+        h1 {
+            color: #343a40;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 0 5px rgba(0,0,0,0.05);
+        }
+
+        th, td {
+            padding: 12px 15px;
+            border: 1px solid #dee2e6;
+            text-align: left;
+        }
+
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        a {
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<h1 th:text="|Miembros de la familia: ${familia.nombre}|">Miembros</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th>DNI</th>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Domicilio</th>
+            <th>Fecha de Nacimiento</th>
+            <th>Ocupación</th>
+            <th>Editar</th>
+            <th>Estado</th>
+			<th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="asistido : ${miembros}">
+            <td th:text="${asistido.dni}">DNI</td>
+            <td th:text="${asistido.nombre}">Nombre</td>
+            <td th:text="${asistido.apellido}">Apellido</td>
+            <td th:text="${asistido.domicilio}">Domicilio</td>
+            <td th:text="${asistido.fechaNacimiento}">Fecha de Nacimiento</td>
+            <td th:text="${asistido.ocupacion}">Ocupación</td>
+			
+            <td>
+                <a th:href="@{/asistidos/editar/{id}(id=${asistido.id})}">✏️ Editar</a>
+            </td>
+			<td th:text="${asistido.activa} ? '✅ Habilitado' : '❌ Deshabilitado'"></td>
+			<td>
+						    <a th:href="@{/asistidos/eliminar/{id}(id=${asistido.id})}"
+						       th:attr="onclick=${asistido.activa} ? 'return confirm(\'¿Seguro que querés deshabilitar este asistido?\')' : 'return confirm(\'¿Seguro que querés habilitar este asistido?\')'"
+						       th:text="${asistido.activa} ? '❌ Deshabilitar' : '✅ Habilitar'">
+						    </a>
+			</td>  
+			
+        </tr>
+    </tbody>
+</table>
+
+<br/>
+<a th:href="@{/asistidos/form}">➕ Cargar nuevo asistido</a>
+<br/>
+<br/>
+<br/>
+<a th:href="@{/familias/listar}">← Volver al listado de familias</a>
+
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Familias</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 0 5px rgba(0,0,0,0.1);
+        }
+
+        th, td {
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        a {
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .button-add {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 15px;
+            background-color: #28a745;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+
+        .button-add:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Familias Registradas Habilitadas</h1>
+
+<table>
+    <thead>
+    <tr>
+        <th>Numero de Familia</th>
+        <th>Nombre</th>
+        <th>Fecha de Registro</th>
+        <th>Activa</th>
+        <th>Acciones</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="familia : ${familias}">
+        <td th:text="${familia.id}">ID</td>
+        <td th:text="${familia.nombre}">Nombre</td>
+        <td th:text="${familia.fechaRegistro}">Fecha</td>
+        <td th:text="${familia.activa ? 'Sí' : 'No'}">Activa</td>
+        <td>
+            <a th:href="@{/asistidos/alta(familiaId=${familia.id})}">👤 Agregar Persona</a>
+            &nbsp;|&nbsp;
+            <a th:href="@{/familias/{id}/miembros(id=${familia.id})}">👥 Ver Miembros</a>
+            &nbsp;|&nbsp;
+            <a th:href="@{/familias/editar/{id}(id=${familia.id})}">✏️ Editar Familia</a>
+            &nbsp;|&nbsp;
+            <a th:href="@{/familias/eliminar/{id}(id=${familia.id})}" 
+               onclick="return confirm('¿Estás seguro de que querés eliminar esta familia?')">
+               ❌ Eliminar Familia
+            </a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<br/>
+<a class="button-add" th:href="@{/familias/alta}">➕ Cargar nueva familia</a>
+
+</body>
+</html>
