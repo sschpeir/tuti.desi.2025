@@ -98,7 +98,7 @@ public class AsistidoController {
     
     //Un Endpoint de lista
     
-    @GetMapping("/lista")
+    @GetMapping("/listar")
     public String listarAsistidos(Model model) {
         List<Asistido> asistidos = asistidoService.listarTodos();
         model.addAttribute("asistidos", asistidos);

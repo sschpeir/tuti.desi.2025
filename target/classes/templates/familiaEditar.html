@@ -106,7 +106,7 @@
 
     <p th:if="${error}" th:text="${error}" class="error"></p>
 
-    <form th:action="@{/familias/guardar}" th:object="${familia}" method="post">
+    <form th:action="@{/familias/guardaredicion}" th:object="${familia}" method="post">
         <input type="hidden" th:field="*{id}" />
 
         <label>Nombre:</label>

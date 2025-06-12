@@ -50,6 +50,23 @@ public class FamiliaController {
             return "familiaAlta";
         }
         familiaService.guardarFamilia(familia); 
+        return "redirect:/familias/"+familia.getId()+"/miembros"; 
+    }
+    
+    // GUARDAR EDICION
+    @PostMapping("/guardaredicion")
+    public String guardarFamiliaEdicion(@ModelAttribute Familia familia, Model model) {
+        // Validar si ya existe una familia con el mismo nombre, un rompedero de seso
+        List<Familia> existentes = familiaService.listarFamilias();
+        boolean nombreDuplicado = existentes.stream()
+            .anyMatch(f -> f.getNombre().equalsIgnoreCase(familia.getNombre()) && !f.getId().equals(familia.getId()));
+
+        if (nombreDuplicado) {
+            model.addAttribute("familia", familia);
+            model.addAttribute("error", "Ya existe una familia con ese nombre.");
+            return "familiaAlta";
+        }
+        familiaService.guardarFamilia(familia); 
         return "redirect:/familias/listar"; 
     }
 
@@ -76,7 +93,7 @@ public class FamiliaController {
     
     // LISTAR FAMILIAS HABILITADAS
     
-    @GetMapping("/listar/habilitadas")
+    @GetMapping("/listarhabilitadas")
     public String listarFamiliasHabilitadas(Model model) {
         List<Familia> familias = familiaService.listarFamiliasHabilitadas();
         model.addAttribute("familias", familias);
@@ -91,7 +108,7 @@ public class FamiliaController {
         Familia familia = familiaService.buscarPorId(id)
             .orElseThrow(() -> new IllegalArgumentException("No se encontró la familia con ID: " + id));
         model.addAttribute("familia", familia);
-        return "familiaAlta"; 
+        return "familiaEditar"; 
     }
     
     //ELIMINAR LAS FAMILIAS POR ID

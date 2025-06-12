@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Inicio</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            text-align: center;
+            padding: 30px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin: 10px 0;
+        }
+
+        a {
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        a:hover {
+            color: #0056b3;
+        }
+
+        .img-container {
+            margin-top: 30px;
+        }
+
+        .img-container img {
+            width: 200px;
+            margin: 0 15px;
+            border-radius: 10px;
+            box-shadow: 2px 2px 8px rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+<body>
+    <h1>Bienvenido a Tuti Desi 2025</h1>
+
+    <p>Seleccione una opción:</p>
+
+    <ul>
+        <li><a th:href="@{/familias/alta}">Alta de Familias</a></li>
+        <li><a th:href="@{/familias/listar}">Ver Listado de Todas las Familias</a></li>
+		<li><a th:href="@{/familias/listarhabilitadas}">Ver Listado de Familias Habilitadas</a></li>
+		<br/>
+		<br/>
+        <li><a th:href="@{/asistidos/alta}">Alta de Asistidos</a></li>
+        <li><a th:href="@{/asistidos/listar}">Ver Listado de Todos los Asistidos</a></li>
+		<br/>
+		<br/>
+    </ul>
+
+    <div class="img-container">
+        <img th:src="@{/images/familia.png}" alt="Familias">
+        <img th:src="@{/images/asistido.png}" alt="Asistidos">
+    </div>
+</body>
+</html>
