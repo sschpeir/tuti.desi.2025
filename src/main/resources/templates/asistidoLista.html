@@ -3,44 +3,115 @@
 <head>
     <meta charset="UTF-8">
     <title>Lista de Personas Asistidas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 40px;
+            background-color: #f9f9f9;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 0 5px rgba(0,0,0,0.1);
+        }
+
+        th, td {
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        a {
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .button-add {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: white;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .button-add:hover {
+            background-color: #0056b3;
+        }
+
+        .acciones {
+            white-space: nowrap;
+        }
+    </style>
 </head>
 <body>
+
 <h1>Asistidos Registrados</h1>
 
-<table border="1">
+<table>
     <thead>
-    <tr>
-        <th>DNI</th>
-        <th>Nombre</th>
-        <th>Apellido</th>
-        <th>Domicilio</th>
-        <th>Ocupación</th>
-        <th>Fecha de Registro</th>
-        <th>Familia</th>
-        <th>Acciones</th>
-    </tr>
+        <tr>
+            <th>DNI</th>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Domicilio</th>
+            <th>Ocupación</th>
+            <th>Familia</th>
+            <th>Acciones</th>
+        </tr>
     </thead>
     <tbody>
-    <tr th:each="asistido : ${asistidos}">
-        <td th:text="${asistido.dni}">DNI</td>
-        <td th:text="${asistido.nombre}">Nombre</td>
-        <td th:text="${asistido.apellido}">Apellido</td>
-        <td th:text="${asistido.domicilio}">Domicilio</td>
-        <td th:text="${asistido.ocupacion}">Ocupación</td>
-        <td th:text="${asistido.familia != null ? asistido.familia.nombre : 'Sin familia'}">Familia</td>
-        <td>
-            <a th:href="@{/asistidos/editar/{id}(id=${asistido.id})}">✏️ Editar</a>
-            &nbsp;|&nbsp;
-            <a th:href="@{/asistidos/eliminar/{id}(id=${asistido.id})}"
-               onclick="return confirm('¿Estás seguro de que querés eliminar este asistido?')">
-               ❌ Eliminar
-            </a>
-        </td>
-    </tr>
+        <tr th:each="asistido : ${asistidos}">
+            <td th:text="${asistido.dni}">DNI</td>
+            <td th:text="${asistido.nombre}">Nombre</td>
+            <td th:text="${asistido.apellido}">Apellido</td>
+            <td th:text="${asistido.domicilio}">Domicilio</td>
+            <td th:text="${asistido.ocupacion}">Ocupación</td>
+            <td th:text="${asistido.familia != null ? asistido.familia.nombre : 'Sin familia'}">Familia</td>
+            <td class="acciones">
+                <a th:href="@{/asistidos/editar/{id}(id=${asistido.id})}">✏️ Editar</a>
+                &nbsp;|&nbsp;
+                <a th:href="@{/asistidos/eliminar/{id}(id=${asistido.id})}"
+                   onclick="return confirm('¿Estás seguro de que querés eliminar este asistido?')">
+                   ❌ Eliminar
+                </a>
+            </td>
+        </tr>
     </tbody>
 </table>
 
-<br/>
-<a th:href="@{/asistidos/form}">➕ Cargar nuevo asistido</a>
+<div style="margin-top: 30px; text-align: center;">
+    <a class="button-add" th:href="@{/asistidos/form}">➕ Cargar nuevo asistido</a>
+	<br/>
+	<br/>
+    <a class="button-add" th:href="@{/familias/listarhabilitadas}">👥 Ver Listado de Familias Habilitadas</a>
+	<br/>
+	<br/>
+	<a class="button-add" th:href="@{/familias/listarhabilitadas}">👥 Ver Listado de Todas las Familias</a>
+</div>
+
 </body>
 </html>

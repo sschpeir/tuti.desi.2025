@@ -17,6 +17,10 @@
             max-width: 550px;
         }
 
+        .bloqueado {
+            opacity: 0.7;
+        }
+
         h1 {
             text-align: center;
             color: #333;
@@ -70,6 +74,15 @@
             background-color: #0056b3;
         }
 
+        input:disabled,
+        select:disabled,
+        button:disabled {
+            background-color: #e9ecef;
+            color: #6c757d;
+            cursor: not-allowed;
+            border: 1px solid #ccc;
+        }
+
         .error {
             color: red;
             margin-bottom: 15px;
@@ -92,35 +105,48 @@
 </head>
 <body>
 
-<div class="container">
+<div class="container" th:classappend="${#lists.isEmpty(familias)} ? 'bloqueado' : ''">
     <h1 th:text="${asistido.id == null} ? 'Nuevo Asistido' : 'Editar Asistido'">Formulario</h1>
-	<p th:if="${error}" th:text="${error}" class="error"></p>
+    
+    <p th:if="${error}" th:text="${error}" class="error"></p>
 
     <form th:action="@{/asistidos/guardar}" th:object="${asistido}" method="post">
         <input type="hidden" th:field="*{id}" />
 
         <label>DNI:</label>
-        <input type="number" th:field="*{dni}" required min="1"/>
+        <input type="number" th:field="*{dni}" required min="1"
+               th:disabled="${#lists.isEmpty(familias)}"/>
 
         <label>Nombre:</label>
-        <input type="text" th:field="*{nombre}" required />
+        <input type="text" th:field="*{nombre}" required
+               th:disabled="${#lists.isEmpty(familias)}"/>
 
         <label>Apellido:</label>
-        <input type="text" th:field="*{apellido}" required />
+        <input type="text" th:field="*{apellido}" required
+               th:disabled="${#lists.isEmpty(familias)}"/>
 
         <label>Domicilio:</label>
-        <input type="text" th:field="*{domicilio}" required/>
+        <input type="text" th:field="*{domicilio}" required
+               th:disabled="${#lists.isEmpty(familias)}"/>
 
         <label>Fecha de Nacimiento:</label>
-        <input type="date" th:field="*{fechaNacimiento}" required/>
+        <input type="date" th:field="*{fechaNacimiento}" required
+               th:disabled="${#lists.isEmpty(familias)}"/>
 
         <label>Ocupación:</label>
-        <input type="text" th:field="*{ocupacion}" required/>
-		
-		<input type="hidden" th:field="*{activa}" />
+        <select th:field="*{ocupacion}" required th:disabled="${#lists.isEmpty(familias)}">
+            <option value="" disabled selected>Seleccione una ocupación</option>
+            <option value="Desempleado">Desempleado</option>
+            <option value="Empleado">Empleado</option>
+            <option value="Estudiante">Estudiante</option>
+            <option value="Ama de casa">Ama de casa</option>
+            <option value="Otro">Otro</option>
+        </select>
+
+        <input type="hidden" th:field="*{activa}" />
 
         <label>Familia:</label>
-        <select th:field="*{familia}" required>
+        <select th:field="*{familia}" required th:disabled="${#lists.isEmpty(familias)}">
             <option value="" disabled selected>Seleccione una familia</option>
             <option th:each="familia : ${familias}"
                     th:value="${familia.id}"
@@ -128,10 +154,10 @@
             </option>
         </select>
 
-        <button type="submit">Guardar</button>
+        <button type="submit" th:disabled="${#lists.isEmpty(familias)}">Guardar</button>
     </form>
 
-	<a class="link-back" th:href="@{/familias/listar}">← Volver a la lista de familias</a>
+    <a class="link-back" th:href="@{/familias/listar}">← Volver a la lista de familias</a>
 </div>
 </body>
 </html>

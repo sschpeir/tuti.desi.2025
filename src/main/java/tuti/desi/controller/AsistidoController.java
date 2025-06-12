@@ -46,7 +46,7 @@ public class AsistidoController {
         return "asistidoAlta"; 
     }
     
-    @GetMapping("/alta")
+    /*@GetMapping("/alta")
     public String altarFormularioAsistido(@RequestParam(required = false) Long familiaId, Model model) {
         Asistido asistido = new Asistido();
         if (familiaId != null) {
@@ -56,7 +56,28 @@ public class AsistidoController {
         model.addAttribute("asistido", asistido);
         model.addAttribute("familias", familiaService.listarFamilias());
         return "asistidoAlta"; 
+    }*/
+    
+    @GetMapping("/alta")
+    public String altarFormularioAsistido(@RequestParam(required = false) Long familiaId, Model model) {
+        List<Familia> familias = familiaService.listarFamilias();
+        Asistido asistido = new Asistido(); // 👈 Esto es lo importante
+
+        if (familiaId != null) {
+            familiaService.buscarPorId(familiaId).ifPresent(asistido::setFamilia);
+        }
+
+        model.addAttribute("asistido", asistido);
+        model.addAttribute("familias", familias);
+
+        if (familias.isEmpty()) {
+            model.addAttribute("error", "Debe crear primero una familia");
+        }
+
+        return "asistidoAlta";
     }
+
+
 
     //El Endpoint para guardar una persona dentro de una familia, si tiene error lo tira mediante cartel a Thymeleaf 
     //sino te manda a la pagina de miembros dados de alta
