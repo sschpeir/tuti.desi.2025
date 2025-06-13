@@ -1,10 +1,14 @@
 package tuti.desi.servicios;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import tuti.desi.DTO.ItemRecetaDTO;
 import tuti.desi.DTO.RecetaDTO;
 import tuti.desi.accesoDatos.RecetaRepository;
 import tuti.desi.entidades.Receta;
@@ -30,18 +34,50 @@ public class RecetaServiceImpl implements RecetaService {
         return recetaRepository.save(receta);
     }
 	
-	// Lista todas las recetas
+	//Listar todas las recetas
 	@Override
-    public List<Receta> listasTodas() {
-        return recetaRepository.findAll();
-    }
+	public List<RecetaDTO> listarTodas() {
+	    List<Receta> recetas = recetaRepository.findAll();
+	    System.out.println("Cantidad de recetas: " + recetas.size());
 
+	    return recetas.stream()
+	        .map(receta -> new RecetaDTO(
+	            receta.getId(),
+	            receta.getNombre(),
+	            receta.getDescripcion(),
+	            receta.isActiva(),
+	            (receta.getItems() != null)
+	                ? receta.getItems().stream()
+	                    .map(item -> new ItemRecetaDTO(
+	                        item.getId(),
+	                        item.getCantidad(),
+	                        item.getCalorias()))
+	                    .collect(Collectors.toList())
+	                : new ArrayList<>()
+	        ))
+	        .collect(Collectors.toList());
+	}
 	
-	
-	
-	
-	
-	
-	
+	//Editar una receta segun ID
+	@Override
+	public RecetaDTO buscarPorId(Long id) {
+	    Receta receta = recetaRepository.findById(id)
+	        .orElseThrow(() -> new IllegalArgumentException("Receta no encontrada con id: " + id));
+
+	    return new RecetaDTO(
+	        receta.getId(),
+	        receta.getNombre(),
+	        receta.getDescripcion(),
+	        receta.isActiva(),
+	        receta.getItems() != null
+	            ? receta.getItems().stream()
+	                .map(item -> new ItemRecetaDTO(
+	                    item.getId(),
+	                    item.getCantidad(),
+	                    item.getCalorias()))
+	                .collect(Collectors.toList())
+	            : new ArrayList<>()
+	    );
+	}
 
 }

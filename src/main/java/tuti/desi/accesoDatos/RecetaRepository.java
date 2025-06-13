@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 import java.util.List;
 
+import tuti.desi.DTO.RecetaDTO;
 import tuti.desi.entidades.Receta;
 
 @Repository

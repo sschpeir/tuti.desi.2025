@@ -65,6 +65,22 @@ public class Receta {
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
+
+	public List<ItemReceta> getItems() {
+		return items;
+	}
+
+	public void setItems(List<ItemReceta> items) {
+		this.items = items;
+	}
+
+	public List<Preparacion> getPreparaciones() {
+		return preparaciones;
+	}
+
+	public void setPreparaciones(List<Preparacion> preparaciones) {
+		this.preparaciones = preparaciones;
+	}
 	
 	
 }

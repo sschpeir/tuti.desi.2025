@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import tuti.desi.servicios.RecetaService;
+import tuti.desi.DTO.RecetaDTO;
 import tuti.desi.entidades.Receta;
 
 @Controller
@@ -33,7 +34,7 @@ public class RecetaController {
     //Controlador para la lista
     @GetMapping("/listar")
     public String listarRecetas(Model model) {
-        List<Receta> recetas = recetaService.listasTodas();
+        List<RecetaDTO> recetas = recetaService.listarTodas();
         model.addAttribute("recetas", recetas);
         return "recetaListar"; // necesitas crear persona-lista.html
     }

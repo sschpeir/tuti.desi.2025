@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Listado de Recetas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            padding: 40px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+        }
+
+        h1 {
+            color: #343a40;
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 0 5px rgba(0,0,0,0.1);
+        }
+
+        th, td {
+            padding: 12px;
+            border: 1px solid #dee2e6;
+            text-align: left;
+        }
+
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        ul {
+            padding-left: 20px;
+            margin: 0;
+        }
+
+        .link-back {
+            display: block;
+            margin-top: 25px;
+            text-align: center;
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+        }
+
+        .link-back:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Listado de Recetas</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>Activa</th>
+                <th>Items</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="receta : ${listaRecetas}">
+                <td th:text="${receta.nombre}">Nombre</td>
+                <td th:text="${receta.descripcion}">Descripción</td>
+                <td th:text="${receta.activa} ? 'Sí' : 'No'">Activa</td>
+                <td>
+                    <ul th:if="${receta.items != null and #lists.size(receta.items) > 0}">
+                        <li th:each="item : ${receta.items}"
+                            th:text="'Cantidad: ' + ${item.cantidad} + ', Calorías: ' + ${item.calorias}">
+                        </li>
+                    </ul>
+                    <span th:if="${receta.items == null or #lists.isEmpty(receta.items)}">Sin ítems</span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a class="link-back" th:href="@{/}">← Volver a la página principal</a>
+</div>
+
+</body>
+</html>

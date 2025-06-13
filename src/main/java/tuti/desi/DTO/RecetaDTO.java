@@ -1,6 +1,9 @@
 package tuti.desi.DTO;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import tuti.desi.entidades.ItemReceta;
 
 public class RecetaDTO {
 
@@ -12,7 +15,10 @@ public class RecetaDTO {
 	
 	private boolean activa;
 	
-	List<Object> items;
+	
+	//Evita problemas de nulidad cuando iteramos
+	private List<ItemRecetaDTO> items = new ArrayList<>();
+
 	
 	List<Object> preparacion;
 
@@ -48,11 +54,11 @@ public class RecetaDTO {
 		this.activa = activa;
 	}
 
-	public List<Object> getItems() {
+	public List<ItemRecetaDTO> getItems() {
 		return items;
 	}
 
-	public void setItems(List<Object> items) {
+	public void setItems(List<ItemRecetaDTO> items) {
 		this.items = items;
 	}
 
@@ -66,5 +72,15 @@ public class RecetaDTO {
 
 	public RecetaDTO() {
 	}
+
+	public RecetaDTO(Long id, String nombre, String descripcion, boolean activa, List<ItemRecetaDTO> items) {
+	    this.id = id;
+	    this.nombre = nombre;
+	    this.descripcion = descripcion;
+	    this.activa = activa;
+	    this.items = (items != null) ? items : new ArrayList<>();
+	}
+
+	
 	
 }

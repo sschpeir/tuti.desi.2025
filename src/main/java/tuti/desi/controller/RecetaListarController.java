@@ -1,5 +1,7 @@
 package tuti.desi.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,11 +12,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 
 import tuti.desi.DTO.RecetaDTO;
+import tuti.desi.entidades.Receta;
 import tuti.desi.servicios.RecetaService;
 
 @Controller
-@RequestMapping("/registrarReceta.html")
-public class RecetaRegistrarController {
+@RequestMapping("/listarReceta.html")
+public class RecetaListarController {
 
 	@Autowired
     private RecetaService recetaService;
@@ -23,8 +26,12 @@ public class RecetaRegistrarController {
 	@RequestMapping(method=RequestMethod.GET)
     public String cargarFormulario(Model model) {
 		RecetaDTO recetaDTO = new RecetaDTO();
-        model.addAttribute("recetaDTO", recetaDTO);
-        return "registrarReceta.html";
+		List<RecetaDTO> listaRecetas = recetaService.listarTodas();
+		System.out.println(listaRecetas.size()+"Tamaño de lista");
+        //model.addAttribute("recetaDTO", recetaDTO);
+        model.addAttribute("listaRecetas", listaRecetas);
+        
+        return "listarReceta.html";
     }
 	
 	//Si mandas un POST en un formulario, entonces agarra el modelo del form, arma un objeto RecetaDTO y lo manda al Service.

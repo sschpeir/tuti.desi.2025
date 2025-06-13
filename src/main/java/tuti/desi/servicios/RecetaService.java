@@ -10,8 +10,13 @@ public interface RecetaService {
 
 	//Receta guardar(Receta receta);
 
-	List<Receta> listasTodas();
 
 	Receta guardar(RecetaDTO recetaDTO);
+
+	List<RecetaDTO> listarTodas();
+
+	RecetaDTO buscarPorId(Long id);
+
+	
 
 }
