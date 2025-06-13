@@ -15,12 +15,13 @@ public interface FamiliaRepository extends JpaRepository<Familia, Long> {
 	// Buscar por ID    
     Optional<Familia> findById(Integer id);
     
+    //Buscar por numero de familia
     Optional<Familia> findBynroFamilia(Integer nroFamilia);
     
 	// Buscar por nombre
     Optional<Familia> findByNombre(String nombre);
 
-    // Buscar por nombre
+    // Buscar todas las familias
     List<Familia> findAll();
 
 	List<Familia> findByActivaTrue();
