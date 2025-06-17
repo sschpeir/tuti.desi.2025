@@ -27,10 +27,11 @@ public class AsistidoRegistrarController {
     @Autowired
     private FamiliaService familiaService;
 
-    //Si solicitas un GET, carga un modelo de PersonaDTO en blanco - Y te Carga un listado de todas las familias para asignar
+    
   	
 //CHECADO
     
+    //Si solicitas un GET, carga un modelo de PersonaDTO en blanco - Y te Carga un listado de todas las familias para asignar
     @GetMapping
   	public String cargarFormularioAsistido(Model model) {
   	    AsistidoDTO asistidoDTO = new AsistidoDTO();

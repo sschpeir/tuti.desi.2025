@@ -30,4 +30,8 @@ private String nroSeguridadSocial;
 		this.nroSeguridadSocial = nroSeguridadSocial;
 	}
 
+
+	public VoluntarioDTO() {
+	}
+
 }

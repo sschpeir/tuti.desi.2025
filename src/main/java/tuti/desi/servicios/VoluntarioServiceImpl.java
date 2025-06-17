@@ -50,7 +50,7 @@ public class VoluntarioServiceImpl implements VoluntarioService{
                 throw new IllegalArgumentException("Ya existe una persona con ese DNI");
             }
 
-            voluntarioDTO = new Voluntario();
+            voluntario = new Voluntario();
         }
 
         // Datos comunes
@@ -61,12 +61,7 @@ public class VoluntarioServiceImpl implements VoluntarioService{
         voluntario.setFechaNacimiento(voluntarioDTO.getFechaNacimiento());
         voluntario.setOcupacion(voluntarioDTO.getOcupacion());
         voluntario.setActiva(voluntarioDTO.isActiva());
-
-        if (voluntarioDTO.getFamiliaId() != null) {
-            Familia familia = familiaRepository.findById(voluntarioDTO.getFamiliaId())
-                .orElseThrow(() -> new IllegalArgumentException("No se encontró la familia con ID: " + asistidoDTO.getFamiliaId()));
-            voluntario.setFamilia(familia);
-        }
+        voluntario.setNroSeguridadSocial(voluntarioDTO.getNroSeguridadSocial());
 
         return personaRepository.save(voluntario);
     }
@@ -97,61 +92,29 @@ public class VoluntarioServiceImpl implements VoluntarioService{
 
 		 //Listar todos los asistidos activos
 		 @Override
-		 public List<AsistidoDTO> listarAsistidosActivos() {
+		 public List<VoluntarioDTO> listarVoluntariosActivos() {
 		     List<Persona> personas = personaRepository.findByActivaTrue();
 
 		     return personas.stream()
-		         .filter(p -> p instanceof Asistido)
-		         .map(p -> {
-		             Asistido asistido = (Asistido) p;
-		             AsistidoDTO dto = new AsistidoDTO(
-		                 asistido.getId(),
-		                 asistido.isActiva(),
-		                 asistido.getNombre(),
-		                 asistido.getApellido(),
-		                 asistido.getDni(),
-		                 asistido.getFechaNacimiento(),
-		                 asistido.getDomicilio(),
-		                 asistido.getOcupacion(),
-		                 asistido.getFamilia() != null ? asistido.getFamilia().getId() : null
-		             );
+		         .filter(persona -> p instanceof Voluntario)
+		         .map(persona -> {
+		        	 Voluntario voluntario = (Voluntario) persona;
+		             AsistidoDTO voluntarioDTO = new AsistidoDTO(
+		            		 voluntario.getId(),
+		            		 voluntario.isActiva(),
+		            		 voluntario.getNombre(),
+		            		 voluntario.getApellido(),
+		            		 voluntario.getDni(),
+		            		 voluntario.getFechaNacimiento(),
+		            		 voluntario.getDomicilio(),
+		            		 voluntario.getOcupacion(),
+		            		 voluntario.getNroSeguridadSocial()
 
 		             if (asistido.getFamilia() != null) {
-		                 dto.setFamiliaNombre(asistido.getFamilia().getNombre());
+		            	 voluntarioDTO.setFamiliaNombre(asistido.getFamilia().getNombre());
 		             }
 
-		             return dto;
-		         })
-		         .collect(Collectors.toList());
-		 }
-
-
-		//Listar asistidos inactivos
-		@Override
-		 public List<AsistidoDTO> listarAsistidosInactivos() {
-		     List<Persona> personas = personaRepository.findByActivaFalse();
-
-		     return personas.stream()
-		         .filter(p -> p instanceof Asistido)
-		         .map(p -> {
-		             Asistido asistido = (Asistido) p;
-		             AsistidoDTO dto = new AsistidoDTO(
-		                 asistido.getId(),
-		                 asistido.isActiva(),
-		                 asistido.getNombre(),
-		                 asistido.getApellido(),
-		                 asistido.getDni(),
-		                 asistido.getFechaNacimiento(),
-		                 asistido.getDomicilio(),
-		                 asistido.getOcupacion(),
-		                 asistido.getFamilia() != null ? asistido.getFamilia().getId() : null
-		             );
-
-		             if (asistido.getFamilia() != null) {
-		                 dto.setFamiliaNombre(asistido.getFamilia().getNombre());
-		             }
-
-		             return dto;
+		             return voluntarioDTO;
 		         })
 		         .collect(Collectors.toList());
 		 }
@@ -179,34 +142,43 @@ public class VoluntarioServiceImpl implements VoluntarioService{
 		@Override
 		public PersonaDTO buscarPorId(Long id) {
 		    Persona persona = personaRepository.findById(id)
-		        .orElseThrow(() -> new IllegalArgumentException("No existe el asistido"));
+		        .orElseThrow(() -> new IllegalArgumentException("No existe el voluntario"));
 
-		    if (!(persona instanceof Asistido asistido)) {
-		        throw new IllegalArgumentException("La persona no es un asistido.");
+		    if (!(persona instanceof Voluntario voluntario)) {
+		        throw new IllegalArgumentException("La persona no es un voluntario.");
 		    }
 
-		    return new AsistidoDTO(
-		    	    asistido.getId(),
-		    	    asistido.isActiva(),
-		    	    asistido.getNombre(),
-		    	    asistido.getApellido(),
-		    	    asistido.getDni(),
-		    	    asistido.getFechaNacimiento(),
-		    	    asistido.getDomicilio(),
-		    	    asistido.getOcupacion(),
-		    	    asistido.getFamilia() != null ? asistido.getFamilia().getId() : null // acá extraés solo el ID
+		    return new VoluntarioDTO(
+		    		voluntario.getId(),
+		    		voluntario.isActiva(),
+		    		voluntario.getNombre(),
+		    		voluntario.getApellido(),
+		    		voluntario.getDni(),
+		    		voluntario.getFechaNacimiento(),
+		    		voluntario.getDomicilio(),
+		    		voluntario.getOcupacion(),
+		    		voluntario.getNroSeguridadSocial()
 		    );
 
 		}
 
+
 		@Override
-		public Voluntario guardarVoluntario(VoluntarioDTO voluntarioDTO) {
+		public List<VoluntarioDTO> listarTodosVoluntarios() {
 			// TODO Auto-generated method stub
 			return null;
 		}
 
+		@Override
+		public List<VoluntarioDTO> listarAsistidosActivos() {
+			// TODO Auto-generated method stub
+			return null;
+		}
 
-	
-		
+		@Override
+		public List<VoluntarioDTO> listarAsistidosInactivos() {
+			// TODO Auto-generated method stub
+			return null;
+		}
 	
 }

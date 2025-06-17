@@ -22,4 +22,12 @@ public class Voluntario extends Persona {
 	public void setNroSeguridadSocial(String nroSeguridadSocial) {
 		this.nroSeguridadSocial = nroSeguridadSocial;
 	}
+
+	
+	//Constructor vacio
+	public Voluntario() {
+		super();
+	}
+	
+	
 }

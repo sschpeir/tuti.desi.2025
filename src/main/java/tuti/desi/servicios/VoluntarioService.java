@@ -23,5 +23,9 @@ public interface VoluntarioService {
 	void inhabilitar(Long id);
 
 	PersonaDTO buscarPorId(Long id);
+
+	List<VoluntarioDTO> listarTodosVoluntarios();
+
+	List<VoluntarioDTO> listarVoluntariosActivos();
 		
 }

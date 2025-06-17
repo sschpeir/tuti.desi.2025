@@ -103,11 +103,11 @@
 
 <div class="container">
     
-	<h1>Formulario de Nueva Receta M</h1>
+	<h1>Formulario de Edicion Receta M</h1>
 
     <p th:if="${error}" th:text="${error}" class="error"></p>
 
-    <form th:action="@{/registrarReceta.html}" th:object="${recetaDTO}" method="post">
+    <form th:action="@{/editarReceta.html}" th:object="${recetaDTO}" method="post">
         <input type="hidden" th:field="*{id}" />
 
         <label>Nombre:</label>
