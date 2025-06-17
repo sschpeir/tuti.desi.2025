@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 
 
 @Controller
-//@RequestMapping("/")
 public class MainController {
 	
 	

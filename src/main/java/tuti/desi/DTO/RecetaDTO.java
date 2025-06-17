@@ -3,8 +3,6 @@ package tuti.desi.DTO;
 import java.util.ArrayList;
 import java.util.List;
 
-import tuti.desi.entidades.ItemReceta;
-
 public class RecetaDTO {
 
 	private Long id;
@@ -13,7 +11,7 @@ public class RecetaDTO {
 	
 	private String descripcion;
 	
-	private boolean activa;
+	private boolean activa = true;
 	
 	
 	//Evita problemas de nulidad cuando iteramos
@@ -73,12 +71,23 @@ public class RecetaDTO {
 	public RecetaDTO() {
 	}
 
+	//Constructor para las listas complejas
+	
 	public RecetaDTO(Long id, String nombre, String descripcion, boolean activa, List<ItemRecetaDTO> items) {
 	    this.id = id;
 	    this.nombre = nombre;
 	    this.descripcion = descripcion;
 	    this.activa = activa;
 	    this.items = (items != null) ? items : new ArrayList<>();
+	}
+	
+	//Constructor para las listas simples
+
+	public RecetaDTO(Long id, String nombre, String descripcion, boolean activa) {
+		this.id = id;
+	    this.nombre = nombre;
+	    this.descripcion = descripcion;
+	    this.activa = activa;
 	}
 
 	

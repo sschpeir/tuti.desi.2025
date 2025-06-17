@@ -8,9 +8,11 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import tuti.desi.DTO.FamiliaDTO;
 import tuti.desi.DTO.ItemRecetaDTO;
 import tuti.desi.DTO.RecetaDTO;
 import tuti.desi.accesoDatos.RecetaRepository;
+import tuti.desi.entidades.Familia;
 import tuti.desi.entidades.Receta;
 
 @Service 
@@ -18,6 +20,7 @@ public class RecetaServiceImpl implements RecetaService {
 	
 	@Autowired
     private RecetaRepository recetaRepository;
+	
 	
 	// Guardar una entidad receta
 	@Override
@@ -38,7 +41,6 @@ public class RecetaServiceImpl implements RecetaService {
 	@Override
 	public List<RecetaDTO> listarTodas() {
 	    List<Receta> recetas = recetaRepository.findAll();
-	    System.out.println("Cantidad de recetas: " + recetas.size());
 
 	    return recetas.stream()
 	        .map(receta -> new RecetaDTO(
@@ -57,6 +59,32 @@ public class RecetaServiceImpl implements RecetaService {
 	        ))
 	        .collect(Collectors.toList());
 	}
+	
+	//Listar todas las recetas activas
+	public List<RecetaDTO> listarRecetasActivas() {
+    	List<Receta> recetas = recetaRepository.findByActivaTrue();
+        return recetas.stream()
+    	        .map(receta -> new RecetaDTO(
+    	        		receta.getId(),
+    	        		receta.getNombre(),
+    	        		receta.getDescripcion(),
+    	        		receta.isActiva()
+    	        ))
+    	        .collect(Collectors.toList());
+	}
+    
+	//Listar todas las recetas inactivas
+    public List<RecetaDTO> listarRecetasInactivas() {
+    	List<Receta> recetas = recetaRepository.findByActivaFalse();
+        return recetas.stream()
+        		.map(receta -> new RecetaDTO(
+    	        		receta.getId(),
+    	        		receta.getNombre(),
+    	        		receta.getDescripcion(),
+    	        		receta.isActiva()
+    	        ))
+    	        .collect(Collectors.toList());
+	}	
 	
 	//Editar una receta segun ID
 	@Override
@@ -79,5 +107,6 @@ public class RecetaServiceImpl implements RecetaService {
 	            : new ArrayList<>()
 	    );
 	}
+ 
 
 }

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Formulario Alta de Asistido</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 40px;
+            background-color: #eef2f5;
+            display: flex;
+            justify-content: center;
+        }
+
+        form {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            border: 1px solid #ced4da;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+            max-width: 500px;
+            width: 100%;
+        }
+
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        label {
+            font-weight: bold;
+            color: #495057;
+            margin-top: 15px;
+            display: block;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        input[type="date"],
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+            background-color: #fdfdfd;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .error {
+            color: #dc3545;
+            font-size: 0.9em;
+            margin-top: -5px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #007bff;
+            color: white;
+            font-size: 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        a {
+            display: block;
+            margin-top: 20px;
+            text-align: center;
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+
+</head>
+<body>
+
+<form th:action="@{/asistidoRegistrar}" th:object="${asistidoDTO}" method="post">
+    <h1>Formulario de alta de asistidos</h1>
+
+    <p th:if="${error}" th:text="${error}" class="error"></p>
+
+    <input type="hidden" th:field="*{id}" />
+    <input type="hidden" th:field="*{tipoPersona}" />
+
+    <label>DNI:</label>
+    <input type="number" th:field="*{dni}" th:attr="disabled=${bloquear}" required />
+    <div th:if="${#fields.hasErrors('dni')}" th:errors="*{dni}" class="error"></div>
+
+    <label>Nombre:</label>
+    <input type="text" th:field="*{nombre}" th:attr="disabled=${bloquear}" required />
+    <div th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}" class="error"></div>
+
+    <label>Apellido:</label>
+    <input type="text" th:field="*{apellido}" th:attr="disabled=${bloquear}" required />
+    <div th:if="${#fields.hasErrors('apellido')}" th:errors="*{apellido}" class="error"></div>
+
+    <label>Domicilio:</label>
+    <input type="text" th:field="*{domicilio}" th:attr="disabled=${bloquear}" />
+
+    <label>Fecha de Nacimiento:</label>
+    <input type="date" th:field="*{fechaNacimiento}" th:attr="disabled=${bloquear}" />
+
+    <label>Ocupación:</label>
+    <select th:field="*{ocupacion}" th:attr="disabled=${bloquear}" required>
+        <option value="" disabled selected>Seleccione una ocupación</option>
+        <option value="Desempleado">Desempleado</option>
+        <option value="Empleado">Empleado</option>
+        <option value="Estudiante">Estudiante</option>
+        <option value="Ama de casa">Ama de casa</option>
+        <option value="Otro">Otro</option>
+    </select>
+
+    <label for="familiaId">Familia:</label>
+    <select th:field="*{familiaId}" id="familiaId" th:attr="disabled=${bloquear}" required>
+        <option value="" disabled selected>Seleccione una familia</option>
+        <option th:each="familia : ${familias}"
+                th:value="${familia.nroFamilia}"
+                th:text="${familia.nombre}">
+        </option>
+    </select>
+
+    <div class="checkbox-group">
+        <input type="checkbox" th:field="*{activa}" id="activaCheckbox" th:attr="disabled=${bloquear}" />
+        <label for="activaCheckbox">Activa</label>
+    </div>
+
+    <button type="submit" th:attr="disabled=${bloquear}">Guardar</button>
+
+    <br/><br/>
+    <a th:href="@{/inicio}">Volver al inicio</a>
+</form>
+
+
+
+</body>
+</html>

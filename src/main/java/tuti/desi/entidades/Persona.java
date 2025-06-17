@@ -17,7 +17,6 @@ public class Persona {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Min(value = 1, message = "El DNI debe ser un número positivo")
     @Column(nullable = false, length = 150)    
     private Integer dni;
 
@@ -30,7 +29,7 @@ public class Persona {
     @Column(length = 100, nullable = false)
     private String apellido;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
     private LocalDate fechaNacimiento;
 
     @Column(length = 100)

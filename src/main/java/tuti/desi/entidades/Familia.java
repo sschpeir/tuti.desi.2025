@@ -22,7 +22,7 @@ public class Familia {
     @Column(unique = true, nullable = false, length = 150)
     private String nombre;
     
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
     private LocalDate fechaRegistro;
     
 

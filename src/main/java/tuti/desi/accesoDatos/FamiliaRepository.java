@@ -24,6 +24,13 @@ public interface FamiliaRepository extends JpaRepository<Familia, Long> {
     // Buscar todas las familias
     List<Familia> findAll();
 
+    //Devuelve un listado de familias activa=true
 	List<Familia> findByActivaTrue();
+	
+	//Devuelve un listado de familias activa=false
+	List<Familia> findByActivaFalse();
+	
+	//
+	boolean existsByNombre(String nombre);
     
 }

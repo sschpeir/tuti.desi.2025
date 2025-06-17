@@ -1,23 +1,33 @@
 package tuti.desi.servicios;
 
 import java.util.List;
-import java.util.Optional;
 
+import tuti.desi.DTO.FamiliaDTO;
 import tuti.desi.entidades.Familia;
-import tuti.desi.entidades.Persona;
+
 
 
 
 public interface FamiliaService {
-
-	List<Familia> listarFamilias();
-
-	Familia guardarFamilia(Familia familia);
 	
-	Optional<Familia> buscarPorId(Long id);
+	//Metodo de guardado/edicion
+	Familia guardar(FamiliaDTO familiaDTO);
+	
+	//Metodo de obtencion de todas las familias
+	List<FamiliaDTO> listarTodas();
+	
+	//Metodo de obtencion de todas las familias activas
+	List<FamiliaDTO> listarFamiliasActivas();
+	
+	//Metodo para buscar un objeto familia por ID y devuelve DTO con sus integrantes
+	FamiliaDTO buscarPorId(Long id);
 
-	void eliminar(Long id);
-
-	List<Familia> listarFamiliasHabilitadas();
+	//Inhabilita la familia
+	void inhabilitar(Long nroFamilia);
+	
+	//Habilita la familia
+	void habilitar(Long nroFamilia);
+	
+	
 
 }

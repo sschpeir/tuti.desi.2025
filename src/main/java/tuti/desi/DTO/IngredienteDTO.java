@@ -6,6 +6,11 @@ public class IngredienteDTO {
 
     private String nombre;
     private Integer calorias;
+    
+    //
+    private boolean activa = true;
+    
+    //Para discriminar entre "Condimento" y "Producto"
     private String tipoCondimento;
 
     // Solo si el tipo es "Producto"
@@ -60,4 +65,17 @@ public class IngredienteDTO {
     public void setStockDisponible(Float stockDisponible) {
         this.stockDisponible = stockDisponible;
     }
+
+	public boolean isActiva() {
+		return activa;
+	}
+	public void setActiva(boolean activa) {
+		this.activa = activa;
+	}
+
+	public IngredienteDTO() {
+		
+	}
+	
+	
 }

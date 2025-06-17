@@ -11,8 +11,7 @@ public interface AsistidoRepository extends JpaRepository<Asistido, Long> {
 	
 	
 	//Devuelve un listado de personas segun el ID de la familia
-	List<Asistido> findByFamiliaId(Long familiaId);
-	
+	List<Asistido> findByFamiliaId(Long id);
 	
 	//Devuelve si existe una persona segun su DNI
 	boolean existsByDni(Integer dni);

@@ -1,20 +1,25 @@
 package tuti.desi.servicios;
 
 import java.util.List;
-import java.util.Optional;
 
+import tuti.desi.DTO.AsistidoDTO;
+import tuti.desi.DTO.PersonaDTO;
 import tuti.desi.entidades.Asistido;
 
 public interface AsistidoService {
-
-	void guardar(Asistido asistido);
-
-	List<Asistido> listarPorFamiliaId(Long id);
-
-	List<Asistido> listarTodos();
-
-	void eliminar(Long id);
-
-	Optional<Asistido> obtenerPorId(Long id);
 	
+	//NUEVOS METODOS
+	
+	List<AsistidoDTO> listarAsistidosActivos();
+
+	Asistido guardarAsistido(AsistidoDTO asistidoDTO);
+
+	List<AsistidoDTO> listarTodosAsistidos();
+
+	void habilitar(Long id);
+	
+	void inhabilitar(Long id);
+
+	PersonaDTO buscarPorId(Long id);
+		
 }

@@ -1,18 +1,30 @@
 package tuti.desi.servicios;
 
+import tuti.desi.DTO.AsistidoDTO;
+import tuti.desi.DTO.PersonaDTO;
+import tuti.desi.entidades.Asistido;
 import tuti.desi.entidades.Persona;
 import java.util.Optional;
 import java.util.List;
 
 public interface PersonaService {
 
-    Persona guardar(Persona persona);
+	//Metodo de guardado/edicion
+    Persona guardar(PersonaDTO personaDTO);
 
+    //Metodo de obtencion de todas las personas
+    List<PersonaDTO> listarTodos();
+    
     Optional<Persona> buscarPorDni(Integer dni);
     
-    Optional<Persona> buscarPorId(Long id);
+    PersonaDTO buscarPorId(Long id);
 
-    List<Persona> listarTodos();
+    
 
 	void eliminar(Long id);
+
+	List<PersonaDTO> listarPersonasInactivas();
+
+	List<PersonaDTO> listarPersonasActivas();
+
 }

@@ -6,6 +6,7 @@ import java.util.Optional;
 import java.util.List;
 
 import tuti.desi.DTO.RecetaDTO;
+import tuti.desi.entidades.Familia;
 import tuti.desi.entidades.Receta;
 
 @Repository
@@ -13,6 +14,7 @@ public interface RecetaRepository extends JpaRepository<Receta, Long> {
 
     // Buscar por ID
     Optional<Receta> findById(Long id);
+    
 
     // Buscar por nombre
     List<Receta> findByNombreContainingIgnoreCase(String nombre);
@@ -25,6 +27,13 @@ public interface RecetaRepository extends JpaRepository<Receta, Long> {
     
     // Buscar si existe la receta por nombre
     boolean existsByNombre(String nombre);
+
+    
+    //Listar recetas si activa = true
+	List<Receta> findByActivaTrue();
+	
+	//Listar recetas si activa = false
+	List<Receta> findByActivaFalse();
 
     
 

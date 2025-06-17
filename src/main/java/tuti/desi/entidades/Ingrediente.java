@@ -25,23 +25,39 @@ public class Ingrediente {
     @Column(nullable = false)
     private Integer calorias;
     
-	public String getNombre() {
-		return nombre;
-	}
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-	public Integer getCalorias() {
-		return calorias;
-	}
-	public void setCalorias(Integer calorias) {
-		this.calorias = calorias;
-	}
+    @Column(name = "activa")
+    private boolean activa;
+    
 	public Long getId() {
 		return id;
 	}
 	public void setId(Long id) {
 		this.id = id;
 	}
+    
+	public String getNombre() {
+		return nombre;
+	}
+	
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+	
+	public Integer getCalorias() {
+		return calorias;
+	}
+	
+	public void setCalorias(Integer calorias) {
+		this.calorias = calorias;
+	}
+	public boolean isActiva() {
+		return activa;
+	}
+	public void setActiva(boolean activa) {
+		this.activa = activa;
+	}
+	
+	
+
 	
 }

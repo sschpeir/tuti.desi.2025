@@ -1,9 +1,7 @@
 package tuti.desi.entidades;
 
 import jakarta.persistence.*;
-import java.time.LocalDate;
 
-import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @DiscriminatorValue("ASISTIDO")

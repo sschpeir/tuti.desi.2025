@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Miembros de la Familia</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 40px;
+            background-color: #f4f6f8;
+        }
+
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .info-familia {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 18px;
+            color: #555;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        th, td {
+            padding: 12px 15px;
+            border: 1px solid #dee2e6;
+            text-align: left;
+        }
+
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Miembros de familia</h1>
+
+<div class="info-familia">
+    <p th:text="'Familia: ' + ${familiaDTO.nombre}"></p>
+    <p th:text="'Fecha de Registro: ' + ${familiaDTO.fechaRegistro}"></p>
+</div>
+
+<table>
+    <thead>
+        <tr>
+            <th>DNI</th>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Domicilio</th>
+			<th>Fecha de Nacimiento</th>
+            <th>Ocupación</th>
+			<th>Activo</th>
+			<th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="persona : ${familiaDTO.integrantes}">
+            <td th:text="${persona.dni}">DNI</td>
+            <td th:text="${persona.nombre}">Nombre</td>
+            <td th:text="${persona.apellido}">Apellido</td>
+            <td th:text="${persona.domicilio}">Domicilio</td>
+			<td th:text="${persona.fechaNacimiento}">Fecha de Nacimiento</td>
+            <td th:text="${persona.ocupacion}">Ocupación</td>
+			<td th:text="${persona.activa ? 'Sí' : 'No'}">Activo</td>
+			<td>            
+	            <a th:href="@{/asistidoEditar/{id}(id=${persona.id})}">✏️ Editar Asistido</a>
+	            &nbsp;|&nbsp;
+				<span th:if="${persona.activa}">
+				       <a th:href="@{/asistidoEditar/{id}/familia/deshabilitar(id=${persona.id})}"
+				          onclick="return confirm('¿Estás seguro de que querés deshabilitar esta familia?')">
+				           ❌ Deshabilitar
+				       </a>
+				   </span>
+				   <span th:unless="${persona.activa}">
+				       <a th:href="@{/asistidoEditar/{id}/familia/habilitar(id=${persona.id})}"
+				          onclick="return confirm('¿Estás seguro de que querés habilitar esta familia?')">
+				           ✅ Habilitar
+				       </a>
+				   </span>
+	        </td>
+        </tr>
+    </tbody>
+</table>
+
+<a class="button-add" th:href="@{/asistidoRegistrar/familia/{id}(id=${familiaDTO.nroFamilia})}">➕ 👤 Cargar miembros</a>
+<br/>
+
+<a th:href="@{/familiaListar}">⬅ Volver a familias</a>
+
+</body>
+</html>

@@ -5,8 +5,6 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 import java.util.List;
 
-
-
 import tuti.desi.entidades.Persona;
 
 @Repository
@@ -27,5 +25,11 @@ public interface PersonaRepository extends JpaRepository<Persona, Long> {
     Optional<Persona> findById(Integer id);
 
 	boolean existsByDni(Integer dni);
+	
+	//Devuelve un listado de personas activa=true
+	List<Persona> findByActivaTrue();
+	
+	//Devuelve un listado de personas activa=false
+	List<Persona> findByActivaFalse();
 
 }

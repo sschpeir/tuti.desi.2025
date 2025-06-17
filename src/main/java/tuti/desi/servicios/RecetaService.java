@@ -17,6 +17,10 @@ public interface RecetaService {
 
 	RecetaDTO buscarPorId(Long id);
 
+	List<RecetaDTO> listarRecetasActivas();
+
+	List<RecetaDTO> listarRecetasInactivas();
+
 	
 
 }

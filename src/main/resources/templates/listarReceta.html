@@ -79,14 +79,7 @@
                 <td th:text="${receta.nombre}">Nombre</td>
                 <td th:text="${receta.descripcion}">Descripción</td>
                 <td th:text="${receta.activa} ? 'Sí' : 'No'">Activa</td>
-                <td>
-                    <ul th:if="${receta.items != null and #lists.size(receta.items) > 0}">
-                        <li th:each="item : ${receta.items}"
-                            th:text="'Cantidad: ' + ${item.cantidad} + ', Calorías: ' + ${item.calorias}">
-                        </li>
-                    </ul>
-                    <span th:if="${receta.items == null or #lists.isEmpty(receta.items)}">Sin ítems</span>
-                </td>
+
             </tr>
         </tbody>
     </table>

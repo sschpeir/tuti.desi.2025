@@ -21,14 +21,14 @@ public class IngredienteController {
     @Autowired
     private IngredienteService ingredienteService;
 
-    // Mostrar formulario para crear nueva persona
+    /*// Mostrar formulario para crear nueva persona
     @GetMapping("/alta")
     public String mostrarFormulario(Model model) {
         model.addAttribute("ingredienteDTO", new IngredienteDTO());
         return "ingredienteAlta";
-    }
+    }*/
     
-
+    /*
     
     @PostMapping("/guardar")
     public String guardar(@ModelAttribute("ingredienteForm") IngredienteDTO dto) {
@@ -51,13 +51,13 @@ public class IngredienteController {
         return "redirect:/ingredientes/listar";
     }
 
-    
+    *//*
     @GetMapping("/listar")
     public String listarIngredientes(Model model) {
         List<Ingrediente> ingredientes = ingredienteService.listarTodos(); // Este método debería traer tanto Ingrediente como Producto
         model.addAttribute("ingredientes", ingredientes);
         return "ingredienteLista";
-    }
+    }*/
 
 
 
