@@ -4,30 +4,28 @@ import java.time.LocalDate;
 
 public class VoluntarioDTO extends PersonaDTO{
 	
-private String nroSeguridadSocial;
+private Integer nroSeguroSocial;
 
-	
 	//Getters y setters
 	
 	@Override
 	public String getTipoPersona() {
 	    return "VOLUNTARIO";
 	}
-
-
-	public String getNroSeguridadSocial() {
-		return nroSeguridadSocial;
-	}
-
-	public void setNroSeguridadSocial(String nroSeguridadSocial) {
-		this.nroSeguridadSocial = nroSeguridadSocial;
-	}
 	
+	public Integer getNroSeguroSocial() {
+		return nroSeguroSocial;
+	}
+
+	public void setNroSeguroSocial(Integer nroSeguroSocial) {
+		this.nroSeguroSocial = nroSeguroSocial;
+	}
+
 	//Constructor para mapearlo
-	public VoluntarioDTO(Long id,boolean activa, String nombre, String apellido, Integer dni, LocalDate fechaNacimiento, String domicilio, String ocupacion, String nroSeguridadSocial) {
+	public VoluntarioDTO(Long id,boolean activa, String nombre, String apellido, Integer dni, LocalDate fechaNacimiento, String domicilio, String ocupacion, Integer nroSeguroSocial) {
 		//Llama al constructor super por herencia
 		super(id, activa, nombre, apellido, dni, fechaNacimiento, domicilio, ocupacion);
-		this.nroSeguridadSocial = nroSeguridadSocial;
+		this.nroSeguroSocial = nroSeguroSocial;
 	}
 
 

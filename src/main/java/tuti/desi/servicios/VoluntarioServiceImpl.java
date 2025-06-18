@@ -1,21 +1,20 @@
 package tuti.desi.servicios;
 
 import java.util.List;
-import java.util.Optional;
+
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import tuti.desi.DTO.AsistidoDTO;
+
 import tuti.desi.DTO.PersonaDTO;
 import tuti.desi.DTO.VoluntarioDTO;
-import tuti.desi.accesoDatos.AsistidoRepository;
-import tuti.desi.accesoDatos.FamiliaRepository;
+
+
 import tuti.desi.accesoDatos.PersonaRepository;
 import tuti.desi.accesoDatos.VoluntarioRepository;
-import tuti.desi.entidades.Asistido;
-import tuti.desi.entidades.Familia;
+
 import tuti.desi.entidades.Persona;
 import tuti.desi.entidades.Voluntario;
 
@@ -61,7 +60,7 @@ public class VoluntarioServiceImpl implements VoluntarioService{
         voluntario.setFechaNacimiento(voluntarioDTO.getFechaNacimiento());
         voluntario.setOcupacion(voluntarioDTO.getOcupacion());
         voluntario.setActiva(voluntarioDTO.isActiva());
-        voluntario.setNroSeguridadSocial(voluntarioDTO.getNroSeguridadSocial());
+        voluntario.setNroSeguroSocial(voluntarioDTO.getNroSeguroSocial());
 
         return personaRepository.save(voluntario);
     }
@@ -82,7 +81,7 @@ public class VoluntarioServiceImpl implements VoluntarioService{
 		        			 voluntario.getFechaNacimiento(),
 		        			 voluntario.getDomicilio(),
 		        			 voluntario.getOcupacion(),
-		        			 voluntario.getNroSeguridadSocial()
+		        			 voluntario.getNroSeguroSocial()
 		             );
 
 		             return voluntarioDTO;
@@ -96,10 +95,10 @@ public class VoluntarioServiceImpl implements VoluntarioService{
 		     List<Persona> personas = personaRepository.findByActivaTrue();
 
 		     return personas.stream()
-		         .filter(persona -> p instanceof Voluntario)
+		         .filter(persona -> persona instanceof Voluntario)
 		         .map(persona -> {
 		        	 Voluntario voluntario = (Voluntario) persona;
-		             AsistidoDTO voluntarioDTO = new AsistidoDTO(
+		             VoluntarioDTO voluntarioDTO = new VoluntarioDTO(
 		            		 voluntario.getId(),
 		            		 voluntario.isActiva(),
 		            		 voluntario.getNombre(),
@@ -108,12 +107,8 @@ public class VoluntarioServiceImpl implements VoluntarioService{
 		            		 voluntario.getFechaNacimiento(),
 		            		 voluntario.getDomicilio(),
 		            		 voluntario.getOcupacion(),
-		            		 voluntario.getNroSeguridadSocial()
-
-		             if (asistido.getFamilia() != null) {
-		            	 voluntarioDTO.setFamiliaNombre(asistido.getFamilia().getNombre());
-		             }
-
+		            		 voluntario.getNroSeguroSocial()
+		            		 );
 		             return voluntarioDTO;
 		         })
 		         .collect(Collectors.toList());
@@ -157,7 +152,7 @@ public class VoluntarioServiceImpl implements VoluntarioService{
 		    		voluntario.getFechaNacimiento(),
 		    		voluntario.getDomicilio(),
 		    		voluntario.getOcupacion(),
-		    		voluntario.getNroSeguridadSocial()
+		    		voluntario.getNroSeguroSocial()
 		    );
 
 		}

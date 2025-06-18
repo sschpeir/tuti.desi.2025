@@ -5,9 +5,6 @@ import java.util.List;
 import tuti.desi.DTO.FamiliaDTO;
 import tuti.desi.entidades.Familia;
 
-
-
-
 public interface FamiliaService {
 	
 	//Metodo de guardado/edicion
@@ -27,7 +24,5 @@ public interface FamiliaService {
 	
 	//Habilita la familia
 	void habilitar(Long nroFamilia);
-	
-	
 
 }

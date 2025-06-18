@@ -11,10 +11,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import tuti.desi.DTO.AsistidoDTO;
 import tuti.desi.DTO.FamiliaDTO;
+
 import tuti.desi.servicios.AsistidoService;
 import tuti.desi.servicios.FamiliaService;
-import tuti.desi.servicios.PersonaService;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Controller
@@ -35,13 +36,8 @@ public class AsistidoRegistrarController {
     @GetMapping
   	public String cargarFormularioAsistido(Model model) {
   	    AsistidoDTO asistidoDTO = new AsistidoDTO();
+  	    asistidoDTO.setFechaRegistroAsistido(LocalDate.now());
   	    List<FamiliaDTO> familias = familiaService.listarTodas();
-
-  	    if (familias.isEmpty()) {
-	  	    model.addAttribute("error", "Debe registrar una familia primero.");
-	  	    model.addAttribute("bloquear", true);
-	  	}
-
   	    model.addAttribute("asistidoDTO", asistidoDTO);
   	    model.addAttribute("familias", familias);
   	    return "asistidoRegistrar";
@@ -65,9 +61,7 @@ public class AsistidoRegistrarController {
   	        //Si no guarda, deja los datos cargados y devuelve error que se lo agarra con Thymeleaf
   	        return "asistidoRegistrar"; 
   	    }
-  	}
-
-  	
+  	}	
 
   	@GetMapping("/familia/{id}")
   	public String cargarFormularioAsistidoFamilia(@PathVariable("id") Long id, Model model) {
@@ -88,17 +82,19 @@ public class AsistidoRegistrarController {
   	//Si mandas un POST en un formulario, entonces agarra el modelo del form, arma un objeto PersonaDTO y lo manda al Service.
   	@PostMapping("/familia/{id}")
   	public String guardarFormularioAsistidoFamilia(@ModelAttribute("asistidoDTO") AsistidoDTO asistidoDTO, Model model) {
-			asistidoDTO.setTipoPersona("Asistido");
-  		try {
-  			asistidoService.guardarAsistido(asistidoDTO);
-  	        return "redirect:/familiaListar/"+asistidoDTO.getFamiliaId()+"/miembros";
+  	    asistidoDTO.setTipoPersona("Asistido");
+  	    try {
+  	        asistidoService.guardarAsistido(asistidoDTO);
+  	        return "redirect:/familiaListar/" + asistidoDTO.getFamiliaId() + "/miembros";
   	    } catch (IllegalArgumentException e) {
   	        model.addAttribute("error", e.getMessage());
-  	        model.addAttribute("asistidoDTO", asistidoDTO); 
-  	        List<FamiliaDTO> familias = familiaService.listarTodas();
-  	        model.addAttribute("familias", familias);
-  	        //Si no guarda, deja los datos cargados y devuelve error que se lo agarra con Thymeleaf
-  	        return "asistidoRegistrarFamilia"; 
+  	        model.addAttribute("asistidoDTO", asistidoDTO);
+
+  	        // ⚠️ este es el que necesitás
+  	        FamiliaDTO familiaDTO = familiaService.buscarPorId(asistidoDTO.getFamiliaId());
+  	        model.addAttribute("familiaSeleccionada", familiaDTO);
+
+  	        return "asistidoRegistrarFamilia";
   	    }
   	}
   	

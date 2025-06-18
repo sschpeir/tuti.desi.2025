@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import tuti.desi.DTO.AsistidoDTO;
 
@@ -23,11 +24,20 @@ public class AsistidoListarController {
 	
 	//Si solicitas un GET, carga un modelo de lista de FamiliaDTO
 	@GetMapping
-    public String cargarFormulario(Model model) {
-		List<AsistidoDTO> personas = asistidoService.listarTodosAsistidos();
-        model.addAttribute("personas", personas);
-        return "asistidoListar";
-    }	
+	public String listarAsistidos(
+	        @RequestParam(name = "soloActivos", required = false, defaultValue = "false") boolean soloActivos,
+	        @RequestParam(name = "sinFamilia", required = false, defaultValue = "false") boolean sinFamilia,
+	        Model model) {
+
+	    List<AsistidoDTO> personas = asistidoService.listarFiltrado(soloActivos, sinFamilia);
+	    model.addAttribute("personas", personas);
+	    model.addAttribute("soloActivos", soloActivos);
+	    model.addAttribute("sinFamilia", sinFamilia);
+	    return "asistidoListar";
+	}
+
+
+
 	
 	//Lista de asistidos activas
 	@GetMapping("/activos")
@@ -35,6 +45,14 @@ public class AsistidoListarController {
 	    List<AsistidoDTO> personas = asistidoService.listarAsistidosActivos();
 	    model.addAttribute("personas", personas);
 	    return "asistidoListarActivos";
+	}
+	
+	//Lista de asistidos activas
+	@GetMapping("/sinFamilia")
+	public String listarAsistidosSinFamilia(Model model) {
+	    List<AsistidoDTO> personas = asistidoService.listarAsistidosSinFamilia();
+	    model.addAttribute("personas", personas);
+	    return "asistidoListarSinFamilia";
 	}
 	
 }

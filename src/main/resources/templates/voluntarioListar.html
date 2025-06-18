@@ -2,11 +2,11 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>NL Lista de Asistidos Activos NL</title>
+    <title>Lista de Voluntarios</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f8f9fa;
+            background-color: rgb(255, 128, 0);
             padding: 40px;
         }
 
@@ -70,7 +70,7 @@
 </head>
 <body>
 
-<h1>Listado de Asistidos Activos</h1>
+<h1>Voluntarios Registrados</h1>
 
 <table>
 	<thead>
@@ -83,27 +83,33 @@
 	    <th>Domicilio</th>
 	    <th>Ocupación</th>
 	    <th>Fecha de Nacimiento</th>
-	    <th>Familia</th>
 	    <th>Acciones</th>
 	</tr>
 	</thead>
 	<tbody>
-	<tr th:each="persona : ${personas}">
-	    <td th:text="${persona.id}">ID</td>
-	    <td th:text="${persona.activa ? 'Sí' : 'No'}">Activa</td>
-	    <td th:text="${persona.dni}">DNI</td>
-	    <td th:text="${persona.nombre}">Nombre</td>
-	    <td th:text="${persona.apellido}">Apellido</td>
-	    <td th:text="${persona.domicilio}">Domicilio</td>
-	    <td th:text="${persona.ocupacion}">Ocupación</td>
-	    <td th:text="${persona.fechaNacimiento}">Fecha</td>
-		<td th:text="${persona.familiaNombre} ?: 'Sin familia asignada'">Familia</td>
+	<tr th:each="voluntario : ${voluntarios}">
+	    <td th:text="${voluntario.id}">ID</td>
+	    <td th:text="${voluntario.activa ? 'Sí' : 'No'}">Activa</td>
+	    <td th:text="${voluntario.dni}">DNI</td>
+	    <td th:text="${voluntario.nombre}">Nombre</td>
+	    <td th:text="${voluntario.apellido}">Apellido</td>
+	    <td th:text="${voluntario.domicilio}">Domicilio</td>
+	    <td th:text="${voluntario.ocupacion}">Ocupación</td>
+	    <td th:text="${voluntario.fechaNacimiento}">Fecha</td>
 	    <td class="action-links">
-	        <a th:href="@{/asistidoEditar/{id}(id=${persona.id})}">✏️ Editar</a>
-	        <a th:href="@{/personas/eliminar/{id}(id=${persona.id})}"
-	           onclick="return confirm('¿Estás seguro de que querés eliminar esta persona?')">
-	           ❌ Eliminar
-	        </a>
+	        <a th:href="@{/voluntarioEditar/{id}(id=${voluntario.id})}">✏️ Editar</a>
+			<span th:if="${voluntario.activa}">
+		       <a th:href="@{/voluntarioEditar/{id}/deshabilitar(id=${voluntario.id})}"
+		          onclick="return confirm('¿Estás seguro de que querés deshabilitar este voluntario?')">
+		           ❌ Deshabilitar
+		       </a>
+		   </span>
+		   <span th:unless="${voluntario.activa}">
+		       <a th:href="@{/asistidoEditar/{id}/habilitar(id=${voluntario.id})}"
+		          onclick="return confirm('¿Estás seguro de que querés habilitar este voluntario?')">
+		           ✅ Habilitar
+		       </a>
+		   </span>
 	    </td>
 	</tr>
 	</tbody>
@@ -111,15 +117,13 @@
     </tbody>
 </table>
 
-<a class="add-link" th:href="@{/asistidoRegistrar}">➕ Cargar nuevo asistido</a>
+<a class="add-link" th:href="@{/voluntarioRegistrar}">➕ Cargar nuevo asistido</a>
 <br/>
 <br/>
-<a class="button-add" th:href="@{/asistidoListar/sinFamilia}">👥 Ver Listado de Asistidos sin familia asignada</a>
-<br/>
-<br/>
-<a class="button-add" th:href="@{/asistidoListar}">👥 Ver Listado de Todos los Asistidos</a>
+<a class="button-add" th:href="@{/voluntarioListar/activos}">👥 Ver Listado de Asistidos Habilitados</a>
 <br/>
 <br/>
 <a class="button-add" th:href="@{/inicio}">Ir al Inicio</a>
+
 </body>
 </html>

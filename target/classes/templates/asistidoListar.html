@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>NL Lista de Asistidos NL</title>
+    <title>Listado de Asistidos</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -14,6 +14,10 @@
             text-align: center;
             color: #343a40;
             margin-bottom: 30px;
+        }
+
+        form.checkbox-form {
+            margin-bottom: 20px;
         }
 
         table {
@@ -53,7 +57,7 @@
             gap: 10px;
         }
 
-        .add-link {
+        .add-link, .button-add {
             display: inline-block;
             margin-top: 20px;
             padding: 10px 15px;
@@ -63,69 +67,81 @@
             text-decoration: none;
         }
 
-        .add-link:hover {
+        .add-link:hover, .button-add:hover {
             background-color: #218838;
         }
     </style>
 </head>
 <body>
 
-<h1>NL Asistidos Registrados NL</h1>
+<h1>Listado de asistidos</h1>
+
+<form method="get" th:action="@{/asistidoListar}" id="filtroForm" class="checkbox-form">
+    <label style="margin-right: 20px;">
+        <input type="checkbox" name="soloActivos" value="true"
+               th:checked="${soloActivos}" onchange="document.getElementById('filtroForm').submit()" />
+        Mostrar solo activos
+    </label>
+
+    <label>
+        <input type="checkbox" name="sinFamilia" value="true"
+               th:checked="${sinFamilia}" onchange="document.getElementById('filtroForm').submit()" />
+        Mostrar solo sin familia
+    </label>
+</form>
 
 <table>
-	<thead>
-	<tr>
-	    <th>ID</th>
-	    <th>Activa</th>
-	    <th>DNI</th>
-	    <th>Nombre</th>
-	    <th>Apellido</th>
-	    <th>Domicilio</th>
-	    <th>Ocupación</th>
-	    <th>Fecha de Nacimiento</th>
-	    <th>Familia</th>
-	    <th>Acciones</th>
-	</tr>
-	</thead>
-	<tbody>
-	<tr th:each="persona : ${personas}">
-	    <td th:text="${persona.id}">ID</td>
-	    <td th:text="${persona.activa ? 'Sí' : 'No'}">Activa</td>
-	    <td th:text="${persona.dni}">DNI</td>
-	    <td th:text="${persona.nombre}">Nombre</td>
-	    <td th:text="${persona.apellido}">Apellido</td>
-	    <td th:text="${persona.domicilio}">Domicilio</td>
-	    <td th:text="${persona.ocupacion}">Ocupación</td>
-	    <td th:text="${persona.fechaNacimiento}">Fecha</td>
-		<td th:text="${persona.familiaNombre} ?: 'Sin familia asignada'">Familia</td>
-	    <td class="action-links">
-	        <a th:href="@{/asistidoEditar/{id}(id=${persona.id})}">✏️ Editar</a>
-			<span th:if="${persona.activa}">
-		       <a th:href="@{/asistidoEditar/{id}/deshabilitar(id=${persona.id})}"
-		          onclick="return confirm('¿Estás seguro de que querés deshabilitar este asistido?')">
-		           ❌ Deshabilitar
-		       </a>
-		   </span>
-		   <span th:unless="${persona.activa}">
-		       <a th:href="@{/asistidoEditar/{id}/habilitar(id=${persona.id})}"
-		          onclick="return confirm('¿Estás seguro de que querés habilitar este asistido?')">
-		           ✅ Habilitar
-		       </a>
-		   </span>
-	    </td>
-	</tr>
-	</tbody>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Activa</th>
+        <th>DNI</th>
+        <th>Nombre</th>
+        <th>Apellido</th>
+        <th>Domicilio</th>
+        <th>Ocupación</th>
+        <th>Fecha de Nacimiento</th>
+        <th>Familia</th>
+        <th>Acciones</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="persona : ${personas}">
+        <td th:text="${persona.id}">ID</td>
+        <td th:text="${persona.activa ? 'Sí' : 'No'}">Activa</td>
+        <td th:text="${persona.dni}">DNI</td>
+        <td th:text="${persona.nombre}">Nombre</td>
+        <td th:text="${persona.apellido}">Apellido</td>
+        <td th:text="${persona.domicilio}">Domicilio</td>
+        <td th:text="${persona.ocupacion}">Ocupación</td>
+        <td th:text="${persona.fechaNacimiento}">Fecha</td>
+        <td th:text="${persona.familiaNombre} ?: 'Sin familia asignada'">Familia</td>
+        <td class="action-links">
+            <a th:href="@{/asistidoEditar/{id}(id=${persona.id})}">✏️ Editar</a>
+            <span th:if="${persona.activa}">
+               <a th:href="@{/asistidoEditar/{id}/deshabilitar(id=${persona.id})}"
+                  onclick="return confirm('¿Estás seguro de que querés deshabilitar este asistido?')">
+                   ❌ Deshabilitar
+               </a>
+           </span>
+           <span th:unless="${persona.activa}">
+               <a th:href="@{/asistidoEditar/{id}/habilitar(id=${persona.id})}"
+                  onclick="return confirm('¿Estás seguro de que querés habilitar este asistido?')">
+                   ✅ Habilitar
+               </a>
+           </span>
+        </td>
     </tr>
     </tbody>
 </table>
 
 <a class="add-link" th:href="@{/asistidoRegistrar}">➕ Cargar nuevo asistido</a>
-<br/>
-<br/>
-<a class="button-add" th:href="@{/asistidoListar/activos}">👥 Ver Listado de Asistidos Habilitados</a>
-<br/>
-<br/>
-<a class="button-add" th:href="@{/inico}">Ir al Inicio</a>
+<br/><br/>
+<a class="button-add" th:href="@{/asistidoListar(soloActivos=${soloActivos})}">🔄 Recargar listado</a>
+<br/><br/>
+<a class="button-add" th:href="@{/asistidoListar/sinFamilia}">👥 Ver sin familia</a>
+<br/><br/>
+<a class="button-add" th:href="@{/inicio}">🏠 Ir al Inicio</a>
 
 </body>
 </html>

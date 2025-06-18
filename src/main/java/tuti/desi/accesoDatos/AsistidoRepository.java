@@ -19,6 +19,8 @@ public interface AsistidoRepository extends JpaRepository<Asistido, Long> {
 	//Devuelve una persona encontrada por su DNI
 	Optional<Asistido> findByDni(Integer dni);
 
+	List<Asistido> findByFamiliaIsNull();
+
 
 
 }

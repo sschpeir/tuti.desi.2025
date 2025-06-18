@@ -29,7 +29,7 @@ public class Persona {
     @Column(length = 100, nullable = false)
     private String apellido;
 
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate fechaNacimiento;
 
     @Column(length = 100)
@@ -96,8 +96,8 @@ public class Persona {
     
     public boolean isActiva() { 
     	return activa; 
-    	}
+    }
     public void setActiva(boolean activa) { 
     	this.activa = activa; 
-    	}
+    }
 }

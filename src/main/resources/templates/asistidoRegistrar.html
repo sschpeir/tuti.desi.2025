@@ -128,10 +128,13 @@
         <option value="Ama de casa">Ama de casa</option>
         <option value="Otro">Otro</option>
     </select>
+	
+	<label>Fecha de Registro:</label>
+	<input type="date" th:field="*{fechaRegistroAsistido}" th:attr="disabled=${bloquear}" />
 
     <label for="familiaId">Familia:</label>
-    <select th:field="*{familiaId}" id="familiaId" th:attr="disabled=${bloquear}" required>
-        <option value="" disabled selected>Seleccione una familia</option>
+    <select th:field="*{familiaId}" id="familiaId" th:attr="disabled=${bloquear}" >
+		<option th:value="${null}" th:text="'(Ninguna)'"></option>
         <option th:each="familia : ${familias}"
                 th:value="${familia.nroFamilia}"
                 th:text="${familia.nombre}">

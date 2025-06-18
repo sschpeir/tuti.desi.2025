@@ -10,24 +10,34 @@ import jakarta.persistence.Id;
 @DiscriminatorValue("VOLUNTARIO")
 public class Voluntario extends Persona {
 	
+	//Propiedades
+	
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String nroSeguridadSocial;
+    private Integer nroSeguroSocial;
 
-	public String getNroSeguridadSocial() {
-		return nroSeguridadSocial;
-	}
-
-	public void setNroSeguridadSocial(String nroSeguridadSocial) {
-		this.nroSeguridadSocial = nroSeguridadSocial;
-	}
-
+    //Getters y Setters
 	
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Integer getNroSeguroSocial() {
+		return nroSeguroSocial;
+	}
+
+	public void setNroSeguroSocial(Integer nroSeguroSocial) {
+		this.nroSeguroSocial = nroSeguroSocial;
+	}
+
 	//Constructor vacio
 	public Voluntario() {
 		super();
 	}
-	
 	
 }

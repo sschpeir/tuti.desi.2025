@@ -23,16 +23,16 @@ public class VoluntarioListarController {
 	//Si solicitas un GET, carga un modelo de lista de FamiliaDTO
 	@GetMapping
     public String cargarFormulario(Model model) {
-		List<VoluntarioDTO> personas = voluntarioService.listarTodosVoluntarios();
-        model.addAttribute("personas", personas);
+		List<VoluntarioDTO> voluntarios = voluntarioService.listarTodosVoluntarios();
+        model.addAttribute("voluntarios", voluntarios);
         return "voluntarioListar";
     }	
 	
 	//Lista de asistidos activas
 	@GetMapping("/activos")
 	public String listarActivas(Model model) {
-	    List<VoluntarioDTO> personas = voluntarioService.listarVoluntariosActivos();
-	    model.addAttribute("personas", personas);
+	    List<VoluntarioDTO> voluntarios = voluntarioService.listarVoluntariosActivos();
+	    model.addAttribute("voluntarios", voluntarios);
 	    return "voluntarioListarActivos";
 	}
 	

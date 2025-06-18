@@ -130,14 +130,15 @@
     </select>
 
     <label for="familiaId">Familia:</label>
-    <select th:field="*{familiaId}" id="familiaId" th:attr="disabled=${bloquear}" required>
-        <option value="" disabled selected>Seleccione una familia</option>
-        <option th:each="familia : ${familias}"
-                th:value="${familia.nroFamilia}"
-                th:text="${familia.nombre}">
-        </option>
+	<select th:field="*{familiaId}" id="familiaId" th:attr="disabled=${bloquear}" >
+			<option th:value="${null}" th:text="'(Ninguna)'"></option>
+	        <option th:each="familia : ${familias}"
+	                th:value="${familia.nroFamilia}"
+	                th:text="${familia.nombre}">
+	        </option>
     </select>
-
+		
+		
     <div class="checkbox-group">
         <input type="checkbox" th:field="*{activa}" id="activaCheckbox" th:attr="disabled=${bloquear}" />
         <label for="activaCheckbox">Activa</label>

@@ -49,6 +49,14 @@ public class FamiliaListarController {
 	    model.addAttribute("miembros", familiaDTO.getIntegrantes());
 	    return "familiaListarAsistidos";
 	}
+	
+	@GetMapping("/{id}/miembros/activos")
+	public String listarMiembrosActivos(@PathVariable Long id, Model model) {
+	    FamiliaDTO familiaDTO = familiaService.buscarPorId(id);
+	    model.addAttribute("familiaDTO", familiaDTO);
+	    model.addAttribute("miembros", familiaDTO.getIntegrantes());
+	    return "familiaListarAsistidos";
+	}
 
 	
 }

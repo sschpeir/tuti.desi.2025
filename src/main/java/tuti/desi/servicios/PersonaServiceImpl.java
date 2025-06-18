@@ -11,6 +11,7 @@ import tuti.desi.accesoDatos.PersonaRepository;
 import tuti.desi.entidades.Asistido;
 import tuti.desi.entidades.Persona;
 import tuti.desi.entidades.Voluntario;
+import tuti.desi.entidades.Familia;
 
 import java.util.List;
 import java.util.Optional;
@@ -41,7 +42,7 @@ public class PersonaServiceImpl implements PersonaService {
 
             // Si es voluntario y se puede castear, actualizar campo extra
             if (persona instanceof Voluntario voluntario) {
-                voluntario.setNroSeguridadSocial(personaDTO.getNroSeguridadSocial());
+                voluntario.setNroSeguroSocial(personaDTO.getNroSeguroSocial());
             }
 
         } else {
@@ -52,10 +53,14 @@ public class PersonaServiceImpl implements PersonaService {
 
             // Crear nueva instancia según tipo
             if ("Asistido".equalsIgnoreCase(personaDTO.getTipoPersona())) {
-                persona = new Asistido();
+                Asistido asistido = new Asistido();
+                Familia familia = new Familia();
+                familia.setId(personaDTO.getFamiliaId());
+                asistido.setFamilia(familia);
+                persona = asistido; 
             } else {
                 Voluntario voluntario = new Voluntario();
-                voluntario.setNroSeguridadSocial(personaDTO.getNroSeguridadSocial());
+                voluntario.setNroSeguroSocial(personaDTO.getNroSeguroSocial());
                 persona = voluntario;
             }
         }
@@ -88,7 +93,9 @@ public class PersonaServiceImpl implements PersonaService {
                         asistido.getDni(),
                         asistido.getFechaNacimiento(),
                         asistido.getDomicilio(),
-                        asistido.getOcupacion()
+                        asistido.getOcupacion(),
+                        asistido.getFamilia() != null ? asistido.getFamilia().getId() : null,
+           	            asistido.getFechaRegistroAsistido()
                     );
                 } else if (p instanceof Voluntario voluntario) {
                     return new VoluntarioDTO(
@@ -100,7 +107,7 @@ public class PersonaServiceImpl implements PersonaService {
                         voluntario.getFechaNacimiento(),
                         voluntario.getDomicilio(),
                         voluntario.getOcupacion(),
-                        voluntario.getNroSeguridadSocial()
+                        voluntario.getNroSeguroSocial()
                     );
                 } else {
                     throw new IllegalStateException("Tipo de persona desconocido: " + p.getClass());
@@ -124,7 +131,9 @@ public class PersonaServiceImpl implements PersonaService {
   	                        asistido.getDni(),
   	                        asistido.getFechaNacimiento(),
   	                        asistido.getDomicilio(),
-  	                        asistido.getOcupacion()
+  	                        asistido.getOcupacion(),
+  	                        asistido.getFamilia() != null ? asistido.getFamilia().getId() : null,
+  	       	                asistido.getFechaRegistroAsistido()
   	                    );
   	                } else if (p instanceof Voluntario voluntario) {
   	                    return new VoluntarioDTO(
@@ -136,7 +145,7 @@ public class PersonaServiceImpl implements PersonaService {
   	                        voluntario.getFechaNacimiento(),
   	                        voluntario.getDomicilio(),
   	                        voluntario.getOcupacion(),
-  	                        voluntario.getNroSeguridadSocial()
+  	                        voluntario.getNroSeguroSocial()
   	                    );
   	                } else {
   	                    throw new IllegalStateException("Tipo de persona desconocido: " + p.getClass());
@@ -160,7 +169,9 @@ public class PersonaServiceImpl implements PersonaService {
   	                        asistido.getDni(),
   	                        asistido.getFechaNacimiento(),
   	                        asistido.getDomicilio(),
-  	                        asistido.getOcupacion()
+  	                        asistido.getOcupacion(),
+  	                        asistido.getFamilia() != null ? asistido.getFamilia().getId() : null,
+  	       	                asistido.getFechaRegistroAsistido()
   	                    );
   	                } else if (p instanceof Voluntario voluntario) {
   	                    return new VoluntarioDTO(
@@ -172,7 +183,7 @@ public class PersonaServiceImpl implements PersonaService {
   	                        voluntario.getFechaNacimiento(),
   	                        voluntario.getDomicilio(),
   	                        voluntario.getOcupacion(),
-  	                        voluntario.getNroSeguridadSocial()
+  	                        voluntario.getNroSeguroSocial()
   	                    );
   	                } else {
   	                    throw new IllegalStateException("Tipo de persona desconocido: " + p.getClass());
@@ -199,7 +210,8 @@ public class PersonaServiceImpl implements PersonaService {
                 asistido.getFechaNacimiento(),
                 asistido.getDomicilio(),
                 asistido.getOcupacion(),
-                familiaId
+                asistido.getFamilia() != null ? asistido.getFamilia().getId() : null,
+   	            asistido.getFechaRegistroAsistido()
             );
         } else if (persona instanceof Voluntario voluntario) {
             return new VoluntarioDTO(
@@ -211,7 +223,7 @@ public class PersonaServiceImpl implements PersonaService {
                 voluntario.getFechaNacimiento(),
                 voluntario.getDomicilio(),
                 voluntario.getOcupacion(),
-                voluntario.getNroSeguridadSocial()
+                voluntario.getNroSeguroSocial()
             );
         }
 

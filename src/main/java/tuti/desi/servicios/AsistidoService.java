@@ -21,5 +21,9 @@ public interface AsistidoService {
 	void inhabilitar(Long id);
 
 	PersonaDTO buscarPorId(Long id);
+
+	List<AsistidoDTO> listarAsistidosSinFamilia();
+
+	List<AsistidoDTO> listarFiltrado(boolean soloActivos, boolean sinFamilia);
 		
 }

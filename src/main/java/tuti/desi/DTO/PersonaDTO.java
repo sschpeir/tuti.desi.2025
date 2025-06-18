@@ -28,7 +28,9 @@ public class PersonaDTO {
     
     private String tipoPersona;
     
-    private String nroSeguridadSocial;
+    private Integer nroSeguroSocial;
+    
+    private Long familiaId;
 
     //Getters y Setters
     
@@ -96,14 +98,24 @@ public class PersonaDTO {
 		this.activa = activa;
 	}
 
-	public String getNroSeguridadSocial() {
-		return nroSeguridadSocial;
+
+	public Long getFamiliaId() {
+		return familiaId;
 	}
 
-	public void setNroSeguridadSocial(String nroSeguridadSocial) {
-		this.nroSeguridadSocial = nroSeguridadSocial;
+	public void setFamiliaId(Long familiaId) {
+		this.familiaId = familiaId;
 	}
 	
+	public Integer getNroSeguroSocial() {
+		return nroSeguroSocial;
+	}
+
+	public void setNroSeguroSocial(Integer nroSeguroSocial) {
+		this.nroSeguroSocial = nroSeguroSocial;
+	}	
+	
+	//Para saber si es asistido o voluntario
 	public String getTipoPersona() {
 		return tipoPersona;
 	}
@@ -111,21 +123,11 @@ public class PersonaDTO {
 	public void setTipoPersona(String tipoPersona) {
 		this.tipoPersona = tipoPersona;
 	}
+	
 
 	//Constructor
 
 	public PersonaDTO() {
-	}
-
-	
-	public PersonaDTO(Long id,boolean activa, String nombre, String apellido, Integer dni, LocalDate fechaNacimiento,String domicilio) {
-		this.id = id;
-		this.activa = activa;
-		this.nombre = nombre;
-		this.apellido = apellido;
-		this.dni = dni;
-		this.fechaNacimiento = fechaNacimiento;
-		this.domicilio = domicilio;
 	}
 	
 	public PersonaDTO(Long id,boolean activa, String nombre, String apellido, Integer dni, LocalDate fechaNacimiento,String domicilio, String ocupacion) {
@@ -139,5 +141,55 @@ public class PersonaDTO {
 		this.ocupacion = ocupacion;
 	}
 	
+	public PersonaDTO(Long id,boolean activa, String nombre, String apellido, Integer dni, LocalDate fechaNacimiento,String domicilio) {
+		this.id = id;
+		this.activa = activa;
+		this.nombre = nombre;
+		this.apellido = apellido;
+		this.dni = dni;
+		this.fechaNacimiento = fechaNacimiento;
+		this.domicilio = domicilio;
+	}
+	
+	//Constructor para DTO Voluntario
+	public PersonaDTO(Long id,boolean activa, String nombre, String apellido, Integer dni, LocalDate fechaNacimiento,String domicilio, String ocupacion, Integer nroSeguroSocial) {
+		this.id = id;
+		this.activa = activa;
+		this.nombre = nombre;
+		this.apellido = apellido;
+		this.dni = dni;
+		this.fechaNacimiento = fechaNacimiento;
+		this.domicilio = domicilio;
+		this.ocupacion = ocupacion;
+		this.nroSeguroSocial = nroSeguroSocial;
+	}
+	
+	//Constructor para DTO Asistido
+	public PersonaDTO(Long id,boolean activa, String nombre, String apellido, Integer dni, LocalDate fechaNacimiento,String domicilio, String ocupacion, Long familiaId) {
+		this.id = id;
+		this.activa = activa;
+		this.nombre = nombre;
+		this.apellido = apellido;
+		this.dni = dni;
+		this.fechaNacimiento = fechaNacimiento;
+		this.domicilio = domicilio;
+		this.ocupacion = ocupacion;
+		this.familiaId = familiaId;
+	}	
+	
+	//Constructor para DTO ambos
+	public PersonaDTO(Long id,boolean activa, String nombre, String apellido, Integer dni, LocalDate fechaNacimiento,String domicilio, String ocupacion, String tipoPersona, Long familiaId, Integer nroSeguroSocial) {
+		this.id = id;
+		this.activa = activa;
+		this.nombre = nombre;
+		this.apellido = apellido;
+		this.dni = dni;
+		this.fechaNacimiento = fechaNacimiento;
+		this.domicilio = domicilio;
+		this.ocupacion = ocupacion;
+		this.tipoPersona = tipoPersona;
+		this.familiaId = familiaId;
+		this.nroSeguroSocial = nroSeguroSocial;
+	}	
 	
 }

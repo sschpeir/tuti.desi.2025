@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Formulario Alta de Asistido</title>
+    <title>Editar Voluntario</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -93,8 +93,8 @@
 </head>
 <body>
 
-<form th:action="@{/asistidoEditar}" th:object="${asistidoDTO}" method="post">
-    <h1>Formulario de edicion de asistidos</h1>
+<form th:action="@{/voluntarioEditar}" th:object="${voluntarioDTO}" method="post">
+    <h1>Editar Voluntario</h1>
 
     <p th:if="${error}" th:text="${error}" class="error"></p>
 
@@ -129,16 +129,6 @@
         <option value="Otro">Otro</option>
     </select>
 
-    <label for="familiaId">Familia:</label>
-	<select th:field="*{familiaId}" id="familiaId" th:attr="disabled=${bloquear}" >
-			<option th:value="${null}" th:text="'(Ninguna)'"></option>
-	        <option th:each="familia : ${familias}"
-	                th:value="${familia.nroFamilia}"
-	                th:text="${familia.nombre}">
-	        </option>
-    </select>
-		
-		
     <div class="checkbox-group">
         <input type="checkbox" th:field="*{activa}" id="activaCheckbox" th:attr="disabled=${bloquear}" />
         <label for="activaCheckbox">Activa</label>

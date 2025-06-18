@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Formulario Alta de Asistido</title>
+    <title>Formulario Alta de Persona</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -90,16 +90,49 @@
         }
     </style>
 
+    <script>
+        function toggleCamposTipoPersona() {
+            const tipoPersona = document.getElementById("tipoPersona").value;
+            const campoSeguro = document.getElementById("seguroSocialGroup");
+            const campoFamilia = document.getElementById("familiaGroup");
+
+            if (tipoPersona === "VOLUNTARIO") {
+                campoSeguro.classList.remove("hidden");
+                campoFamilia.classList.add("hidden");
+                document.getElementById("familiaId").value = "";
+            } else if (tipoPersona === "ASISTIDO") {
+                campoSeguro.classList.add("hidden");
+                document.getElementById("nroSeguroSocial").value = "";
+                campoFamilia.classList.remove("hidden");
+            } else {
+                campoSeguro.classList.add("hidden");
+                campoFamilia.classList.add("hidden");
+                document.getElementById("nroSeguroSocial").value = "";
+                document.getElementById("familiaId").value = "";
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            toggleCamposTipoPersona();
+            document.getElementById("tipoPersona").addEventListener("change", toggleCamposTipoPersona);
+        });
+    </script>
 </head>
 <body>
 
-<form th:action="@{/asistidoEditar}" th:object="${asistidoDTO}" method="post">
-    <h1>Formulario de edicion de asistidos</h1>
+<form th:action="@{/personaRegistrar}" th:object="${personaDTO}" method="post">
+    <h1>Formulario de alta de persona</h1>
 
     <p th:if="${error}" th:text="${error}" class="error"></p>
 
     <input type="hidden" th:field="*{id}" />
-    <input type="hidden" th:field="*{tipoPersona}" />
+
+    <label for="tipoPersona">Tipo de Persona:</label>
+    <select th:field="*{tipoPersona}" id="tipoPersona" th:attr="disabled=${bloquear}" required>
+        <option value="" disabled selected>Seleccione un tipo</option>
+        <option value="ASISTIDO">Asistido</option>
+        <option value="VOLUNTARIO">Voluntario</option>
+    </select>
 
     <label>DNI:</label>
     <input type="number" th:field="*{dni}" th:attr="disabled=${bloquear}" required />
@@ -117,7 +150,7 @@
     <input type="text" th:field="*{domicilio}" th:attr="disabled=${bloquear}" />
 
     <label>Fecha de Nacimiento:</label>
-    <input type="date" th:field="*{fechaNacimiento}" th:attr="disabled=${bloquear}" />
+	<input type="date" th:field="*{fechaNacimiento}" th:attr="disabled=${bloquear}"/>
 
     <label>Ocupación:</label>
     <select th:field="*{ocupacion}" th:attr="disabled=${bloquear}" required>
@@ -129,16 +162,22 @@
         <option value="Otro">Otro</option>
     </select>
 
-    <label for="familiaId">Familia:</label>
-	<select th:field="*{familiaId}" id="familiaId" th:attr="disabled=${bloquear}" >
-			<option th:value="${null}" th:text="'(Ninguna)'"></option>
-	        <option th:each="familia : ${familias}"
-	                th:value="${familia.nroFamilia}"
-	                th:text="${familia.nombre}">
-	        </option>
-    </select>
-		
-		
+    <div id="seguroSocialGroup" class="hidden">
+        <label for="nroSeguroSocial">Número de Seguro Social:</label>
+        <input type="text" th:field="*{nroSeguroSocial}" id="nroSeguroSocial" />
+    </div>
+
+    <div id="familiaGroup" class="hidden">
+        <label for="familiaId">Familia:</label>
+        <select th:field="*{familiaId}" id="familiaId" th:attr="disabled=${bloquear}">
+            <option value="" disabled selected>Seleccione una familia</option>
+            <option th:each="familia : ${familias}"
+                    th:value="${familia.nroFamilia}"
+                    th:text="${familia.nombre}">
+            </option>
+        </select>
+    </div>
+
     <div class="checkbox-group">
         <input type="checkbox" th:field="*{activa}" id="activaCheckbox" th:attr="disabled=${bloquear}" />
         <label for="activaCheckbox">Activa</label>
@@ -149,8 +188,6 @@
     <br/><br/>
     <a th:href="@{/inicio}">Volver al inicio</a>
 </form>
-
-
 
 </body>
 </html>

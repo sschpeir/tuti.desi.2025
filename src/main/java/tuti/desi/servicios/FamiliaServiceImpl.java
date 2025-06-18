@@ -106,7 +106,9 @@ public class FamiliaServiceImpl implements FamiliaService{
                                 asistido.getDni(),
                                 asistido.getFechaNacimiento(),
                                 asistido.getDomicilio(),
-                                asistido.getOcupacion()
+                                asistido.getOcupacion(),
+                                asistido.getFamilia() != null ? asistido.getFamilia().getId() : null,
+                           	    asistido.getFechaRegistroAsistido()
                             ))
                             .collect(Collectors.toList())
                     );

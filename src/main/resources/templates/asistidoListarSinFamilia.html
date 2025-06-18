@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>NL Lista de Asistidos Activos NL</title>
+    <title>Listado de Asistidos sin familia asignada</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -70,7 +70,7 @@
 </head>
 <body>
 
-<h1>Listado de Asistidos Activos</h1>
+<h1>Listado de Asistidos sin familia asignada</h1>
 
 <table>
 	<thead>
@@ -114,7 +114,7 @@
 <a class="add-link" th:href="@{/asistidoRegistrar}">➕ Cargar nuevo asistido</a>
 <br/>
 <br/>
-<a class="button-add" th:href="@{/asistidoListar/sinFamilia}">👥 Ver Listado de Asistidos sin familia asignada</a>
+<a class="button-add" th:href="@{/asistidoListar/activos}">👥 Ver Listado de Asistidos Habilitados</a>
 <br/>
 <br/>
 <a class="button-add" th:href="@{/asistidoListar}">👥 Ver Listado de Todos los Asistidos</a>
