@@ -49,6 +49,15 @@ public class ItemRecetaDTO {
 		this.calorias = calorias;
 	}
     
+	private String tipoIngrediente; // o un enum si lo estás usando
+
+    public String getTipoIngrediente() {
+        return tipoIngrediente;
+    }
+
+    public void setTipoIngrediente(String tipoIngrediente) {
+        this.tipoIngrediente = tipoIngrediente;
+    }
     
 
    

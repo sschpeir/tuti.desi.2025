@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Formulario Receta</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 30px; background: #f0f2f5; }
+        form { background: white; padding: 20px; border-radius: 8px; max-width: 600px; margin: auto; box-shadow: 0 0 8px rgba(0,0,0,0.1); }
+        label { display: block; margin-top: 10px; font-weight: bold; }
+        input, select { width: 100%; padding: 8px; margin-top: 5px; border: 1px solid #ccc; border-radius: 4px; }
+        .item { margin-top: 20px; padding: 15px; background: #f9f9f9; border: 1px dashed #ccc; border-radius: 6px; }
+        button { margin-top: 20px; padding: 10px 15px; border: none; background-color: #007bff; color: white; border-radius: 5px; cursor: pointer; }
+        button:hover { background-color: #0056b3; }
+    </style>
+</head>
+<body>
+
+<h2 style="text-align:center;">Registrar Receta</h2>
+
+<form th:action="@{/recetaRegistrar}" th:object="${recetaDTO}" method="post">
+    <label>Nombre de la receta:</label>
+    <input type="text" th:field="*{nombre}" required />
+
+    <div th:each="item, iterStat : *{items}" class="item">
+        <label>Tipo de Ingrediente:</label>
+        <select th:field="*{items[__${iterStat.index}__].tipoIngrediente}" required>
+            <option value="">Seleccione</option>
+            <option value="PRODUCTO">Producto</option>
+            <option value="CONDIMENTO">Condimento</option>
+        </select>
+
+        <label th:if="*{items[__${iterStat.index}__].tipoIngrediente} == 'PRODUCTO'">Nombre Producto:</label>
+        <input type="text" th:field="*{items[__${iterStat.index}__].producto.nombre}" 
+               th:if="*{items[__${iterStat.index}__].tipoIngrediente} == 'PRODUCTO'" />
+
+        <label th:if="*{items[__${iterStat.index}__].tipoIngrediente} == 'CONDIMENTO'">Nombre Condimento:</label>
+        <input type="text" th:field="*{items[__${iterStat.index}__].condimento.nombre}" 
+               th:if="*{items[__${iterStat.index}__].tipoIngrediente} == 'CONDIMENTO'" />
+
+        <label>Cantidad:</label>
+        <input type="number" min="0" step="0.1" th:field="*{items[__${iterStat.index}__].cantidad}" required />
+    </div>
+
+    <button type="submit" name="agregarItem" value="true">➕ Agregar ingrediente</button>
+    <button type="submit">💾 Guardar receta</button>
+</form>
+
+</body>
+</html>

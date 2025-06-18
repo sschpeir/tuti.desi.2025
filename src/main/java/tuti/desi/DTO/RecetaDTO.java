@@ -67,6 +67,7 @@ public class RecetaDTO {
 	public void setPreparacion(List<Object> preparacion) {
 		this.preparacion = preparacion;
 	}
+	
 
 	public RecetaDTO() {
 	}
