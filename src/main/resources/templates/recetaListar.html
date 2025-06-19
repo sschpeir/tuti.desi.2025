@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Listado de recetas</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 40px;
+            background-color: #f4f6f8;
+        }
+
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .info-familia {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 18px;
+            color: #555;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        th, td {
+            padding: 12px 15px;
+            border: 1px solid #dee2e6;
+            text-align: left;
+        }
+
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Listado de recetas</h1>
+
+<div class="info-familia">
+    <p th:text="'Receta: ' + ${recetaDTO.nombre}"></p>
+    <p th:text="'Descripcion: ' + ${recetaDTO.descripcion}"></p>
+</div>
+
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Descripcion</th>
+			<th>Activo</th>
+			<th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="receta : ${recetas}">
+            <td th:text="${receta.id}">ID</td>
+            <td th:text="${receta.nombre}">Nombre</td>
+            <td th:text="${receta.calorias}">Descripcion</td>
+			<td th:text="${receta.activa ? 'Sí' : 'No'}">Activo</td>
+			<td>            
+	            <a th:href="@{/ingredienteEditar/{id}(id=${receta.id})}">✏️ Editar Asistido</a>
+	            &nbsp;|&nbsp;
+				<span th:if="${receta.activa}">
+				       <a th:href="@{/recetaEditar/{id}/deshabilitar(id=${receta.id})}"
+				          onclick="return confirm('¿Estás seguro de que querés deshabilitar esta receta?')">
+				           ❌ Deshabilitar
+				       </a>
+				   </span>
+				   <span th:unless="${receta.activa}">
+				       <a th:href="@{/recetaEditar/{id}/habilitar(id=${receta.id})}"
+				          onclick="return confirm('¿Estás seguro de que querés habilitar esta receta?')">
+				           ✅ Habilitar
+				       </a>
+				   </span>
+	        </td>
+        </tr>
+    </tbody>
+</table>
+
+<a class="button-add" th:href="@{/ingredienteRegistrar/receta/{id}(id=${receta.id})}">➕ 👤 Cargar Ingredientes</a>
+<br/>
+
+<a th:href="@{/familiaListar}">⬅ Volver a familias</a>
+
+</body>
+</html>

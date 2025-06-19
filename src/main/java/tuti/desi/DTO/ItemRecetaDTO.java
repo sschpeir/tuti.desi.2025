@@ -7,6 +7,8 @@ public class ItemRecetaDTO {
     private Integer cantidad;
     
     private Integer calorias;
+    
+    private IngredienteDTO ingrediente;
 
     public ItemRecetaDTO() {
     }
@@ -55,4 +57,13 @@ public class ItemRecetaDTO {
         this.tipoIngrediente = tipoIngrediente;
     }
    
+    public IngredienteDTO getIngrediente() {
+        return ingrediente;
+    }
+
+    public void setIngrediente(IngredienteDTO ingrediente) {
+        this.ingrediente = ingrediente;
+    }
+
+    
 }

@@ -4,13 +4,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import tuti.desi.DTO.FamiliaDTO;
+import tuti.desi.DTO.IngredienteDTO;
 import tuti.desi.DTO.ItemRecetaDTO;
 import tuti.desi.DTO.RecetaDTO;
-
-
+import tuti.desi.accesoDatos.IngredienteRepository;
 import tuti.desi.accesoDatos.RecetaRepository;
-import tuti.desi.entidades.Familia;
+import tuti.desi.entidades.Condimento;
+import tuti.desi.entidades.Ingrediente;
+import tuti.desi.entidades.ItemReceta;
+import tuti.desi.entidades.Producto;
 import tuti.desi.entidades.Receta;
+import tuti.desi.servicios.IngredienteService;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -22,6 +26,13 @@ public class RecetaServiceImpl implements RecetaService {
 
     @Autowired
     private RecetaRepository recetaRepository;
+    
+    @Autowired
+    private IngredienteRepository ingredienteRepository;
+    
+    @Autowired
+    private IngredienteService ingredienteService;
+
 
 	//Metodo de guardado/edicion
     @Override
@@ -49,56 +60,74 @@ public class RecetaServiceImpl implements RecetaService {
             receta = new Receta();
         }
 
-        receta.setNombre(recetaDTO.getNombre());
-        receta.setDescripcion(recetaDTO.getDescripcion());
-        receta.setActiva(recetaDTO.isActiva());
 
-        // Mapear ítems si vienen en el DTO
+        Receta recetaSalvada = recetaRepository.save(receta);
+		return recetaDTO;
+
+    }
+     // Construir el DTO de respuesta
+
+    @Override
+    public RecetaDTO guardarReceta(RecetaDTO recetaDTO) {
+        boolean esEdicion = recetaDTO.getId() != null;
+        Receta receta;
+
+        if (esEdicion) {
+            receta = recetaRepository.findById(recetaDTO.getId())
+                .orElseThrow(() -> new IllegalArgumentException("No se encontró la receta con ID: " + recetaDTO.getId()));
+
+            if (!receta.getNombre().equals(recetaDTO.getNombre()) &&
+                recetaRepository.existsByNombre(recetaDTO.getNombre())) {
+                throw new IllegalArgumentException("Ya existe otra receta con ese nombre");
+            }
+
+            // Eliminar los items anteriores si se actualizan completamente
+            receta.getItems().clear();
+
+        } else {
+            if (recetaRepository.existsByNombre(recetaDTO.getNombre())) {
+                throw new IllegalArgumentException("Ya existe una receta con ese nombre");
+            }
+
+            receta = new Receta();
+        }
+
+        receta.setNombre(recetaDTO.getNombre());
+        receta.setActiva(recetaDTO.isActiva());
+        receta.setDescripcion(recetaDTO.getDescripcion());
+
+        // Mapear items del DTO a entidad
         if (recetaDTO.getItems() != null) {
-            List<ItemReceta> items = recetaDTO.getItems().stream()
-                    .map(dto -> {
-                        ItemReceta item = new ItemReceta();
-                        item.setId(dto.getId()); // si viene con ID, lo respeta
-                        item.setIngrediente(dto.getIngrediente());
-                        item.setCantidad(dto.getCantidad());
-                        item.setReceta(receta); // relación bidireccional
-                        return item;
-                    }).collect(Collectors.toList());
+            List<ItemReceta> items = recetaDTO.getItems().stream().map(dto -> {
+                Ingrediente ingrediente = ingredienteRepository.findById(dto.getIngrediente().getId())
+                    .orElseThrow(() -> new IllegalArgumentException("Ingrediente no encontrado con ID: " + dto.getIngrediente().getId()));
+
+                ItemReceta item = new ItemReceta();
+                item.setCantidad(dto.getCantidad());
+                item.setIngrediente(ingrediente);
+                item.setReceta(receta); // vínculo bidireccional si aplica
+                return item;
+            }).collect(Collectors.toList());
 
             receta.setItems(items);
         }
 
-        Receta recetaSalvada = recetaRepository.save(receta);
-
-        // Construir el DTO de respuesta
-        RecetaDTO resultado = new RecetaDTO();
-        resultado.setId(recetaSalvada.getId());
-        resultado.setNombre(recetaSalvada.getNombre());
-        resultado.setDescripcion(recetaSalvada.getDescripcion());
-        resultado.setActiva(recetaSalvada.isActiva());
-
-        if (recetaSalvada.getItems() != null) {
-            List<ItemRecetaDTO> itemsDTO = recetaSalvada.getItems().stream()
-                    .map(item -> {
-                        ItemRecetaDTO dto = new ItemRecetaDTO();
-                        dto.setId(item.getId());
-                        dto.setIngrediente(item.getIngrediente());
-                        dto.setCantidad(item.getCantidad());
-                        return dto;
-                    }).collect(Collectors.toList());
-
-            resultado.setItems(itemsDTO);
-        }
-
-        return resultado;
+        Receta guardada = recetaRepository.save(receta);
+        return recetaADTO(guardada); // ← si querés devolver DTO actualizado
     }
 
 
-	@Override
-	public List<RecetaDTO> listarTodas() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
+
+    @Override
+    public List<RecetaDTO> listarTodos() {
+        List<Receta> recetas = recetaRepository.findAll();
+
+        return recetas.stream()
+                .map(this::recetaADTO)
+                .collect(Collectors.toList());
+    }
+
 
 	@Override
 	public List<RecetaDTO> listarFamiliasActivas() {
@@ -108,9 +137,12 @@ public class RecetaServiceImpl implements RecetaService {
 
 	@Override
 	public RecetaDTO buscarPorId(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+	    Receta receta = recetaRepository.findById(id)
+	        .orElseThrow(() -> new IllegalArgumentException("No se encontró la receta con ID: " + id));
+
+	    return recetaADTO(receta);
 	}
+
 
 	@Override
 	public void inhabilitar(Long id) {
@@ -123,8 +155,39 @@ public class RecetaServiceImpl implements RecetaService {
 		// TODO Auto-generated method stub
 		
 	}
-
 	
+	
+	  //Transforma una receta a DTO (Ahorra mucho laburo)
+	public RecetaDTO recetaADTO(Receta receta) {
+	    if (receta == null) {
+	        return null;
+	    }
+
+	    RecetaDTO recetaDTO = new RecetaDTO();
+	    recetaDTO.setId(receta.getId());
+	    recetaDTO.setActiva(receta.isActiva());
+	    recetaDTO.setNombre(receta.getNombre());
+	    recetaDTO.setDescripcion(receta.getDescripcion());
+
+	    // Agregar items si existen
+	    if (receta.getItems() != null && !receta.getItems().isEmpty()) {
+	        List<ItemRecetaDTO> itemsDTO = receta.getItems().stream()
+	            .map(item -> {
+	                ItemRecetaDTO itemDTO = new ItemRecetaDTO();
+	                itemDTO.setId(item.getId());
+	                itemDTO.setCantidad(item.getCantidad());
+	                itemDTO.setCalorias(item.getCalorias());
+	                itemDTO.setIngrediente(ingredienteService.ingredienteADTO(item.getIngrediente()));
+	                return itemDTO;
+	            }).collect(Collectors.toList());
+
+	        recetaDTO.setItems(itemsDTO);
+	    }
+
+	    return recetaDTO;
+	}
+
+	//
     
     
 }

@@ -19,14 +19,7 @@ public class Producto extends Ingrediente {
 	
 	@Column
     private Float precioActual;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
+	
 
 	public Float getStockDisponible() {
 		return stockDisponible;
@@ -43,6 +36,7 @@ public class Producto extends Ingrediente {
 	public void setPrecioActual(Float precioActual) {
 		this.precioActual = precioActual;
 	}
+	
 	
 	
 	

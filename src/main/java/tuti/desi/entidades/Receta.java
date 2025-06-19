@@ -35,15 +35,6 @@ public class Receta {
         this.activa = activa;
     }
 
-
-    public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
 	public String getNombre() {
 		return nombre;
 	}
@@ -81,6 +72,15 @@ public class Receta {
 	public void setPreparaciones(List<Preparacion> preparaciones) {
 		this.preparaciones = preparaciones;
 	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+	
 	
 	
 }

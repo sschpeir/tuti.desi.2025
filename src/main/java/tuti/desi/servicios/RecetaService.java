@@ -2,6 +2,7 @@ package tuti.desi.servicios;
 
 import java.util.List;
 
+import tuti.desi.DTO.IngredienteDTO;
 import tuti.desi.DTO.RecetaDTO;
 
 import tuti.desi.entidades.Receta;
@@ -25,5 +26,10 @@ public interface RecetaService {
 	
 	//Habilita la familia
 	void habilitar(Long id);
+
+	//Prueba de guardarReceta con items
+	RecetaDTO guardarReceta(RecetaDTO recetaDTO);
+
+	List<RecetaDTO> listarTodos();
 
 }

@@ -7,50 +7,46 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import tuti.desi.DTO.IngredienteDTO;
 
-import tuti.desi.DTO.FamiliaDTO;
-import tuti.desi.servicios.FamiliaService;
+import tuti.desi.servicios.IngredienteService;
 
 @Controller
-@RequestMapping("/familiaRegistrar")
-public class FamiliaRegistrarController {
+@RequestMapping("/ingredienteRegistrar")
+public class IngredienteRegistrarController {
 
 	@Autowired
-    private FamiliaService familiaService;
+    private IngredienteService ingredienteService;
 	
 	//CHECADO X
 	
 	//Si solicitas un GET, carga un modelo con un FamiliaDTO en blanco
 	@GetMapping
     public String cargarFormulario(Model model) {
-		FamiliaDTO familiaDTO = new FamiliaDTO();
-		familiaDTO.setFechaRegistro(LocalDate.now());
-        model.addAttribute("familiaDTO", familiaDTO);
-        return "familiaRegistrar";
+		IngredienteDTO ingredienteDTO = new IngredienteDTO();
+        model.addAttribute("ingredienteDTO", ingredienteDTO);
+        return "ingredienteRegistrar";
     }
 	
 	//CHECADO X
 	
 	//Si mandas un POST en un formulario, entonces agarra el modelo del form, arma un objeto FamiliaDTO y lo manda al Service.
 	@PostMapping
-	public String guardarFormulario(@ModelAttribute("familiaDTO") FamiliaDTO familiaDTO, Model model){
+	public String guardarFormulario(@ModelAttribute("ingredienteDTO") IngredienteDTO ingredienteDTO, Model model){
 		//Le metemos un try-catch por los errores, ejemplo: si hay otra con el mismo nombre
 		try {
-			familiaService.guardar(familiaDTO);
+			ingredienteService.guardar(ingredienteDTO);
 	        //Si guarda, pasa al listado de familias dadas de alta
-	        return "redirect:/familiaListar";
+	        return "redirect:/ingredienteListar";
 	    } catch (IllegalArgumentException e) {
 	    	//Si no guarda, deja los datos cargados y devuelve error que se lo agarra con Thymeleaf
 	    	model.addAttribute("error", e.getMessage());
-	        model.addAttribute("familiaDTO", familiaDTO); 
-	        return "familiaRegistrar"; 
+	        model.addAttribute("ingredienteDTO", ingredienteDTO); 
+	        return "ingredienteRegistrar"; 
 	    }
     }
-	
-
 	
 }

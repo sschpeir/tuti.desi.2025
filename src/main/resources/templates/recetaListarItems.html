@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Miembros de la Familia</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 40px;
+            background-color: #f4f6f8;
+        }
+
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .info-familia {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 18px;
+            color: #555;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        th, td {
+            padding: 12px 15px;
+            border: 1px solid #dee2e6;
+            text-align: left;
+        }
+
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Listado de asignacion de ingredientes</h1>
+
+<div class="info-familia">
+    <p th:text="'Receta: ' + ${recetaDTO.nombre}"></p>
+    <p th:text="'Descripcion: ' + ${recetaDTO.descripcion}"></p>
+</div>
+
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Calorias</th>
+            <th>Tipo de ingrediente</th>
+			<th>Stock</th>
+            <th>Precio Actual</th>
+			<th>Activo</th>
+			<th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="ingrediente : ${ingredienteDTO.ingredientes}">
+            <td th:text="${ingrediente.dni}">DNI</td>
+            <td th:text="${ingrediente.nombre}">Nombre</td>
+            <td th:text="${ingrediente.calorias}">Calorias</td>
+            <td th:text="${ingrediente.tipoCondimento}">Tipo de ingrediente</td>
+			<td th:text="${ingrediente.stockDisponible}">Stock</td>
+            <td th:text="${ingrediente.precioActual}">Precio Actual</td>
+			<td th:text="${ingrediente.activa ? 'Sí' : 'No'}">Activo</td>
+			<td>            
+	            <a th:href="@{/ingredienteEditar/{id}(id=${ingrediente.id})}">✏️ Editar Asistido</a>
+	            &nbsp;|&nbsp;
+				<span th:if="${ingrediente.activa}">
+				       <a th:href="@{/ingredienteEditar/{id}/receta/deshabilitar(id=${ingrediente.id})}"
+				          onclick="return confirm('¿Estás seguro de que querés deshabilitar este ingrediente?')">
+				           ❌ Deshabilitar
+				       </a>
+				   </span>
+				   <span th:unless="${persona.activa}">
+				       <a th:href="@{/ingredienteEditar/{id}/receta/habilitar(id=${ingrediente.id})}"
+				          onclick="return confirm('¿Estás seguro de que querés habilitar este ingrediente?')">
+				           ✅ Habilitar
+				       </a>
+				   </span>
+	        </td>
+        </tr>
+    </tbody>
+</table>
+
+<a class="button-add" th:href="@{/asistidoRegistrar/familia/{id}(id=${familiaDTO.nroFamilia})}">➕ 👤 Cargar miembros</a>
+<br/>
+
+<a th:href="@{/familiaListar}">⬅ Volver a familias</a>
+
+</body>
+</html>
