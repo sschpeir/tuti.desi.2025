@@ -9,7 +9,7 @@ import tuti.desi.entidades.Receta;
 public interface RecetaService {
 	
 	//Metodo de guardado/edicion
-	Receta guardar(RecetaDTO recetaDTO);
+	RecetaDTO guardar(RecetaDTO recetaDTO);
 	
 	//Metodo de obtencion de todas las familias
 	List<RecetaDTO> listarTodas();

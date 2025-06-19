@@ -1,6 +1,6 @@
 package tuti.desi.DTO;
 
-public class IngredienteDTO {
+public class CondimentoDTO {
 
     private Long id;
 
@@ -8,14 +8,11 @@ public class IngredienteDTO {
     
     private Integer calorias;
     
+    //
     private boolean activa = true;
     
     //Para discriminar entre "Condimento" y "Producto"
-    private String tipoCondimento;
-
-    // Solo si el tipo es "Producto"
-    private Float precioActual;
-    private Float stockDisponible;
+    private String tipoCondimento = "Condimento";
 
     // Getters y Setters
     public Long getId() {
@@ -50,22 +47,6 @@ public class IngredienteDTO {
         this.tipoCondimento = tipoCondimento;
     }
 
-    public Float getPrecioActual() {
-        return precioActual;
-    }
-
-    public void setPrecioActual(Float precioActual) {
-        this.precioActual = precioActual;
-    }
-
-    public Float getStockDisponible() {
-        return stockDisponible;
-    }
-
-    public void setStockDisponible(Float stockDisponible) {
-        this.stockDisponible = stockDisponible;
-    }
-
 	public boolean isActiva() {
 		return activa;
 	}
@@ -73,9 +54,8 @@ public class IngredienteDTO {
 		this.activa = activa;
 	}
 
-	public IngredienteDTO() {
+	public CondimentoDTO() {
 		
 	}
-	
 	
 }

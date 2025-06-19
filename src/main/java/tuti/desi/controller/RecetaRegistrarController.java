@@ -25,27 +25,21 @@ public class RecetaRegistrarController {
     @GetMapping
     public String mostrarFormulario(Model model) {
         RecetaDTO recetaDTO = new RecetaDTO();
-        recetaDTO.setItems(new ArrayList<>()); 
         model.addAttribute("recetaDTO", recetaDTO);
         return "recetaRegistrar"; // Asegurate de que exista recetaForm.html en templates/
     }
 
     @PostMapping
     public String procesarFormulario(
-            @ModelAttribute("recetaDTO") RecetaDTO recetaDTO,
-            @RequestParam(value = "agregarItem", required = false) String agregarItem,
-            Model model
-    ) {
-        if (agregarItem != null) {
-            // Se pidió agregar un nuevo item
-            recetaDTO.getItems().add(new ItemRecetaDTO());
-            model.addAttribute("recetaDTO", recetaDTO);
-            return "recetaRegistrar"; // vuelve al mismo form con un item más
-        }
-
-        // Guardar la receta
-        recetaService.guardar(recetaDTO);
-
+            @ModelAttribute("recetaDTO") RecetaDTO recetaDTO,Model model)
+	try {
+		recetaService.guardar(recetaDTO);
+        //Si guarda, pasa al listado de recetas dadas de alta
         return "redirect:/recetaListar";
+    } catch (IllegalArgumentException e) {
+    	//Si no guarda, deja los datos cargados y devuelve error que se lo agarra con Thymeleaf
+    	model.addAttribute("error", e.getMessage());
+        model.addAttribute("familiaDTO", familiaDTO); 
+        return "familiaRegistrar"; 
     }
 }

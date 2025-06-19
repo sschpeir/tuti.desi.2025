@@ -91,6 +91,4 @@ public class RecetaDTO {
 	    this.activa = activa;
 	}
 
-	
-	
 }

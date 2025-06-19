@@ -18,11 +18,7 @@ public class ItemRecetaDTO {
 		this.calorias = calorias;
 	}
     
-
     // Getters y setters
-
-    
-
 
 
 	public Long getId() {
@@ -58,7 +54,5 @@ public class ItemRecetaDTO {
     public void setTipoIngrediente(String tipoIngrediente) {
         this.tipoIngrediente = tipoIngrediente;
     }
-    
-
    
 }

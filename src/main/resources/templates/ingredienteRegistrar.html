@@ -1,0 +1,31 @@
+<form th:action="@{/ingredienteRegistrar}" th:object="${ingredienteDTO}" method="post">
+
+    <h1>Registrar Nueva Ingrediente</h1>
+
+    <p th:if="${error}" th:text="${error}" class="error"></p>
+
+    <label for="nombre">Nombre:</label>
+    <input type="text" th:field="*{nombre}" id="nombre" required />
+
+    <label for="descripcion">Descripcion:</label>
+    <input type="text" th:field="*{descripcion}" id="descripcion" required />
+
+    <!-- Nuevo selector de tipo -->
+    <label for="tipo">Tipo de Ingrediente:</label>
+    <select th:field="*{tipo}" id="tipo" required>
+        <option value="">-- Seleccionar --</option>
+        <option value="PRODUCTO">Producto</option>
+        <option value="CONDIMENTO">Condimento</option>
+    </select>
+
+    <div class="checkbox-group">
+        <input type="checkbox" th:field="*{activa}" id="activaCheckbox" />
+        <label for="activaCheckbox">Activa</label>
+    </div>
+
+    <button type="submit">Guardar</button>
+    <br/><br/>
+    <a class="button-add" th:href="@{/familiaListar}">← Ir al listado de familias</a>
+    <br/>
+    <a class="button-add" th:href="@{/inicio}">← Volver al inicio</a>
+</form>

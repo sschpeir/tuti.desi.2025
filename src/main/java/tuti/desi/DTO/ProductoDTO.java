@@ -1,17 +1,17 @@
 package tuti.desi.DTO;
 
-public class IngredienteDTO {
+public class ProductoDTO {
 
     private Long id;
 
     private String nombre;
-    
     private Integer calorias;
     
+    //
     private boolean activa = true;
     
     //Para discriminar entre "Condimento" y "Producto"
-    private String tipoCondimento;
+    private String tipoCondimento = "Producto";
 
     // Solo si el tipo es "Producto"
     private Float precioActual;
@@ -73,7 +73,7 @@ public class IngredienteDTO {
 		this.activa = activa;
 	}
 
-	public IngredienteDTO() {
+	public ProductoDTO() {
 		
 	}
 	
