@@ -32,5 +32,11 @@ public interface FamiliaRepository extends JpaRepository<Familia, Long> {
 	
 	//
 	boolean existsByNombre(String nombre);
+	
+	List<Familia> findByNombreLike(String nombre);
+
+	List<Familia> findByIdAndActivaTrue(Long id);
+
+	List<Familia> findByNombreLikeAndActivaTrue(String nombre);
     
 }

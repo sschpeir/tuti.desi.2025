@@ -2,9 +2,10 @@ package tuti.desi.entidades;
 
 import java.time.LocalDate;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import jakarta.persistence.Id;
-
-
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,7 +20,11 @@ public class EntregaAsistencia {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private LocalDate fecha;
+    @Column(name = "fechaEntrega")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate fechaEntrega;
+    
+    @Column(name = "raciones")
     private Integer cantidadRaciones;
 
     @ManyToOne
@@ -29,4 +34,8 @@ public class EntregaAsistencia {
     @ManyToOne
     @JoinColumn(name = "familia_id")
     private Familia familia;
+    
+    @ManyToOne
+    @JoinColumn(name = "voluntario_id")
+    private Voluntario voluntario;
 }

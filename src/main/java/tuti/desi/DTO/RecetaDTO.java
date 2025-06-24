@@ -11,7 +11,7 @@ public class RecetaDTO {
 	
 	private String descripcion;
 	
-	private boolean activa = true;
+	private boolean activa;
 	
 	
 	//Evita problemas de nulidad cuando iteramos

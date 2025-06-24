@@ -7,7 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -22,23 +21,23 @@ public class FamiliaRegistrarController {
 	@Autowired
     private FamiliaService familiaService;
 	
-	//CHECADO X
-	
 	//Si solicitas un GET, carga un modelo con un FamiliaDTO en blanco
 	@GetMapping
     public String cargarFormulario(Model model) {
-		FamiliaDTO familiaDTO = new FamiliaDTO();
-		familiaDTO.setFechaRegistro(LocalDate.now());
-        model.addAttribute("familiaDTO", familiaDTO);
+		FamiliaForm familiaForm = new FamiliaForm();
+		familiaForm.setFechaRegistro(LocalDate.now());
+        model.addAttribute("familiaForm", familiaForm);
         return "familiaRegistrar";
     }
 	
-	//CHECADO X
-	
 	//Si mandas un POST en un formulario, entonces agarra el modelo del form, arma un objeto FamiliaDTO y lo manda al Service.
 	@PostMapping
-	public String guardarFormulario(@ModelAttribute("familiaDTO") FamiliaDTO familiaDTO, Model model){
+	public String guardarFormulario(@ModelAttribute("familiaForm") FamiliaForm familiaForm, Model model){
 		//Le metemos un try-catch por los errores, ejemplo: si hay otra con el mismo nombre
+		FamiliaDTO familiaDTO = new FamiliaDTO();
+		familiaDTO.setNombre(familiaForm.getNombre());
+		familiaDTO.setFechaRegistro(familiaForm.getFechaRegistro());
+		familiaDTO.setActiva(familiaForm.isActiva());
 		try {
 			familiaService.guardar(familiaDTO);
 	        //Si guarda, pasa al listado de familias dadas de alta
@@ -50,7 +49,5 @@ public class FamiliaRegistrarController {
 	        return "familiaRegistrar"; 
 	    }
     }
-	
-
 	
 }

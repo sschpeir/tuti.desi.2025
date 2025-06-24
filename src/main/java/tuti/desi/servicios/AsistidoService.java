@@ -25,5 +25,7 @@ public interface AsistidoService {
 	List<AsistidoDTO> listarAsistidosSinFamilia();
 
 	List<AsistidoDTO> listarFiltrado(boolean soloActivos, boolean sinFamilia);
+
+	AsistidoDTO asistidoADTO(Asistido asistido);
 		
 }

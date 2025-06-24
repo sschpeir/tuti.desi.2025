@@ -30,7 +30,7 @@ public class VoluntarioServiceImpl implements VoluntarioService{
     private PersonaRepository personaRepository;
 
 	
-	//Guardamos asistidos por otro lado:
+	//Guardamos Voluntarios:
     public Voluntario guardarVoluntario(VoluntarioDTO voluntarioDTO) {
         boolean esEdicion = voluntarioDTO.getId() != null;
         Voluntario voluntario;
@@ -60,40 +60,18 @@ public class VoluntarioServiceImpl implements VoluntarioService{
         voluntario.setFechaNacimiento(voluntarioDTO.getFechaNacimiento());
         voluntario.setOcupacion(voluntarioDTO.getOcupacion());
         voluntario.setActiva(voluntarioDTO.isActiva());
+        voluntario.setFechaRegistro(voluntarioDTO.getFechaRegistro());
         voluntario.setNroSeguroSocial(voluntarioDTO.getNroSeguroSocial());
 
         return personaRepository.save(voluntario);
     }
-	
-	//Listar todos los asistidos
-		 @Override
-		 public List<VoluntarioDTO> listarTodosAsistidos() {
-		     List<Voluntario> voluntarios = voluntarioRepository.findAll();
-
-		     return voluntarios.stream()
-		         .map(voluntario -> {
-		        	 VoluntarioDTO voluntarioDTO = new VoluntarioDTO(
-		        			 voluntario.getId(),
-		        			 voluntario.isActiva(),
-		        			 voluntario.getNombre(),
-		        			 voluntario.getApellido(),
-		        			 voluntario.getDni(),
-		        			 voluntario.getFechaNacimiento(),
-		        			 voluntario.getDomicilio(),
-		        			 voluntario.getOcupacion(),
-		        			 voluntario.getNroSeguroSocial()
-		             );
-
-		             return voluntarioDTO;
-		         })
-		         .collect(Collectors.toList());
-		 }
 
 		 //Listar todos los asistidos activos
 		 @Override
 		 public List<VoluntarioDTO> listarVoluntariosActivos() {
+			 //Toma un listado de personas donde disponen el estado de activa=true
 		     List<Persona> personas = personaRepository.findByActivaTrue();
-
+		     //Filtra para que los voluntarios, se vayan mapeando en un listado como coleccion.
 		     return personas.stream()
 		         .filter(persona -> persona instanceof Voluntario)
 		         .map(persona -> {
@@ -107,6 +85,7 @@ public class VoluntarioServiceImpl implements VoluntarioService{
 		            		 voluntario.getFechaNacimiento(),
 		            		 voluntario.getDomicilio(),
 		            		 voluntario.getOcupacion(),
+		            		 voluntario.getFechaRegistro(),
 		            		 voluntario.getNroSeguroSocial()
 		            		 );
 		             return voluntarioDTO;
@@ -115,25 +94,25 @@ public class VoluntarioServiceImpl implements VoluntarioService{
 		 }
 		
 		
-		 //Funcion para inhabilitar asistidos
+		 //Funcion para inhabilitar voluntarios
 		 @Override
 	    public void inhabilitar(Long id) {
-		 		personaRepository.findById(id).ifPresent(asistido -> {
-		 		asistido.setActiva(false);
-	            personaRepository.save(asistido);
+		 		personaRepository.findById(id).ifPresent(voluntario -> {
+		 		voluntario.setActiva(false);
+	            personaRepository.save(voluntario);
 	        });
 	    }
 
-		//Funcion para habilitar asistidos
+		//Funcion para habilitar voluntarios
 		@Override
 		public void habilitar(Long id) {
-				personaRepository.findById(id).ifPresent(asistido -> {
-				asistido.setActiva(true);
-		        personaRepository.save(asistido);
+				personaRepository.findById(id).ifPresent(voluntario -> {
+				voluntario.setActiva(true);
+		        personaRepository.save(voluntario);
 		    });
 		}
 		
-		//Metodo para abstraer a personaService del controlador de AsistidoController
+		//Metodo para abstraer a personaService del controlador de VoluntarioController
 		@Override
 		public PersonaDTO buscarPorId(Long id) {
 		    Persona persona = personaRepository.findById(id)
@@ -152,28 +131,37 @@ public class VoluntarioServiceImpl implements VoluntarioService{
 		    		voluntario.getFechaNacimiento(),
 		    		voluntario.getDomicilio(),
 		    		voluntario.getOcupacion(),
+		    		voluntario.getFechaRegistro(),
 		    		voluntario.getNroSeguroSocial()
 		    );
 
 		}
 
-
+		//Metodo para listar todos los voluntarios.
 		@Override
 		public List<VoluntarioDTO> listarTodosVoluntarios() {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public List<VoluntarioDTO> listarAsistidosActivos() {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public List<VoluntarioDTO> listarAsistidosInactivos() {
-			// TODO Auto-generated method stub
-			return null;
+			//Invoca una lista de voluntarios
+		    List<Voluntario> voluntarios = voluntarioRepository.findAll();
+		    //Los transforma en una lista de VoluntariosDTO y los devuelve como coleccion
+		    return voluntarios.stream()
+		            .map(voluntario -> {
+		                VoluntarioDTO voluntarioDTO = new VoluntarioDTO();
+		                
+		                voluntarioDTO.setId(voluntario.getId());
+		                voluntarioDTO.setFechaRegistro(voluntario.getFechaRegistro());
+		                voluntarioDTO.setDni(voluntario.getDni());
+		                voluntarioDTO.setNombre(voluntario.getNombre());
+		                voluntarioDTO.setApellido(voluntario.getApellido());
+		                voluntarioDTO.setFechaNacimiento(voluntario.getFechaNacimiento());
+		                voluntarioDTO.setDomicilio(voluntario.getDomicilio());
+		                voluntarioDTO.setOcupacion(voluntario.getOcupacion());
+		                voluntarioDTO.setActiva(voluntario.isActiva());
+		                voluntarioDTO.setTipoPersona("Voluntario");
+		                voluntarioDTO.setNroSeguroSocial(voluntario.getNroSeguroSocial());
+		                
+		                return voluntarioDTO;
+		            })
+		            .collect(Collectors.toList());
 		}
 	
 }

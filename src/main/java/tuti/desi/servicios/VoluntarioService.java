@@ -9,14 +9,8 @@ import tuti.desi.entidades.Voluntario;
 public interface VoluntarioService {
 	
 	//NUEVOS METODOS
-	
-	List<VoluntarioDTO> listarAsistidosActivos();
-	
-	List<VoluntarioDTO> listarAsistidosInactivos();
 
 	Voluntario guardarVoluntario(VoluntarioDTO voluntarioDTO);
-
-	List<VoluntarioDTO> listarTodosAsistidos();
 
 	void habilitar(Long id);
 	

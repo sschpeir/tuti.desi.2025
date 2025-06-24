@@ -8,7 +8,7 @@ public class ProductoDTO {
     private Integer calorias;
     
     //
-    private boolean activa = true;
+    private boolean activa;
     
     //Para discriminar entre "Condimento" y "Producto"
     private String tipoCondimento = "Producto";

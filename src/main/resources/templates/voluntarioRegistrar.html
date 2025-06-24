@@ -7,7 +7,7 @@
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             padding: 40px;
-            background-color: rgb(255, 128, 0);
+            background-color: rgb(255, 173, 91);
             display: flex;
             justify-content: center;
         }
@@ -93,8 +93,8 @@
 </head>
 <body>
 
-<form th:action="@{/voluntarioRegistrar}" th:object="${voluntarioDTO}" method="post">
-    <h1>Formulario de Alta de Voluntarios</h1>
+<form th:action="@{/voluntarioRegistrar}" th:object="${voluntarioForm}" method="post">
+    <h1>Alta de Voluntarios</h1>
 
     <p th:if="${error}" th:text="${error}" class="error"></p>
 
@@ -130,8 +130,10 @@
     </select>
 
 	<label>Numero de Seguro:</label>
-	    <input type="number" th:field="*{dni}" th:attr="disabled=${bloquear}" required />
-	    <div th:if="${#fields.hasErrors('dni')}" th:errors="*{dni}" class="error"></div>
+	<input type="number" th:field="*{nroSeguroSocial}" th:attr="disabled=${bloquear}" />
+		
+	<label>Fecha de Registro:</label>
+	<input type="date" th:field="*{fechaRegistro}" th:attr="disabled=${bloquear}" />
 
     <div class="checkbox-group">
         <input type="checkbox" th:field="*{activa}" id="activaCheckbox" th:attr="disabled=${bloquear}" />
@@ -140,6 +142,8 @@
 
     <button type="submit" th:attr="disabled=${bloquear}">Guardar</button>
 
+	<br/><br/>
+	<a th:href="@{/voluntarioListar}">Volver al Listado de voluntarios</a>
     <br/><br/>
     <a th:href="@{/inicio}">Volver al inicio</a>
 </form>

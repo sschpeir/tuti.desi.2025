@@ -25,4 +25,21 @@ public interface FamiliaService {
 	//Habilita la familia
 	void habilitar(Long nroFamilia);
 
+	//Transforma una entity a DTO,
+	FamiliaDTO familiaADTO(Familia familia);
+
+	//Busca un listado de nombres por id
+	List<FamiliaDTO> filtrarId(Long id);
+	
+	//Busca un listado de nombres con la expresion "like"
+	List<FamiliaDTO> filtrarNombre(String valor);
+
+	//Busca un listado de nombres por id con la expresion activa
+	List<FamiliaDTO> filtrarIdActivas(Long id);
+
+	//Busca un listado de nombres con la expresion "like" y activa = true
+	List<FamiliaDTO> filtrarNombreAndActivaTrue(String nombre);
+	
+	
+
 }

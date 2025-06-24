@@ -9,6 +9,8 @@ import jakarta.persistence.Id;
 @Entity
 @DiscriminatorValue("Condimento")
 public class Condimento extends Ingrediente {
+	
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+	
 }

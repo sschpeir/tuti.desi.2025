@@ -90,7 +90,7 @@
     </style>
 </head>
 <body>
-<form th:action="@{/familiaEditar}" th:object="${familiaDTO}" method="post">
+<form th:action="@{/familiaEditar}" th:object="${familiaForm}" method="post">
 
     <h1>Editar Familia</h1>
 
@@ -110,6 +110,12 @@
     </div>
 
     <button type="submit">Guardar</button>
+	
+	<br/><br/>
+	<a th:href="@{/familiaListar}">Volver al Listado de familias</a>
+	
+	<br/><br/>
+	<a th:href="@{/inicio}">Volver al inicio</a>
 </form>
 </body>
 </html>

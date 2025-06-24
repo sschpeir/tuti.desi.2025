@@ -49,10 +49,6 @@
             background-color: #fdfdfd;
         }
 
-        .hidden {
-            display: none;
-        }
-
         .error {
             color: #dc3545;
             font-size: 0.9em;
@@ -89,11 +85,15 @@
             text-decoration: underline;
         }
     </style>
-
 </head>
 <body>
 
-<form th:action="@{/asistidoRegistrar}" th:object="${asistidoDTO}" method="post">
+<!-- OPCIONAL: Mostrar nombre de la familia si está presente -->
+<p th:if="${familiaSeleccionada != null}">
+    Familia seleccionada: <strong th:text="${familiaSeleccionada.nombre}"></strong>
+</p>
+
+<form th:action="@{/asistidoRegistrar}" th:object="${asistidoForm}" method="post">
     <h1>Formulario de alta de asistidos</h1>
 
     <p th:if="${error}" th:text="${error}" class="error"></p>
@@ -103,21 +103,23 @@
 
     <label>DNI:</label>
     <input type="number" th:field="*{dni}" th:attr="disabled=${bloquear}" required />
-    <div th:if="${#fields.hasErrors('dni')}" th:errors="*{dni}" class="error"></div>
+    <span th:if="${#fields.hasErrors('dni')}" th:errors="*{dni}" class="error"></span>
 
     <label>Nombre:</label>
     <input type="text" th:field="*{nombre}" th:attr="disabled=${bloquear}" required />
-    <div th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}" class="error"></div>
+    <span th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}" class="error"></span>
 
     <label>Apellido:</label>
     <input type="text" th:field="*{apellido}" th:attr="disabled=${bloquear}" required />
-    <div th:if="${#fields.hasErrors('apellido')}" th:errors="*{apellido}" class="error"></div>
+    <span th:if="${#fields.hasErrors('apellido')}" th:errors="*{apellido}" class="error"></span>
 
     <label>Domicilio:</label>
     <input type="text" th:field="*{domicilio}" th:attr="disabled=${bloquear}" />
+    <span th:if="${#fields.hasErrors('domicilio')}" th:errors="*{domicilio}" class="error"></span>
 
     <label>Fecha de Nacimiento:</label>
     <input type="date" th:field="*{fechaNacimiento}" th:attr="disabled=${bloquear}" />
+    <span th:if="${#fields.hasErrors('fechaNacimiento')}" th:errors="*{fechaNacimiento}" class="error"></span>
 
     <label>Ocupación:</label>
     <select th:field="*{ocupacion}" th:attr="disabled=${bloquear}" required>
@@ -128,31 +130,32 @@
         <option value="Ama de casa">Ama de casa</option>
         <option value="Otro">Otro</option>
     </select>
-	
-	<label>Fecha de Registro:</label>
-	<input type="date" th:field="*{fechaRegistroAsistido}" th:attr="disabled=${bloquear}" />
+    <span th:if="${#fields.hasErrors('ocupacion')}" th:errors="*{ocupacion}" class="error"></span>
 
     <label for="familiaId">Familia:</label>
-    <select th:field="*{familiaId}" id="familiaId" th:attr="disabled=${bloquear}" >
-		<option th:value="${null}" th:text="'(Ninguna)'"></option>
+    <select th:field="*{familiaId}" id="familiaId" th:attr="disabled=${bloquear}">
+        <option value="">(Ninguna)</option>
         <option th:each="familia : ${familias}"
                 th:value="${familia.nroFamilia}"
                 th:text="${familia.nombre}">
         </option>
     </select>
 
+    <label>Fecha de Registro:</label>
+    <input type="date" th:field="*{fechaRegistro}" th:attr="disabled=${bloquear}" />
+    <span th:if="${#fields.hasErrors('fechaRegistro')}" th:errors="*{fechaRegistro}" class="error"></span>
+
     <div class="checkbox-group">
         <input type="checkbox" th:field="*{activa}" id="activaCheckbox" th:attr="disabled=${bloquear}" />
         <label for="activaCheckbox">Activa</label>
     </div>
+    <span th:if="${#fields.hasErrors('activa')}" th:errors="*{activa}" class="error"></span>
 
     <button type="submit" th:attr="disabled=${bloquear}">Guardar</button>
 
     <br/><br/>
     <a th:href="@{/inicio}">Volver al inicio</a>
 </form>
-
-
 
 </body>
 </html>

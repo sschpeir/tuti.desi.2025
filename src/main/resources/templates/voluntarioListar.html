@@ -6,7 +6,7 @@
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: rgb(255, 128, 0);
+            background-color: rgb(255, 173, 91);
             padding: 40px;
         }
 
@@ -76,26 +76,30 @@
 	<thead>
 	<tr>
 	    <th>ID</th>
-	    <th>Activa</th>
 	    <th>DNI</th>
 	    <th>Nombre</th>
 	    <th>Apellido</th>
 	    <th>Domicilio</th>
 	    <th>Ocupación</th>
 	    <th>Fecha de Nacimiento</th>
+		<th>Numero de Seguro</th>
+		<th>Fecha de Registro</th>
+		<th>Activa</th>
 	    <th>Acciones</th>
 	</tr>
 	</thead>
 	<tbody>
 	<tr th:each="voluntario : ${voluntarios}">
 	    <td th:text="${voluntario.id}">ID</td>
-	    <td th:text="${voluntario.activa ? 'Sí' : 'No'}">Activa</td>
 	    <td th:text="${voluntario.dni}">DNI</td>
 	    <td th:text="${voluntario.nombre}">Nombre</td>
 	    <td th:text="${voluntario.apellido}">Apellido</td>
 	    <td th:text="${voluntario.domicilio}">Domicilio</td>
 	    <td th:text="${voluntario.ocupacion}">Ocupación</td>
 	    <td th:text="${voluntario.fechaNacimiento}">Fecha</td>
+		<td th:text="${voluntario.nroSeguroSocial}">Numero de Seguro</td>
+		<td th:text="${voluntario.fechaRegistro}">Numero de Seguro</td>
+		<td th:text="${voluntario.activa ? 'Sí' : 'No'}">Activa</td>
 	    <td class="action-links">
 	        <a th:href="@{/voluntarioEditar/{id}(id=${voluntario.id})}">✏️ Editar</a>
 			<span th:if="${voluntario.activa}">
@@ -105,7 +109,7 @@
 		       </a>
 		   </span>
 		   <span th:unless="${voluntario.activa}">
-		       <a th:href="@{/asistidoEditar/{id}/habilitar(id=${voluntario.id})}"
+		       <a th:href="@{/voluntarioEditar/{id}/habilitar(id=${voluntario.id})}"
 		          onclick="return confirm('¿Estás seguro de que querés habilitar este voluntario?')">
 		           ✅ Habilitar
 		       </a>
@@ -117,13 +121,13 @@
     </tbody>
 </table>
 
-<a class="add-link" th:href="@{/voluntarioRegistrar}">➕ Cargar nuevo asistido</a>
+<a class="add-link" th:href="@{/voluntarioRegistrar}">➕ Cargar nuevo voluntario</a>
 <br/>
 <br/>
-<a class="button-add" th:href="@{/voluntarioListar/activos}">👥 Ver Listado de Asistidos Habilitados</a>
+<a class="add-link" th:href="@{/voluntarioListar/activos}">👥 Ver Listado de voluntario Habilitados</a>
 <br/>
 <br/>
-<a class="button-add" th:href="@{/inicio}">Ir al Inicio</a>
+<a class="add-link" th:href="@{/inicio}">Ir al Inicio</a>
 
 </body>
 </html>

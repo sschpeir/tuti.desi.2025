@@ -1,8 +1,6 @@
 package tuti.desi.servicios;
 
-import tuti.desi.DTO.AsistidoDTO;
 import tuti.desi.DTO.PersonaDTO;
-import tuti.desi.entidades.Asistido;
 import tuti.desi.entidades.Persona;
 import java.util.Optional;
 import java.util.List;
@@ -18,8 +16,6 @@ public interface PersonaService {
     Optional<Persona> buscarPorDni(Integer dni);
     
     PersonaDTO buscarPorId(Long id);
-
-    
 
 	void eliminar(Long id);
 

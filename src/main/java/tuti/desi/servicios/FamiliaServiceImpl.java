@@ -12,12 +12,14 @@ import tuti.desi.DTO.FamiliaDTO;
 import tuti.desi.accesoDatos.FamiliaRepository;
 import tuti.desi.entidades.Familia;
 
-
 @Service
 public class FamiliaServiceImpl implements FamiliaService{
 
 	@Autowired
     private FamiliaRepository familiaRepository;
+	
+	@Autowired
+	private AsistidoService asistidoService;
     
 	//Metodo de guardado/edicion
     @Override
@@ -43,13 +45,10 @@ public class FamiliaServiceImpl implements FamiliaService{
             }
 
             familia = new Familia();
-            familia.setFechaRegistro(LocalDate.now()); // fecha solo en alta
         }
 
         familia.setNombre(familiaDTO.getNombre());
         familia.setActiva(familiaDTO.isActiva());
-
-        // Si permitís modificar fechaRegistro en edición, descomentá:
         familia.setFechaRegistro(familiaDTO.getFechaRegistro());
 
         return familiaRepository.save(familia);
@@ -136,7 +135,63 @@ public class FamiliaServiceImpl implements FamiliaService{
             familiaRepository.save(familia);
         });
     }
+    
+	//Metodo para transformar 
+	@Override
+	public FamiliaDTO familiaADTO(Familia familia) {
+	    if (familia == null) return null;
 
+	    FamiliaDTO familiaDTO = new FamiliaDTO();
+	    familiaDTO.setNroFamilia(familia.getId());
+	    familiaDTO.setNombre(familia.getNombre());
+	    familiaDTO.setFechaRegistro(familia.getFechaRegistro());
 
+	    // Si tiene integrantes (Asistido), los convertís también:
+	    if (familia.getIntegrantes() != null) {
+	        List<AsistidoDTO> integrantesDTO = familia.getIntegrantes()
+	            .stream()
+	            .map(asistidoService::asistidoADTO)
+	            .collect(Collectors.toList());
+	        familiaDTO.setIntegrantes(integrantesDTO);
+	    }
+
+	    return familiaDTO;
+	}
+	//Metodo para buscador a traves de familiaListar
+	@Override
+	public List<FamiliaDTO> filtrarId(Long id) {
+	    return familiaRepository.findById(id)
+	            .map(f -> List.of(familiaADTO(f)))
+	            .orElse(List.of());
+	}
+	
+	//Metodo para buscador a traves de familiaListar
+	@Override
+	public List<FamiliaDTO> filtrarNombre(String nombre) {
+	    List<Familia> familias = familiaRepository.findByNombreLike("%" + nombre + "%");
+	    return familias.stream()
+	                   .map(this::familiaADTO)
+	                   .collect(Collectors.toList());
+	}
+
+	
+	//Metodo para buscador a traves de familiaListar/activas
+	@Override
+	public List<FamiliaDTO> filtrarIdActivas(Long id) {
+		List<Familia> familias = familiaRepository.findByIdAndActivaTrue(id);
+		return familias.stream()
+                .map(this::familiaADTO)
+                .collect(Collectors.toList());
+	}
+
+	//Metodo para buscador a traves de familiaListar/activas
+	@Override
+	public List<FamiliaDTO> filtrarNombreAndActivaTrue(String nombre) {
+		List<Familia> familias = familiaRepository.findByNombreLikeAndActivaTrue("%" + nombre + "%");
+		return familias.stream()
+                .map(this::familiaADTO)
+                .collect(Collectors.toList());
+	}
+	
 }
 

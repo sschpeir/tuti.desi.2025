@@ -2,8 +2,6 @@ package tuti.desi.DTO;
 
 import java.time.LocalDate;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
 public class AsistidoDTO extends PersonaDTO {
 	
 	
@@ -12,9 +10,6 @@ public class AsistidoDTO extends PersonaDTO {
 	
 	//Propiedad para referenciar el nombre de las familias desde los listados
 	private String familiaNombre;
-
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate fechaRegistroAsistido;
 
 	//Getters y setters
 	
@@ -35,11 +30,11 @@ public class AsistidoDTO extends PersonaDTO {
 	}
 	
 	public LocalDate getFechaRegistroAsistido() {
-		return fechaRegistroAsistido;
+		return super.getFechaRegistro();
 	}
 
 	public void setFechaRegistroAsistido(LocalDate fechaRegistroAsistido) {
-		this.fechaRegistroAsistido = fechaRegistroAsistido;
+		super.setFechaRegistro(fechaRegistroAsistido);
 	}
 	
 	@Override
@@ -48,19 +43,14 @@ public class AsistidoDTO extends PersonaDTO {
 	}
 	
 	//Constructor multiproposito 
-		public AsistidoDTO(Long id, boolean activa, String nombre, String apellido, Integer dni, LocalDate fechaNacimiento,String domicilio, String ocupacion, Long familia, LocalDate fechaRegistroAsistido) {
+		public AsistidoDTO(Long id, boolean activa, String nombre, String apellido, Integer dni, LocalDate fechaNacimiento,String domicilio, String ocupacion, Long familia, LocalDate fechaRegistro) {
 			super(id, activa, nombre, apellido, dni, fechaNacimiento, domicilio, ocupacion);
 			this.familiaId = familia;
-			this.fechaRegistroAsistido = fechaRegistroAsistido;
+			super.setFechaRegistro(fechaRegistro);
 		}
 
 	//Constructor en blanco
 	public AsistidoDTO() {
 	}
-
-
-
-
-
 	
 }

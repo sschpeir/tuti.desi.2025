@@ -10,7 +10,6 @@ public class PersonaDTO {
 	
 	private Long id;
 
-	@Min(value = 1, message = "El DNI debe ser un número positivo")
 	private Integer dni;
 
     private String domicilio;
@@ -21,10 +20,13 @@ public class PersonaDTO {
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate fechaNacimiento;
+    
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate fechaRegistro;
 
     private String ocupacion;
 
-    private boolean activa = true;
+    private boolean activa;
     
     private String tipoPersona;
     
@@ -40,6 +42,14 @@ public class PersonaDTO {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+	
+	public boolean isActiva() {
+		return activa;
+	}
+
+	public void setActiva(boolean activa) {
+		this.activa = activa;
 	}
 
 	public Integer getDni() {
@@ -81,6 +91,14 @@ public class PersonaDTO {
 	public void setFechaNacimiento(LocalDate fechaNacimiento) {
 		this.fechaNacimiento = fechaNacimiento;
 	}
+	
+	public LocalDate getFechaRegistro() {
+		return fechaRegistro;
+	}
+
+	public void setFechaRegistro(LocalDate fechaRegistro) {
+		this.fechaRegistro = fechaRegistro;
+	}
 
 	public String getOcupacion() {
 		return ocupacion;
@@ -90,14 +108,7 @@ public class PersonaDTO {
 		this.ocupacion = ocupacion;
 	}
 
-	public boolean isActiva() {
-		return activa;
-	}
-
-	public void setActiva(boolean activa) {
-		this.activa = activa;
-	}
-
+	//Para los diferentes DTO
 
 	public Long getFamiliaId() {
 		return familiaId;
@@ -124,8 +135,11 @@ public class PersonaDTO {
 		this.tipoPersona = tipoPersona;
 	}
 	
+	
 
 	//Constructor
+
+	
 
 	public PersonaDTO() {
 	}
@@ -139,6 +153,18 @@ public class PersonaDTO {
 		this.fechaNacimiento = fechaNacimiento;
 		this.domicilio = domicilio;
 		this.ocupacion = ocupacion;
+	}
+	
+	public PersonaDTO(Long id,boolean activa, String nombre, String apellido, Integer dni, LocalDate fechaNacimiento,String domicilio, String ocupacion, LocalDate fechaRegistro) {
+		this.id = id;
+		this.activa = activa;
+		this.nombre = nombre;
+		this.apellido = apellido;
+		this.dni = dni;
+		this.fechaNacimiento = fechaNacimiento;
+		this.domicilio = domicilio;
+		this.ocupacion = ocupacion;
+		this.fechaRegistro = fechaRegistro;
 	}
 	
 	public PersonaDTO(Long id,boolean activa, String nombre, String apellido, Integer dni, LocalDate fechaNacimiento,String domicilio) {
@@ -178,7 +204,7 @@ public class PersonaDTO {
 	}	
 	
 	//Constructor para DTO ambos
-	public PersonaDTO(Long id,boolean activa, String nombre, String apellido, Integer dni, LocalDate fechaNacimiento,String domicilio, String ocupacion, String tipoPersona, Long familiaId, Integer nroSeguroSocial) {
+	public PersonaDTO(Long id,boolean activa, String nombre, String apellido, Integer dni, LocalDate fechaNacimiento,String domicilio, String ocupacion, LocalDate fechaRegistro, String tipoPersona, Long familiaId, Integer nroSeguroSocial) {
 		this.id = id;
 		this.activa = activa;
 		this.nombre = nombre;
@@ -190,6 +216,7 @@ public class PersonaDTO {
 		this.tipoPersona = tipoPersona;
 		this.familiaId = familiaId;
 		this.nroSeguroSocial = nroSeguroSocial;
+		this.fechaRegistro = fechaRegistro;
 	}	
 	
 }

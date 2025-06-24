@@ -3,22 +3,21 @@ package tuti.desi.servicios;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import tuti.desi.DTO.FamiliaDTO;
-import tuti.desi.DTO.IngredienteDTO;
+import jakarta.transaction.Transactional;
+
 import tuti.desi.DTO.ItemRecetaDTO;
 import tuti.desi.DTO.RecetaDTO;
+
 import tuti.desi.accesoDatos.IngredienteRepository;
+import tuti.desi.accesoDatos.ItemRecetaRepository;
 import tuti.desi.accesoDatos.RecetaRepository;
-import tuti.desi.entidades.Condimento;
+
 import tuti.desi.entidades.Ingrediente;
 import tuti.desi.entidades.ItemReceta;
-import tuti.desi.entidades.Producto;
 import tuti.desi.entidades.Receta;
-import tuti.desi.servicios.IngredienteService;
 
-import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
+
 import java.util.stream.Collectors;
 
 @Service
@@ -31,42 +30,40 @@ public class RecetaServiceImpl implements RecetaService {
     private IngredienteRepository ingredienteRepository;
     
     @Autowired
+    private ItemRecetaRepository itemRecetaRepository;
+    
+    @Autowired
     private IngredienteService ingredienteService;
-
-
-	//Metodo de guardado/edicion
+    
+    //Guardamos en funcion aparte para no tener problema con los hijos.
     @Override
-    public RecetaDTO guardar(RecetaDTO recetaDTO) {
-        boolean esEdicion = recetaDTO.getId() != null;
-        Receta receta;
-
-        if (esEdicion) {
-            receta = recetaRepository.findById(recetaDTO.getId())
-                    .orElseThrow(() -> new IllegalArgumentException("No se encontró la receta con ID: " + recetaDTO.getId()));
-
-            if (!receta.getNombre().equals(recetaDTO.getNombre()) &&
-                recetaRepository.existsByNombre(recetaDTO.getNombre())) {
-                throw new IllegalArgumentException("Ya existe otra receta con ese nombre");
-            }
-
-            // Limpiar ítems previos (gracias a orphanRemoval)
-            receta.getItems().clear();
-
-        } else {
-            if (recetaRepository.existsByNombre(recetaDTO.getNombre())) {
-                throw new IllegalArgumentException("Ya existe una receta con ese nombre");
-            }
-
-            receta = new Receta();
+    public RecetaDTO guardarEdicion(RecetaDTO recetaDTO) {
+        if (recetaDTO.getId() == null) {
+            throw new IllegalArgumentException("La receta debe tener un ID para poder editarse.");
         }
 
+        Receta receta = recetaRepository.findById(recetaDTO.getId())
+                .orElseThrow(() -> new IllegalArgumentException("No se encontró la receta con ID: " + recetaDTO.getId()));
 
-        Receta recetaSalvada = recetaRepository.save(receta);
-		return recetaDTO;
+        // Verificamos si se quiere cambiar el nombre (sin duplicados)
+        if (!receta.getNombre().equals(recetaDTO.getNombre()) &&
+            recetaRepository.existsByNombre(recetaDTO.getNombre())) {
+            throw new IllegalArgumentException("Ya existe otra receta con ese nombre.");
+        }
 
+        // Actualizamos solo los campos básicos, sin tocar los items
+        receta.setNombre(recetaDTO.getNombre());
+        receta.setDescripcion(recetaDTO.getDescripcion());
+        receta.setActiva(recetaDTO.isActiva());
+
+        // NO tocar: receta.setItems(...) ni receta.getItems().clear()
+
+        recetaRepository.save(receta);
+        return recetaDTO;
     }
-     // Construir el DTO de respuesta
 
+     
+    //Metodo para guardar la receta
     @Override
     public RecetaDTO guardarReceta(RecetaDTO recetaDTO) {
         boolean esEdicion = recetaDTO.getId() != null;
@@ -116,11 +113,9 @@ public class RecetaServiceImpl implements RecetaService {
         return recetaADTO(guardada); // ← si querés devolver DTO actualizado
     }
 
-
-
-
+    //Listado de recetasDTO
     @Override
-    public List<RecetaDTO> listarTodos() {
+    public List<RecetaDTO> listarTodas() {
         List<Receta> recetas = recetaRepository.findAll();
 
         return recetas.stream()
@@ -128,13 +123,7 @@ public class RecetaServiceImpl implements RecetaService {
                 .collect(Collectors.toList());
     }
 
-
-	@Override
-	public List<RecetaDTO> listarFamiliasActivas() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+    //buscar una receta por ID, la pasa por el mapper y la devuelve como DTO.
 	@Override
 	public RecetaDTO buscarPorId(Long id) {
 	    Receta receta = recetaRepository.findById(id)
@@ -143,21 +132,23 @@ public class RecetaServiceImpl implements RecetaService {
 	    return recetaADTO(receta);
 	}
 
-
-	@Override
-	public void inhabilitar(Long id) {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public void inhabilitar(Long id) {
+    	recetaRepository.findById(id).ifPresent(receta -> {
+        	receta.setActiva(false);
+        	recetaRepository.save(receta);
+        });
+    }
 
 	@Override
 	public void habilitar(Long id) {
-		// TODO Auto-generated method stub
-		
+		recetaRepository.findById(id).ifPresent(receta -> {
+	        receta.setActiva(true);
+	        recetaRepository.save(receta);
+	    });
 	}
 	
-	
-	  //Transforma una receta a DTO (Ahorra mucho laburo)
+	@Override
 	public RecetaDTO recetaADTO(Receta receta) {
 	    if (receta == null) {
 	        return null;
@@ -169,17 +160,22 @@ public class RecetaServiceImpl implements RecetaService {
 	    recetaDTO.setNombre(receta.getNombre());
 	    recetaDTO.setDescripcion(receta.getDescripcion());
 
-	    // Agregar items si existen
+	    // Convertimos los items si existen
 	    if (receta.getItems() != null && !receta.getItems().isEmpty()) {
 	        List<ItemRecetaDTO> itemsDTO = receta.getItems().stream()
 	            .map(item -> {
 	                ItemRecetaDTO itemDTO = new ItemRecetaDTO();
 	                itemDTO.setId(item.getId());
+	                itemDTO.setRecetaId(item.getReceta().getId());
+	                itemDTO.setIngredienteId(item.getIngrediente().getId());
 	                itemDTO.setCantidad(item.getCantidad());
 	                itemDTO.setCalorias(item.getCalorias());
+	                itemDTO.setActiva(item.isActiva());
 	                itemDTO.setIngrediente(ingredienteService.ingredienteADTO(item.getIngrediente()));
+
 	                return itemDTO;
-	            }).collect(Collectors.toList());
+	            })
+	            .collect(Collectors.toList());
 
 	        recetaDTO.setItems(itemsDTO);
 	    }
@@ -187,7 +183,71 @@ public class RecetaServiceImpl implements RecetaService {
 	    return recetaDTO;
 	}
 
-	//
-    
+	//Metodo para agregar un item a una receta a partir de el formulario de recetaListarIngredientes
+	@Transactional
+	public void agregarItemAReceta(ItemRecetaDTO itemRecetaDTO) {
+	    Receta receta = recetaRepository.findById(itemRecetaDTO.getRecetaId())
+	        .orElseThrow(() -> new RuntimeException("Receta no encontrada"));
+
+	    if (itemRecetaDTO.getIngredienteId() == null) {
+	        throw new IllegalArgumentException("El ID del ingrediente no puede ser null");
+	    }
+
+	    Ingrediente ingrediente = ingredienteRepository.findById(itemRecetaDTO.getIngredienteId())
+	        .orElseThrow(() -> new RuntimeException("Ingrediente no encontrado"));
+
+	    ItemReceta item = new ItemReceta();
+	    item.setReceta(receta);
+	    item.setIngrediente(ingrediente);
+	    item.setCantidad(itemRecetaDTO.getCantidad());
+	    item.setCalorias(itemRecetaDTO.getCalorias());
+	    
+	    item.setActiva(itemRecetaDTO.isActiva());
+
+	    item = itemRecetaRepository.save(item); 
+
+	    itemRecetaDTO.setId(item.getId()); 
+	}
+
+	@Override
+	public List<RecetaDTO> filtrarNombre(String nombre) {
+	    List<Receta> recetas = recetaRepository.findByNombreLike("%"+nombre+"%");
+	    return recetas.stream()
+	                  .map(this::recetaADTO)
+	                  .collect(Collectors.toList());
+	}
+	
+	@Override
+	public List<RecetaDTO> filtrarNombreAndActivaTrue(String nombre) {
+	    List<Receta> recetas = recetaRepository.findByNombreLikeAndActivaTrue("%"+nombre+"%");
+	    return recetas.stream()
+	                  .map(this::recetaADTO)
+	                  .collect(Collectors.toList());
+	}
+	
+	@Override
+	public List<RecetaDTO> filtrarId(Long id) {
+	    return recetaRepository.findById(id)
+	            .map(r -> List.of(recetaADTO(r)))
+	            .orElse(List.of());
+	}
+	
+	@Override
+	public List<RecetaDTO> filtrarIdActivas(Long id) {
+	    return recetaRepository.findByIdAndActivaTrue(id)
+	            .map(r -> List.of(recetaADTO(r)))
+	            .orElse(List.of());
+	}
+
+	@Override
+	public List<RecetaDTO> listarTodasActivas() {
+	    List<Receta> recetas = recetaRepository.findByActivaTrue();
+
+	    return recetas.stream()
+	            .filter(Receta::isActiva) // <-- solo las activas
+	            .map(this::recetaADTO)
+	            .collect(Collectors.toList());
+	}
+
     
 }

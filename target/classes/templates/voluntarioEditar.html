@@ -7,7 +7,7 @@
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             padding: 40px;
-            background-color: #eef2f5;
+            background-color: rgb(255, 173, 91);
             display: flex;
             justify-content: center;
         }
@@ -93,7 +93,7 @@
 </head>
 <body>
 
-<form th:action="@{/voluntarioEditar}" th:object="${voluntarioDTO}" method="post">
+<form th:action="@{/voluntarioEditar}" th:object="${voluntarioForm}" method="post">
     <h1>Editar Voluntario</h1>
 
     <p th:if="${error}" th:text="${error}" class="error"></p>
@@ -129,6 +129,12 @@
         <option value="Otro">Otro</option>
     </select>
 
+	<label>Numero de Seguro:</label>
+	<input type="number" th:field="*{nroSeguroSocial}" th:attr="disabled=${bloquear}" />
+	
+	<label>Fecha de Registro:</label>
+	<input type="date" th:field="*{fechaRegistro}" th:attr="disabled=${bloquear}" />
+	
     <div class="checkbox-group">
         <input type="checkbox" th:field="*{activa}" id="activaCheckbox" th:attr="disabled=${bloquear}" />
         <label for="activaCheckbox">Activa</label>

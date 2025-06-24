@@ -186,7 +186,7 @@ public class AsistidoServiceImpl implements AsistidoService{
 	
 	
 	//Para prueba
-	
+	@Override
 	public List<AsistidoDTO> listarAsistidosSinFamilia() {
 	    return asistidoRepository.findByFamiliaIsNull()
 	            .stream()
@@ -205,7 +205,7 @@ public class AsistidoServiceImpl implements AsistidoService{
 	            .collect(Collectors.toList());
 	}
 
-
+	@Override
 	public List<AsistidoDTO> listarFiltrado(boolean soloActivos, boolean sinFamilia) {
 	    List<Asistido> asistidos = asistidoRepository.findAll();
 
@@ -234,6 +234,28 @@ public class AsistidoServiceImpl implements AsistidoService{
 
 	}
 
+	@Override
+	public AsistidoDTO asistidoADTO(Asistido asistido) {
+	    if (asistido == null) return null;
+
+	    AsistidoDTO asistidoDTO = new AsistidoDTO();
+	    asistidoDTO.setId(asistido.getId());
+	    asistidoDTO.setDni(asistido.getDni());
+	    asistidoDTO.setNombre(asistido.getNombre());
+	    asistidoDTO.setApellido(asistido.getApellido());
+	    asistidoDTO.setDomicilio(asistido.getDomicilio());
+	    asistidoDTO.setFechaNacimiento(asistido.getFechaNacimiento());
+	    asistidoDTO.setOcupacion(asistido.getOcupacion());
+	    asistidoDTO.setActiva(asistido.isActiva());
+
+	    // Incluir datos de la familia
+	    if (asistido.getFamilia() != null) {
+	    	asistidoDTO.setFamiliaId(asistido.getFamilia().getId());
+	    	asistidoDTO.setFamiliaNombre(asistido.getFamilia().getNombre());
+	    }
+
+	    return asistidoDTO;
+	}
 
 
 

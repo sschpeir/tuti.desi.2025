@@ -16,13 +16,6 @@
             margin-bottom: 30px;
         }
 
-        .info-familia {
-            text-align: center;
-            margin-bottom: 20px;
-            font-size: 18px;
-            color: #555;
-        }
-
         table {
             width: 100%;
             border-collapse: collapse;
@@ -46,8 +39,6 @@
         }
 
         a {
-            display: inline-block;
-            margin-top: 20px;
             text-decoration: none;
             color: #007bff;
         }
@@ -55,57 +46,80 @@
         a:hover {
             text-decoration: underline;
         }
+		
+		.button-add {
+		            display: inline-block;
+		            margin-top: 15px;
+		            padding: 10px 15px;
+		            background-color: #28a745;
+		            color: white;
+		            text-decoration: none;
+		            border-radius: 4px;
+		        }
+
+        .acciones a {
+            margin-right: 8px;
+        }
     </style>
 </head>
 <body>
 
 <h1>Listado de recetas</h1>
 
-<div class="info-familia">
-    <p th:text="'Receta: ' + ${recetaDTO.nombre}"></p>
-    <p th:text="'Descripcion: ' + ${recetaDTO.descripcion}"></p>
-</div>
+<form th:action="@{/recetaListar/filtro}" method="get" style="text-align: center; margin-bottom: 20px;">
+    <select name="tipo" style="padding: 8px; font-size: 14px;">
+        <option value="nombre" th:selected="${tipo == 'nombre'}">Nombre</option>
+        <option value="id" th:selected="${tipo == 'id'}">ID</option>
+    </select>
+
+    <input type="text" name="valor" placeholder="Buscar..." 
+           style="padding: 8px; width: 250px; font-size: 14px;"
+           th:value="${valor}" />
+
+    <button type="submit" style="padding: 8px 12px; font-size: 14px;">🔍 Buscar</button>
+</form>
+
 
 <table>
     <thead>
         <tr>
             <th>ID</th>
             <th>Nombre</th>
-            <th>Descripcion</th>
-			<th>Activo</th>
-			<th>Acciones</th>
+            <th>Descripción</th>
+            <th>Activo</th>
+            <th>Acciones</th>
         </tr>
     </thead>
     <tbody>
         <tr th:each="receta : ${recetas}">
             <td th:text="${receta.id}">ID</td>
             <td th:text="${receta.nombre}">Nombre</td>
-            <td th:text="${receta.calorias}">Descripcion</td>
-			<td th:text="${receta.activa ? 'Sí' : 'No'}">Activo</td>
-			<td>            
-	            <a th:href="@{/ingredienteEditar/{id}(id=${receta.id})}">✏️ Editar Asistido</a>
-	            &nbsp;|&nbsp;
-				<span th:if="${receta.activa}">
-				       <a th:href="@{/recetaEditar/{id}/deshabilitar(id=${receta.id})}"
-				          onclick="return confirm('¿Estás seguro de que querés deshabilitar esta receta?')">
-				           ❌ Deshabilitar
-				       </a>
-				   </span>
-				   <span th:unless="${receta.activa}">
-				       <a th:href="@{/recetaEditar/{id}/habilitar(id=${receta.id})}"
-				          onclick="return confirm('¿Estás seguro de que querés habilitar esta receta?')">
-				           ✅ Habilitar
-				       </a>
-				   </span>
-	        </td>
+            <td th:text="${receta.descripcion}">Descripción</td>
+            <td th:text="${receta.activa ? 'Sí' : 'No'}">Activo</td>
+            <td class="acciones">
+                <a th:href="@{/recetaEditar/{id}(id=${receta.id})}">✏️ Editar Receta</a>
+                <span th:if="${receta.activa}">
+                    <a th:href="@{/recetaEditar/{id}/deshabilitar(id=${receta.id})}"
+                       onclick="return confirm('¿Estás seguro de que querés deshabilitar esta receta?')">
+                        ❌ Deshabilitar
+                    </a>
+                </span>
+                <span th:unless="${receta.activa}">
+                    <a th:href="@{/recetaEditar/{id}/habilitar(id=${receta.id})}"
+                       onclick="return confirm('¿Estás seguro de que querés habilitar esta receta?')">
+                        ✅ Habilitar
+                    </a>
+                </span>
+                <br/>
+                <a th:href="@{/recetaListar/{id}/ingredientes(id=${receta.id}) }">➕ Cargar Ingredientes</a>
+            </td>
         </tr>
     </tbody>
 </table>
-
-<a class="button-add" th:href="@{/ingredienteRegistrar/receta/{id}(id=${receta.id})}">➕ 👤 Cargar Ingredientes</a>
-<br/>
-
-<a th:href="@{/familiaListar}">⬅ Volver a familias</a>
+<br/><br/>
+<a class="button-add" th:href="@{/recetaListar/activas}">👀 Ver solo activos</a>
+<br/><br/>
+<a class="button-add" th:href="@{/inicio}">Ir al inicio</a>
 
 </body>
 </html>

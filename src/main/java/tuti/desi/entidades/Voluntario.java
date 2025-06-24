@@ -20,11 +20,11 @@ public class Voluntario extends Persona {
     //Getters y Setters
 	
 	public Long getId() {
-		return id;
+		return super.getId();
 	}
 
 	public void setId(Long id) {
-		this.id = id;
+		super.setId(id);
 	}
 
 	public Integer getNroSeguroSocial() {
@@ -37,7 +37,6 @@ public class Voluntario extends Persona {
 
 	//Constructor vacio
 	public Voluntario() {
-		super();
 	}
 	
 }

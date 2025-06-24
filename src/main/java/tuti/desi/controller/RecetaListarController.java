@@ -1,6 +1,5 @@
 package tuti.desi.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +12,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import tuti.desi.DTO.AsistidoDTO;
 import tuti.desi.DTO.IngredienteDTO;
+import tuti.desi.DTO.ItemRecetaDTO;
 import tuti.desi.DTO.RecetaDTO;
 import tuti.desi.servicios.IngredienteService;
 import tuti.desi.servicios.RecetaService;
@@ -30,9 +31,9 @@ public class RecetaListarController {
 
     @GetMapping
     public String mostrarFormulario(Model model) {
-        RecetaDTO recetaDTO = new RecetaDTO();
-        model.addAttribute("recetaDTO", recetaDTO);
-        return "recetaListar"; // Asegurate de que exista recetaForm.html en templates/
+        List<RecetaDTO> recetas = recetaService.listarTodas();
+        model.addAttribute("recetas", recetas);
+        return "recetaListar";
     }
 
     @PostMapping
@@ -50,22 +51,98 @@ public class RecetaListarController {
     }
     }
     
-	@GetMapping("/{id}/Items")
+	@GetMapping("/{id}/ingredientes")
 	public String listarMiembros(@PathVariable Long id, Model model) {
 		RecetaDTO recetaDTO = recetaService.buscarPorId(id);
-		List<IngredienteDTO> ingredientes = ingredienteService.listarIngredientesActivas();
-	    model.addAttribute("recetaDTO", recetaDTO);
+		List<IngredienteDTO> ingredientes = ingredienteService.listarTodos();
+		
+	    
+	    ItemRecetaDTO itemRecetaDTO = new ItemRecetaDTO();
+	    itemRecetaDTO.setRecetaId(recetaDTO.getId());
+	    
+		model.addAttribute("recetaDTO", recetaDTO);
 	    model.addAttribute("ingredientes", ingredientes);
-	    return "recetaListarItems";
+	    model.addAttribute("itemRecetaDTO", itemRecetaDTO);
+	    
+
+	    return "recetaListarIngredientes2";
 	}
 	
-	@GetMapping("/{id}/Items/activos")
-	public String listarMiembrosActivos(@PathVariable Long id, Model model) {
-		RecetaDTO recetaDTO = recetaService.buscarPorId(id);
-		List<IngredienteDTO> ingredientesActivos = ingredienteService.listarIngredientesActivas();
-		IngredienteDTO ingredienteDTO = ingredienteService.buscarPorId(id);
-	    model.addAttribute("recetaDTO", recetaDTO);
-	    model.addAttribute("ingredientes", ingredientesActivos);
-	    return "recetaListarItems";
+	//Joya..
+	@PostMapping("/agregarIngrediente")
+	public String agregarIngredienteAReceta(@ModelAttribute ItemRecetaDTO itemRecetaDTO, Model model) {
+	    try {
+	        recetaService.agregarItemAReceta(itemRecetaDTO);
+	        return "redirect:/recetaListar/" + itemRecetaDTO.getRecetaId() + "/ingredientes";
+	    } catch (IllegalArgumentException e) {
+	        model.addAttribute("error", e.getMessage());
+
+	        // Recargar datos necesarios para reconstruir la pantalla
+	        RecetaDTO recetaDTO = recetaService.buscarPorId(itemRecetaDTO.getRecetaId());
+	        model.addAttribute("recetaDTO", recetaDTO);
+
+	        List<IngredienteDTO> ingredientes = ingredienteService.listarTodos();
+	        model.addAttribute("ingredientes", ingredientes);
+
+	        model.addAttribute("itemRecetaDTO", new ItemRecetaDTO());
+
+	        // Volvés directamente a la vista Thymeleaf
+	        return "recetaListarIngredientes2"; // este es el nombre del .html, reemplazalo si tuyo es otro
+	    }
 	}
+
+	//Filtro del buscador 
+	@GetMapping("/filtro")
+	public String filtrarRecetas(@RequestParam("tipo") String tipo,
+	                             @RequestParam("valor") String valor,
+	                             Model model) {
+	    List<RecetaDTO> recetas;
+
+	    if ("id".equalsIgnoreCase(tipo)) {
+	        try {
+	            Long id = Long.parseLong(valor);
+	            recetas = recetaService.filtrarId(id);
+	        } catch (NumberFormatException e) {
+	            recetas = List.of(); // si no es un número válido
+	        }
+	    } else {
+	        recetas = recetaService.filtrarNombre(valor);
+	    }
+
+	    model.addAttribute("recetas", recetas);
+	    model.addAttribute("tipo", tipo);
+	    model.addAttribute("valor", valor);
+	    return "recetaListar";
+	}
+	
+	@GetMapping("/activas")
+    public String mostrarFormularioActivas(Model model) {
+        List<RecetaDTO> recetas = recetaService.listarTodasActivas();
+        model.addAttribute("recetas", recetas);
+        return "recetaListarActivas"; // Asegurate de que exista recetaForm.html en templates/
+    }
+	
+	//Filtro del buscador en activas
+	@GetMapping("/activas/filtro")
+	public String filtrarRecetasActivas(@RequestParam("tipo") String tipo,@RequestParam("valor") String valor,Model model) {
+	    List<RecetaDTO> recetas = recetaService.listarTodasActivas();
+
+	    if ("id".equalsIgnoreCase(tipo)) {
+	        try {
+	            Long id = Long.parseLong(valor);
+	            recetas = recetaService.filtrarIdActivas(id);
+	        } catch (NumberFormatException e) {
+	            recetas = List.of(); // si no es un número válido
+	        }
+	    } else {
+	        recetas = recetaService.filtrarNombreAndActivaTrue(valor);
+	    }
+
+	    model.addAttribute("recetas", recetas);
+	    model.addAttribute("tipo", tipo);
+	    model.addAttribute("valor", valor);
+	    return "recetaListarActivas";
+	}
+
+
 }

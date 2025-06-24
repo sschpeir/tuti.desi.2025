@@ -3,7 +3,6 @@ package tuti.desi.servicios;
 import java.util.List;
 
 import tuti.desi.DTO.IngredienteDTO;
-
 import tuti.desi.entidades.Ingrediente;
 
 public interface IngredienteService {

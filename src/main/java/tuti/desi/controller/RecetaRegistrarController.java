@@ -1,21 +1,15 @@
 package tuti.desi.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import tuti.desi.DTO.IngredienteDTO;
 import tuti.desi.DTO.RecetaDTO;
-import tuti.desi.servicios.IngredienteService;
+
 import tuti.desi.servicios.RecetaService;
 
 @Controller
@@ -25,15 +19,11 @@ public class RecetaRegistrarController {
     @Autowired
     private RecetaService recetaService;
   
-    
-    @Autowired
-    private IngredienteService ingredienteService;
-
     @GetMapping
     public String mostrarFormulario(Model model) {
         RecetaDTO recetaDTO = new RecetaDTO();
         model.addAttribute("recetaDTO", recetaDTO);
-        return "recetaRegistrar"; // Asegurate de que exista recetaForm.html en templates/
+        return "recetaRegistrar";
     }
 
     @PostMapping

@@ -1,7 +1,5 @@
 package tuti.desi.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,15 +19,21 @@ public class FamiliaEditarController {
 
 	@Autowired
     private FamiliaService familiaService;
-	
-	//CHECADO X
-	
+
 	//Si solicitas un GET, carga un modelo de familiaDTO a partir del ID
 	@GetMapping("/{id}")
     public String cargarFormulario(@PathVariable("id") Long id, Model model) {
         try {
 			FamiliaDTO familiaDTO = familiaService.buscarPorId(id);
-	        model.addAttribute("familiaDTO", familiaDTO);
+			
+			FamiliaForm familiaForm = new FamiliaForm();
+			
+			familiaForm.setNroFamilia(familiaDTO.getNroFamilia());
+			familiaForm.setNombre(familiaDTO.getNombre());
+			familiaForm.setFechaRegistro(familiaDTO.getFechaRegistro());
+			familiaForm.setActiva(familiaDTO.isActiva());
+			
+	        model.addAttribute("familiaForm", familiaForm);
 	        return "familiaEditar"; 
 	        //Sino te devuelve un error lo mandamos a familiaError
         } catch (IllegalArgumentException e) {
@@ -37,32 +41,36 @@ public class FamiliaEditarController {
             return "familiaError"; 
         }
     }
-	
-	//CHECADO X
-	
+
 	//Cuando al formulario lo submiteas, entonces intenta guardar, sino catchea el error
 	@PostMapping
-    public String guardarFormulario(@ModelAttribute("familiaDTO") FamiliaDTO familiaDTO, Model model) {
+    public String guardarFormulario(@ModelAttribute("familiaForm") FamiliaForm familiaForm, Model model) {
         try {
+        	FamiliaDTO familiaDTO = new FamiliaDTO();
+        	
+        	familiaDTO.setNroFamilia(familiaForm.getNroFamilia());
+        	familiaDTO.setNombre(familiaForm.getNombre());
+        	familiaDTO.setFechaRegistro(familiaForm.getFechaRegistro());
+        	familiaDTO.setActiva(familiaForm.isActiva());
+        	
             familiaService.guardar(familiaDTO);
             return "redirect:/familiaListar";
         } catch (IllegalArgumentException e) {
             model.addAttribute("error", e.getMessage());
-            model.addAttribute("familiaDTO", familiaDTO);
+            model.addAttribute("familiaForm", familiaForm);
             return "familiaEditar";
         }
     }
 	
-	//CHECADO X
-	
+	//Endpoint para deshabilitar una familia desde familiarEditar
 	@GetMapping("/{id}/deshabilitar")
 	public String deshabilitarFamilia(@PathVariable("id") Long id) {
 	    familiaService.inhabilitar(id);
 	    return "redirect:/familiaListar";
 	}
 
-	//CHECADO X
 	
+	//Endpoint para habilitar una familia desde familiarEditar
 	@GetMapping("/{id}/habilitar")
 	public String habilitarFamilia(@PathVariable("id") Long id) {
 	    familiaService.habilitar(id);

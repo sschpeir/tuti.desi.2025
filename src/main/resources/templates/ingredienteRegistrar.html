@@ -27,6 +27,7 @@
             width: 100%;
             padding: 8px;
             margin-top: 5px;
+            box-sizing: border-box;
         }
         button {
             margin-top: 20px;
@@ -36,15 +37,21 @@
             color: white;
             border: none;
             border-radius: 5px;
+            cursor: pointer;
         }
-		
-		.checkbox-group {
-		    display: flex;
-		    align-items: center;
-		    margin-top: 15px;
-		    margin-bottom: 20px;
-		}
-		
+        
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            margin-top: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .checkbox-group input {
+            width: auto;
+            margin-right: 10px;
+        }
+        
         .producto-only {
             display: none;
         }
@@ -52,17 +59,17 @@
 </head>
 <body>
 
-<form th:action="@{/ingredienteRegistrar}" th:object="${ingredienteDTO}" method="post">
+<form th:action="@{/ingredienteRegistrar}" th:object="${ingredienteForm}" method="post">
     <h2>Registrar Ingrediente</h2>
 
     <label for="nombre">Nombre</label>
-    <input type="text" th:field="*{nombre}" required />
+    <input type="text" th:field="*{nombre}" id="nombre" required />
 
     <label for="calorias">Calorías</label>
-    <input type="number" th:field="*{calorias}" step="0.01" required />
+    <input type="number" th:field="*{calorias}" id="calorias" step="0.01" required />
 
-    <label for="tipoCondimento">Tipo</label>
-    <select th:field="*{tipoCondimento}" id="tipoCondimento" onchange="alternarCampos()">
+    <label for="tipoIngrediente">Tipo</label>
+    <select th:field="*{tipoIngrediente}" id="tipoIngrediente" onchange="alternarCampos()">
         <option value="Producto">Producto</option>
         <option value="Condimento">Condimento</option>
     </select>
@@ -75,17 +82,18 @@
         <input type="number" th:field="*{precioActual}" step="0.01" id="precioActualInput" />
     </div>
 
-	<div class="checkbox-group">
-	     <input type="checkbox" th:field="*{activa}" id="activaCheckbox" />
-	     <label for="activaCheckbox">Activa</label>
-	 </div>
-	 
+    <div class="checkbox-group">
+        <input type="checkbox" th:field="*{activa}" id="activaCheckbox" />
+        <label for="activaCheckbox">Activa</label>
+    </div>
+     
     <button type="submit">Guardar</button>
 </form>
 
 <script>
     function alternarCampos() {
-        const tipo = document.getElementById("tipoCondimento").value;
+        const tipoSelect = document.getElementById("tipoIngrediente");
+        const tipo = tipoSelect.value;
         const productoCampos = document.getElementById("productoCampos");
         const stockInput = document.getElementById("stockDisponibleInput");
         const precioInput = document.getElementById("precioActualInput");

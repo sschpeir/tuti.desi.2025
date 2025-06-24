@@ -16,13 +16,16 @@ public class FamiliaDTO {
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate fechaRegistro;
 	
-	private boolean activa = true;
+	private boolean activa;
 	
 	private List<AsistidoDTO> integrantes;
 	
+	//metodo auxiliar para vista
+	private Integer cantidadActivos;
+	
 	
 	//GETTERS Y SETTERS DTO
-	
+
 	public Long getNroFamilia() {
 		return nroFamilia;
 	}
@@ -62,6 +65,14 @@ public class FamiliaDTO {
 	public void setIntegrantes(List<AsistidoDTO> integrantes) {
 		this.integrantes = integrantes;
 	}
+	
+	public Integer getCantidadActivos() {
+		return cantidadActivos;
+	}
+
+	public void setCantidadActivos(Integer cantidadActivos) {
+		this.cantidadActivos = cantidadActivos;
+	}
 
 	//Constructor vacio
 
@@ -92,7 +103,6 @@ public class FamiliaDTO {
 		this.nombre = nombre;
 		this.fechaRegistro = fechaRegistro;
 		this.integrantes = integrantes;
-		
 	}
 	
 }

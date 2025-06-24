@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import tuti.desi.DTO.VoluntarioDTO;
 import tuti.desi.servicios.VoluntarioService;
 
-
-
 @Controller
 @RequestMapping("/voluntarioListar")
 public class VoluntarioListarController {

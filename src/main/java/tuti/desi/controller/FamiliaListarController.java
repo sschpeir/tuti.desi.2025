@@ -1,6 +1,8 @@
 package tuti.desi.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -8,8 +10,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import tuti.desi.DTO.FamiliaDTO;
+import tuti.desi.DTO.RecetaDTO;
 import tuti.desi.servicios.FamiliaService;
 
 
@@ -57,6 +61,49 @@ public class FamiliaListarController {
 	    model.addAttribute("miembros", familiaDTO.getIntegrantes());
 	    return "familiaListarAsistidos";
 	}
+	
+	//Filtro del buscador 
+	@GetMapping("/filtro")
+	public String filtrarFamilias(@RequestParam("tipo") String tipo,@RequestParam("valor") String valor, Model model) {
+	    List<FamiliaDTO> familias;
 
+	    if ("id".equalsIgnoreCase(tipo)) {
+	        try {
+	            Long id = Long.parseLong(valor);
+	            familias = familiaService.filtrarId(id);
+	        } catch (NumberFormatException e) {
+	        	familias = List.of(); // si no es un número válido
+	        }
+	    } else {
+	    	familias = familiaService.filtrarNombre(valor);
+	    }
+
+	    model.addAttribute("familias", familias);
+	    model.addAttribute("tipo", tipo);
+	    model.addAttribute("valor", valor);
+	    return "familiaListar";
+	}
+	
+	//Filtro del buscador en activas
+	@GetMapping("/activas/filtro")
+	public String filtrarFamiliasActivas(@RequestParam("tipo") String tipo,@RequestParam("valor") String valor,Model model) {
+	    List<FamiliaDTO> familias = familiaService.listarFamiliasActivas();
+
+	    if ("id".equalsIgnoreCase(tipo)) {
+	        try {
+	            Long id = Long.parseLong(valor);
+	            familias = familiaService.filtrarIdActivas(id);
+	        } catch (NumberFormatException e) {
+	            familias = List.of(); // si no es un número válido
+	        }
+	    } else {
+	        familias = familiaService.filtrarNombreAndActivaTrue(valor);
+	    }
+
+	    model.addAttribute("familias", familias);
+	    model.addAttribute("tipo", tipo);
+	    model.addAttribute("valor", valor);
+	    return "familiaListarActivas";
+	}
 	
 }

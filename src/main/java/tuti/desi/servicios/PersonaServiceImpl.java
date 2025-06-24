@@ -107,6 +107,7 @@ public class PersonaServiceImpl implements PersonaService {
                         voluntario.getFechaNacimiento(),
                         voluntario.getDomicilio(),
                         voluntario.getOcupacion(),
+                        voluntario.getFechaRegistro(),
                         voluntario.getNroSeguroSocial()
                     );
                 } else {
@@ -145,6 +146,7 @@ public class PersonaServiceImpl implements PersonaService {
   	                        voluntario.getFechaNacimiento(),
   	                        voluntario.getDomicilio(),
   	                        voluntario.getOcupacion(),
+  	                        voluntario.getFechaRegistro(),
   	                        voluntario.getNroSeguroSocial()
   	                    );
   	                } else {
@@ -183,6 +185,7 @@ public class PersonaServiceImpl implements PersonaService {
   	                        voluntario.getFechaNacimiento(),
   	                        voluntario.getDomicilio(),
   	                        voluntario.getOcupacion(),
+  	                        voluntario.getFechaRegistro(),
   	                        voluntario.getNroSeguroSocial()
   	                    );
   	                } else {
@@ -199,7 +202,6 @@ public class PersonaServiceImpl implements PersonaService {
             .orElseThrow(() -> new IllegalArgumentException("No se encontró la persona con ID: " + id));
 
         if (persona instanceof Asistido asistido) {
-            Long familiaId = (asistido.getFamilia() != null) ? asistido.getFamilia().getId() : null;
 
             return new AsistidoDTO(
                 asistido.getId(),
@@ -223,14 +225,13 @@ public class PersonaServiceImpl implements PersonaService {
                 voluntario.getFechaNacimiento(),
                 voluntario.getDomicilio(),
                 voluntario.getOcupacion(),
+                voluntario.getFechaRegistro(),
                 voluntario.getNroSeguroSocial()
             );
         }
 
         throw new IllegalArgumentException("Tipo de persona desconocido");
     }
-
-
 	
 	public Optional<Persona> existsByDni(Integer dni) {
 		return personaRepository.findByDni(dni);

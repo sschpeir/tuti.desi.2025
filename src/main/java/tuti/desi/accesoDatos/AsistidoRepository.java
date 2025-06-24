@@ -9,7 +9,6 @@ import tuti.desi.entidades.Asistido;
 
 public interface AsistidoRepository extends JpaRepository<Asistido, Long> {
 	
-	
 	//Devuelve un listado de personas segun el ID de la familia
 	List<Asistido> findByFamiliaId(Long id);
 	
@@ -20,7 +19,5 @@ public interface AsistidoRepository extends JpaRepository<Asistido, Long> {
 	Optional<Asistido> findByDni(Integer dni);
 
 	List<Asistido> findByFamiliaIsNull();
-
-
 
 }

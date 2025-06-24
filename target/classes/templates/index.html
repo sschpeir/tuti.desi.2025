@@ -5,14 +5,48 @@
     <title>Inicio</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f2f2f2;
-            text-align: center;
-            padding: 30px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #e0f7fa;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 50px;
         }
 
-        h1 {
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .header img {
+            width: 100px;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .header h1 {
+            color: #004d40;
+            font-size: 32px;
+            margin: 0;
+        }
+
+        .card {
+            background-color: #ffffff;
+            border-radius: 20px;
+            padding: 30px 50px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .card p {
+            font-size: 18px;
             color: #333;
+            margin-bottom: 20px;
         }
 
         ul {
@@ -35,48 +69,51 @@
             color: #0056b3;
         }
 
-        .img-container {
-            margin-top: 30px;
-        }
-
-        .img-container img {
-            width: 200px;
-            margin: 0 15px;
-            border-radius: 10px;
-            box-shadow: 2px 2px 8px rgba(0,0,0,0.2);
+        .section-space {
+            margin-top: 20px;
+            margin-bottom: 20px;
+            border-top: 1px solid #ccc;
         }
     </style>
 </head>
 <body>
-    <h1>Bienvenido a Tuti Desi 2025</h1>
 
-    <p>Seleccione una opción:</p>
-
-    <ul>
-        <li><a th:href="@{/familiaRegistrar}">Registrar Familias</a></li>
-        <li><a th:href="@{/familiaListar}">Ver Listado de Familias</a></li>
-		<li><a th:href="@{/familiaListar/activas}">Ver Listado de Familias Habilitadas</a></li>
-		<br/>
-		<br/>
-		<li><a th:href="@{/asistidoRegistrar}">Registrar Asistido</a></li>
-		<li><a th:href="@{/asistidoListar}">Ver Listado de Asistidos</a></li>			
-        <li><a th:href="@{/asistidoListar/activos}">Ver Listado de Asistidos Habilitados</a></li>
-		<br/>
-		<br/>
-		<li><a th:href="@{/recetaRegistrar}">NL Alta de Recetas NL</a></li>
-		<li><a th:href="@{/recetaListar}">Ver Listado de Recetas</a></li>
-		<br/>
-		<br/>
-		<li><a th:href="@{/ingredienteRegistrar}">NL Alta de Ingredientes NL</a></li>
-		<li><a th:href="@{/ingredienteListar.html}">Ver Listado de Ingredientes</a></li>
-		<br/>
-		<br/>
-		
-    </ul>
-
-    <div class="img-container">
+    <div class="header">
         <img th:src="@{/images/familia.png}" alt="Familias">
+        <h1>Bienvenido a Tuti Desi 2025</h1>
         <img th:src="@{/images/asistido.png}" alt="Asistidos">
     </div>
+
+    <div class="card">
+        <p>Seleccione una opción:</p>
+        <ul>
+            <li><a th:href="@{/familiaRegistrar}">Registrar Familias</a></li>
+            <li><a th:href="@{/familiaListar}">Ver Listado de Familias</a></li>
+            <li><a th:href="@{/familiaListar/activas}">Ver Listado de Familias Habilitadas</a></li>
+
+            <div class="section-space"></div>
+
+            <li><a th:href="@{/asistidoRegistrar}">Registrar Asistido</a></li>
+            <li><a th:href="@{/asistidoListar}">Ver Listado de Asistidos</a></li>
+            <li><a th:href="@{/asistidoListar/activos}">Ver Listado de Asistidos Habilitados</a></li>
+			
+			<div class="section-space"></div>
+			
+			<li><a th:href="@{/voluntarioRegistrar}">Registrar Voluntario</a></li>
+            <li><a th:href="@{/voluntarioListar}">Ver Listado de Voluntarios</a></li>
+            <li><a th:href="@{/voluntarioListar/activos}">Ver Listado de Voluntarios Activos</a></li>
+
+            <div class="section-space"></div>
+
+            <li><a th:href="@{/recetaRegistrar}">Alta de Recetas</a></li>
+            <li><a th:href="@{/recetaListar}">Ver Listado de Recetas</a></li>
+
+            <div class="section-space"></div>
+
+            <li><a th:href="@{/ingredienteRegistrar}">Alta de Ingredientes</a></li>
+            <li><a th:href="@{/ingredienteListar}">Ver Listado de Ingredientes</a></li>
+        </ul>
+    </div>
+
 </body>
 </html>

@@ -1,7 +1,7 @@
 package tuti.desi.entidades;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
+
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -29,13 +29,20 @@ public class Persona {
     @Column(length = 100, nullable = false)
     private String apellido;
 
+    @Column
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate fechaNacimiento;
+    
+    @Column
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate fechaRegistro;
 
     @Column(length = 100)
     private String ocupacion;
 
+    @Column
     private boolean activa = true;
+    
     // Getters y Setters
 
     public Long getId() {
@@ -85,6 +92,14 @@ public class Persona {
     public void setFechaNacimiento(LocalDate fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
     }
+    
+	public LocalDate getFechaRegistro() {
+		return fechaRegistro;
+	}
+
+	public void setFechaRegistro(LocalDate fechaRegistro) {
+		this.fechaRegistro = fechaRegistro;
+	}
 
     public String getOcupacion() {
         return ocupacion;
@@ -97,7 +112,9 @@ public class Persona {
     public boolean isActiva() { 
     	return activa; 
     }
+    
     public void setActiva(boolean activa) { 
     	this.activa = activa; 
     }
+  
 }

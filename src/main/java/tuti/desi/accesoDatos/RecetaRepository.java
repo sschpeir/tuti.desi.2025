@@ -5,8 +5,6 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 import java.util.List;
 
-import tuti.desi.DTO.RecetaDTO;
-import tuti.desi.entidades.Familia;
 import tuti.desi.entidades.Receta;
 
 @Repository
@@ -14,7 +12,6 @@ public interface RecetaRepository extends JpaRepository<Receta, Long> {
 
     // Buscar por ID
     Optional<Receta> findById(Long id);
-    
 
     // Buscar por nombre
     List<Receta> findByNombreContainingIgnoreCase(String nombre);
@@ -34,7 +31,14 @@ public interface RecetaRepository extends JpaRepository<Receta, Long> {
 	
 	//Listar recetas si activa = false
 	List<Receta> findByActivaFalse();
-
-    
+	
+	//Listar por recetas parecidas al nombre
+	List<Receta> findByNombreLike(String nombre);
+	
+	//Por ID y si estan activas
+	Optional<Receta> findByIdAndActivaTrue(Long id);
+	
+	//Listar por recetas parecidas al nombre
+	List<Receta> findByNombreLikeAndActivaTrue(String nombre);
 
 }

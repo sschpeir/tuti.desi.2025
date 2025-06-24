@@ -22,8 +22,10 @@ public interface PersonaRepository extends JpaRepository<Persona, Long> {
     // Contar personas por nombre
     long countByNombreContaining(String nombre);
     
+    //Buscar persona por ID
     Optional<Persona> findById(Integer id);
 
+    //Comprobar si una persona existe por su DNI
 	boolean existsByDni(Integer dni);
 	
 	//Devuelve un listado de personas activa=true

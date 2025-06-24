@@ -115,9 +115,11 @@
 
     <label>Domicilio:</label>
     <input type="text" th:field="*{domicilio}" th:attr="disabled=${bloquear}" />
+	<div th:if="${#fields.hasErrors('domicilio')}" th:errors="*{domicilio}" class="error"></div>
 
     <label>Fecha de Nacimiento:</label>
     <input type="date" th:field="*{fechaNacimiento}" th:attr="disabled=${bloquear}" />
+	<div th:if="${#fields.hasErrors('fechaNacimiento')}" th:errors="*{fechaNacimiento}" class="error"></div>
 
     <label>Ocupación:</label>
     <select th:field="*{ocupacion}" th:attr="disabled=${bloquear}" required>
@@ -128,6 +130,7 @@
         <option value="Ama de casa">Ama de casa</option>
         <option value="Otro">Otro</option>
     </select>
+	<div th:if="${#fields.hasErrors('ocupacion')}" th:errors="*{ocupacion}" class="error"></div>
 
     <label for="familiaId">Familia:</label>
 	<select th:field="*{familiaId}" id="familiaId" th:attr="disabled=${bloquear}" >
@@ -137,12 +140,13 @@
 	                th:text="${familia.nombre}">
 	        </option>
     </select>
-		
+	
 		
     <div class="checkbox-group">
         <input type="checkbox" th:field="*{activa}" id="activaCheckbox" th:attr="disabled=${bloquear}" />
         <label for="activaCheckbox">Activa</label>
     </div>
+	<div th:if="${#fields.hasErrors('activa')}" th:errors="*{activa}" class="error"></div>
 
     <button type="submit" th:attr="disabled=${bloquear}">Guardar</button>
 

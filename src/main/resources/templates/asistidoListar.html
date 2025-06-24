@@ -94,7 +94,6 @@
     <thead>
     <tr>
         <th>ID</th>
-        <th>Activa</th>
         <th>DNI</th>
         <th>Nombre</th>
         <th>Apellido</th>
@@ -102,20 +101,21 @@
         <th>Ocupación</th>
         <th>Fecha de Nacimiento</th>
         <th>Familia</th>
+		<th>Activa</th>
         <th>Acciones</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="persona : ${personas}">
         <td th:text="${persona.id}">ID</td>
-        <td th:text="${persona.activa ? 'Sí' : 'No'}">Activa</td>
         <td th:text="${persona.dni}">DNI</td>
         <td th:text="${persona.nombre}">Nombre</td>
         <td th:text="${persona.apellido}">Apellido</td>
         <td th:text="${persona.domicilio}">Domicilio</td>
         <td th:text="${persona.ocupacion}">Ocupación</td>
         <td th:text="${persona.fechaNacimiento}">Fecha</td>
-        <td th:text="${persona.familiaNombre} ?: 'Sin familia asignada'">Familia</td>
+		<td th:text="${persona.familiaNombre} ?: 'Sin familia asignada'">Familia</td>
+		<td th:text="${persona.activa ? 'Sí' : 'No'}">Activa</td>
         <td class="action-links">
             <a th:href="@{/asistidoEditar/{id}(id=${persona.id})}">✏️ Editar</a>
             <span th:if="${persona.activa}">

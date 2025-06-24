@@ -6,43 +6,36 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-
 import tuti.desi.DTO.IngredienteDTO;
-import tuti.desi.DTO.RecetaDTO;
-
-
-import tuti.desi.servicios.RecetaService;
-
-//VER
+import tuti.desi.servicios.IngredienteService;
 
 @Controller
 @RequestMapping("/ingredienteListar")
 public class IngredienteListarController {
 
 	@Autowired
-    private RecetaService recetaService;
+    private IngredienteService ingredienteService;
 	
 	//CHECADO X
 	
-	//Si solicitas un GET, carga un modelo de lista de FamiliaDTO
+	//Si solicitas un GET, carga un modelo de lista de IngredienteDTO
 	@GetMapping
     public String cargarFormulario(Model model) {
-		List<RecetaDTO> recetas = recetaService.listarTodos();
-        model.addAttribute("recetas", recetas);
+		List<IngredienteDTO> ingredientes = ingredienteService.listarTodos();
+        model.addAttribute("ingredientes", ingredientes);
         return "ingredienteListar";
     }
 
 	//CHECADO X -- VER COMO LISTADO O VER COMO FILTRAR
 	
-	//Lista de familias activas
-	@GetMapping("/activas")
+	//Lista de Ingrediente activas
+	@GetMapping("/activos")
 	public String listarActivas(Model model) {
-	    List<RecetaDTO> recetas = recetaService.listarTodos();
-	    model.addAttribute("recetas", recetas);
-	    return "ingredienteListarActivas";
+	    List<IngredienteDTO> ingredientes = ingredienteService.listarTodos();
+	    model.addAttribute("ingredientes", ingredientes);
+	    return "ingredienteListarActivos";
 	}
 	
 }

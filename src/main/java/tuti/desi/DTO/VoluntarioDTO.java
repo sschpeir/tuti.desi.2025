@@ -22,12 +22,12 @@ private Integer nroSeguroSocial;
 	}
 
 	//Constructor para mapearlo
-	public VoluntarioDTO(Long id,boolean activa, String nombre, String apellido, Integer dni, LocalDate fechaNacimiento, String domicilio, String ocupacion, Integer nroSeguroSocial) {
+	public VoluntarioDTO(Long id,boolean activa, String nombre, String apellido, Integer dni, LocalDate fechaNacimiento, String domicilio, String ocupacion, LocalDate fechaRegistro,Integer nroSeguroSocial) {
 		//Llama al constructor super por herencia
 		super(id, activa, nombre, apellido, dni, fechaNacimiento, domicilio, ocupacion);
 		this.nroSeguroSocial = nroSeguroSocial;
+		super.setFechaRegistro(fechaRegistro);
 	}
-
 
 	public VoluntarioDTO() {
 	}
