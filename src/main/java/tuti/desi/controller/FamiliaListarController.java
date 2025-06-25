@@ -1,8 +1,6 @@
 package tuti.desi.controller;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import tuti.desi.DTO.FamiliaDTO;
 import tuti.desi.DTO.FamiliasConMiembrosActivosDTO;
-import tuti.desi.DTO.RecetaDTO;
 import tuti.desi.servicios.FamiliaService;
 
 
@@ -34,16 +31,6 @@ public class FamiliaListarController {
         model.addAttribute("familias", familias);
         return "familiaListar";
     }
-
-	//CHECADO X
-	
-	//Lista de familias activas
-	@GetMapping("/activas")
-	public String listarActivas(Model model) {
-	    List<FamiliaDTO> familias = familiaService.listarFamiliasActivas();
-	    model.addAttribute("familias", familias);
-	    return "familiaListarActivas";
-	}
 	
 	//CHECADO X
 	
@@ -55,28 +42,6 @@ public class FamiliaListarController {
 	    return "familiaListarAsistidos";
 	}
 	
-	//Filtro del buscador 
-	@GetMapping("/filtro")
-	public String filtrarFamilias(@RequestParam("tipo") String tipo,@RequestParam("valor") String valor, Model model) {
-	    List<FamiliaDTO> familias;
-
-	    if ("id".equalsIgnoreCase(tipo)) {
-	        try {
-	            Long id = Long.parseLong(valor);
-	            familias = familiaService.filtrarId(id);
-	        } catch (NumberFormatException e) {
-	        	familias = List.of(); // si no es un número válido
-	        }
-	    } else {
-	    	familias = familiaService.filtrarNombre(valor);
-	    }
-
-	    model.addAttribute("familias", familias);
-	    model.addAttribute("tipo", tipo);
-	    model.addAttribute("valor", valor);
-	    return "familiaListar";
-	}
-	
 	//Filtro del buscador en activas
 	
 	
@@ -86,6 +51,7 @@ public class FamiliaListarController {
         model.addAttribute("familias", familias);
         return "familiaListarSolicitado";
     }
+	
 	
 	@GetMapping("/solicitado/filtro")
 	public String filtrarFamiliaSolicitadoFiltro(@RequestParam("tipo") String tipo,@RequestParam("valor") String valor,Model model) {

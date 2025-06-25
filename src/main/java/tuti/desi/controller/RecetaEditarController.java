@@ -64,7 +64,51 @@ public class RecetaEditarController {
             
             return "recetaEditar";
         }
-    }	
+    }
+  	
+    //Si solicitas un GET, carga un modelo de recetaDTO a partir del ID
+  	@GetMapping("/solicitado/{id}")
+      public String cargarFormularioSolicitado(@PathVariable("id") Long id, Model model) {
+          try {
+  			RecetaDTO recetaDTO = recetaService.buscarPorId(id);
+  			
+  			RecetaForm recetaForm = new RecetaForm();
+  			
+  			recetaForm.setId(recetaDTO.getId());
+  			recetaForm.setNombre(recetaDTO.getNombre());
+  			recetaForm.setDescripcion(recetaDTO.getDescripcion());
+  			recetaForm.setActiva(recetaDTO.isActiva());
+  			
+  	        model.addAttribute("recetaForm", recetaForm);
+  	        return "recetaEditarSolicitado"; 
+  	        //Sino te devuelve un error lo mandamos a familiaError
+          } catch (IllegalArgumentException e) {
+              model.addAttribute("error", e.getMessage());
+              return "recetaListarActivasConItemsYCalorias"; 
+          }
+      }
+  	
+  	//Metodo POST de recetaEditar, agarra el template de recetaDTO y lo manda a guardar
+  	@PostMapping("/solicitado")
+    public String guardarFormularioSolicitado(@Valid @ModelAttribute("recetaForm") RecetaForm recetaForm,BindingResult result, Model model) {
+        try {
+        	RecetaDTO recetaDTO = new RecetaDTO();
+        	
+        	recetaDTO.setId(recetaForm.getId());
+        	recetaDTO.setNombre(recetaForm.getNombre());
+        	recetaDTO.setDescripcion(recetaForm.getDescripcion());
+        	recetaDTO.setActiva(recetaForm.isActiva());
+        	
+        	recetaService.guardarEdicion(recetaDTO);
+        	
+            return "redirect:/recetaListar/solicitado";
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("error", e.getMessage());
+            model.addAttribute("recetaForm", recetaForm);
+            
+            return "recetaListarActivasConItemsYCalorias";
+        }
+    }
   	
     //Endpoint para deshabilitar una receta desde recetaListar
 	@GetMapping("/{id}/deshabilitar")

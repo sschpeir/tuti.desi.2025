@@ -85,7 +85,7 @@
             <td th:text="${receta.totalCalorias}">Total Calorías</td>
 			<td th:text="${receta.activa ? 'Sí' : 'No'}">Activa</td>
 			<td>
-			           <a th:href="@{/recetaEditar/{id}(id=${receta.id})}">✏️ Editar Receta</a>
+			           <a th:href="@{/recetaEditar/solicitado/{id}(id=${receta.id})}">✏️ Editar Receta</a>
 			           &nbsp;|&nbsp;
 					<span th:if="${receta.activa}">
 					       <a th:href="@{/recetaEditar/solicitado/{id}/deshabilitar(id=${receta.id})}"
