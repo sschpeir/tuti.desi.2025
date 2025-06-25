@@ -3,12 +3,14 @@ package tuti.desi.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import jakarta.validation.Valid;
 import tuti.desi.DTO.VoluntarioDTO;
 import tuti.desi.DTO.PersonaDTO;
 
@@ -57,8 +59,12 @@ public class VoluntarioEditarController {
     
   	//Si mandas un POST en un formulario, entonces agarra el modelo del form, arma un objeto RecetaDTO y lo manda al Service.
   	@PostMapping
-  	public String guardarFormularioVoluntario(@ModelAttribute("voluntarioDTO") VoluntarioForm voluntarioForm, Model model) {
-  		
+  	public String guardarFormularioVoluntario(@Valid @ModelAttribute("voluntarioDTO") VoluntarioForm voluntarioForm, BindingResult result, Model model) {
+  		if (result.hasErrors()) {
+  	        model.addAttribute("voluntarioForm", voluntarioForm);
+  	        
+  	        return "voluntarioEditar";
+  	    }
   		try {
   			VoluntarioDTO voluntarioDTO = new VoluntarioDTO();
   			

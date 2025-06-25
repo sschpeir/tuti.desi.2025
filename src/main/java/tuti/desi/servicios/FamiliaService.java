@@ -3,6 +3,7 @@ package tuti.desi.servicios;
 import java.util.List;
 
 import tuti.desi.DTO.FamiliaDTO;
+import tuti.desi.DTO.FamiliasConMiembrosActivosDTO;
 import tuti.desi.entidades.Familia;
 
 public interface FamiliaService {
@@ -39,6 +40,12 @@ public interface FamiliaService {
 
 	//Busca un listado de nombres con la expresion "like" y activa = true
 	List<FamiliaDTO> filtrarNombreAndActivaTrue(String nombre);
+	
+	List<FamiliasConMiembrosActivosDTO> listadoFamiliasMiembrosActivos();
+
+	List<FamiliasConMiembrosActivosDTO> listadoFamiliasMiembrosActivosFiltroNombre(String nombre);
+
+	List<FamiliasConMiembrosActivosDTO> listadoFamiliasMiembrosActivosFiltroId(Long id);
 	
 	
 

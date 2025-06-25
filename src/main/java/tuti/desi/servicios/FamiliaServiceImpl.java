@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import tuti.desi.DTO.AsistidoDTO;
 import tuti.desi.DTO.FamiliaDTO;
+import tuti.desi.DTO.FamiliasConMiembrosActivosDTO;
 import tuti.desi.accesoDatos.FamiliaRepository;
 import tuti.desi.entidades.Familia;
 
@@ -191,6 +192,22 @@ public class FamiliaServiceImpl implements FamiliaService{
 		return familias.stream()
                 .map(this::familiaADTO)
                 .collect(Collectors.toList());
+	}
+
+	@Override
+	public List<FamiliasConMiembrosActivosDTO> listadoFamiliasMiembrosActivos() {
+	    return familiaRepository.listadoFamiliasConAsistidosActivos();
+	}
+	
+	
+	@Override
+	public List<FamiliasConMiembrosActivosDTO> listadoFamiliasMiembrosActivosFiltroNombre(String nombre) {
+	return familiaRepository.listadoFamiliasConAsistidosActivosPorNombre(nombre);
+	}
+	
+	@Override
+	public List<FamiliasConMiembrosActivosDTO> listadoFamiliasMiembrosActivosFiltroId(Long id) {
+	return familiaRepository.listadoFamiliasConAsistidosActivosPorId(id);
 	}
 	
 }

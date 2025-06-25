@@ -4,7 +4,7 @@ import java.util.List;
 
 import tuti.desi.DTO.ItemRecetaDTO;
 import tuti.desi.DTO.RecetaDTO;
-
+import tuti.desi.DTO.RecetasConItemsYCaloriasDTO;
 import tuti.desi.entidades.Receta;
 
 public interface RecetaService {
@@ -44,6 +44,8 @@ public interface RecetaService {
 	List<RecetaDTO> filtrarIdActivas(Long id);
 
 	List<RecetaDTO> filtrarNombreAndActivaTrue(String nombre);
+
+	List<RecetasConItemsYCaloriasDTO> listarRecetasConIngredientesActivosYCalorias();
 
 	
 	

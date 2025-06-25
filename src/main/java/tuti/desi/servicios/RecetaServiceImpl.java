@@ -7,7 +7,7 @@ import jakarta.transaction.Transactional;
 
 import tuti.desi.DTO.ItemRecetaDTO;
 import tuti.desi.DTO.RecetaDTO;
-
+import tuti.desi.DTO.RecetasConItemsYCaloriasDTO;
 import tuti.desi.accesoDatos.IngredienteRepository;
 import tuti.desi.accesoDatos.ItemRecetaRepository;
 import tuti.desi.accesoDatos.RecetaRepository;
@@ -248,6 +248,11 @@ public class RecetaServiceImpl implements RecetaService {
 	            .map(this::recetaADTO)
 	            .collect(Collectors.toList());
 	}
+	
+	@Override
+    public List<RecetasConItemsYCaloriasDTO> listarRecetasConIngredientesActivosYCalorias() {
+        return recetaRepository.listarRecetasConItemsActivosYCalorias();
+    }
 
     
 }

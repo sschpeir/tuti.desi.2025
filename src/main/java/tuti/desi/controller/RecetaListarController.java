@@ -16,6 +16,7 @@ import tuti.desi.DTO.AsistidoDTO;
 import tuti.desi.DTO.IngredienteDTO;
 import tuti.desi.DTO.ItemRecetaDTO;
 import tuti.desi.DTO.RecetaDTO;
+import tuti.desi.DTO.RecetasConItemsYCaloriasDTO;
 import tuti.desi.servicios.IngredienteService;
 import tuti.desi.servicios.RecetaService;
 
@@ -143,6 +144,13 @@ public class RecetaListarController {
 	    model.addAttribute("valor", valor);
 	    return "recetaListarActivas";
 	}
+	
+	@GetMapping("/solicitado")
+    public String mostrarFormularioSolicitado(Model model) {
+        List<RecetasConItemsYCaloriasDTO> recetas = recetaService.listarRecetasConIngredientesActivosYCalorias();
+        model.addAttribute("recetas", recetas);
+        return "recetaListarActivasConItemsYCalorias"; // Asegurate de que exista recetaForm.html en templates/
+    }
 
 
 }

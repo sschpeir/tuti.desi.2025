@@ -1,10 +1,12 @@
 package tuti.desi.accesoDatos;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import java.util.Optional;
 import java.util.List;
 
+import tuti.desi.DTO.RecetasConItemsYCaloriasDTO;
 import tuti.desi.entidades.Receta;
 
 @Repository
@@ -24,7 +26,6 @@ public interface RecetaRepository extends JpaRepository<Receta, Long> {
     
     // Buscar si existe la receta por nombre
     boolean existsByNombre(String nombre);
-
     
     //Listar recetas si activa = true
 	List<Receta> findByActivaTrue();
@@ -40,5 +41,23 @@ public interface RecetaRepository extends JpaRepository<Receta, Long> {
 	
 	//Listar por recetas parecidas al nombre
 	List<Receta> findByNombreLikeAndActivaTrue(String nombre);
+	
+	//Listado solicitado TP
+	@Query("""
+		    SELECT new tuti.desi.DTO.RecetasConItemsYCaloriasDTO(
+		        r.id,
+		        r.nombre,
+		        r.activa,
+		        SUM(i.calorias)
+		    )
+		    FROM Receta r
+		    JOIN r.items i
+		    WHERE r.activa = true
+		      AND i.activa = true
+		    GROUP BY r.id, r.nombre, r.activa
+		""")
+		List<RecetasConItemsYCaloriasDTO> listarRecetasConItemsActivosYCalorias();
+
+
 
 }

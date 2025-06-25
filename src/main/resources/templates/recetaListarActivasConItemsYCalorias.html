@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Listado de Recetas con Calorías</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f4f8;
+            padding: 30px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            margin-top: 30px;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .back-link {
+            margin-top: 20px;
+            display: block;
+            text-align: center;
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Recetas Activas con Total de Calorías</h1>
+
+<form th:action="@{/recetaListar/solicitado/filtro}" method="get" style="text-align: center; margin-bottom: 20px;">
+    <select name="tipo" style="padding: 8px; font-size: 14px;">
+        <option value="nombre" th:selected="${tipo == 'nombre'}">Nombre</option>
+        <option value="id" th:selected="${tipo == 'id'}">ID</option>
+    </select>
+
+    <input type="text" name="valor" placeholder="Buscar..." 
+           style="padding: 8px; width: 250px; font-size: 14px;"
+           th:value="${valor}" />
+
+    <button type="submit" style="padding: 8px 12px; font-size: 14px;">🔍 Buscar</button>
+</form>
+
+<table>
+    <thead>
+        <tr>
+            <th>ID Receta</th>
+            <th>Nombre</th>
+            <th>Total Calorías</th>
+			<th>Activa</th>
+			<th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="receta : ${recetas}">
+            <td th:text="${receta.id}">ID Receta</td>
+            <td th:text="${receta.nombre}">Nombre</td>
+            <td th:text="${receta.totalCalorias}">Total Calorías</td>
+			<td th:text="${receta.activa ? 'Sí' : 'No'}">Activa</td>
+			<td>
+			           <a th:href="@{/recetaEditar/{id}(id=${receta.id})}">✏️ Editar Receta</a>
+			           &nbsp;|&nbsp;
+					<span th:if="${receta.activa}">
+					       <a th:href="@{/recetaEditar/solicitado/{id}/deshabilitar(id=${receta.id})}"
+					          onclick="return confirm('¿Estás seguro de que querés deshabilitar esta receta?')">
+					           ❌ Deshabilitar
+					       </a>
+					   </span>
+					   <span th:unless="${receta.activa}">
+					       <a th:href="@{/recetaEditar/solicitado/{id}/habilitar(id=${receta.id})}"
+					          onclick="return confirm('¿Estás seguro de que querés habilitar esta receta?')">
+					           ✅ Habilitar
+					       </a>
+					   </span>
+			       </td>
+        </tr>
+    </tbody>
+</table>
+
+<a class="back-link" th:href="@{/recetaListar}">⬅ Volver al listado de todas las recetas</a>
+
+<a class="back-link" th:href="@{/inicio}">⬅ Volver al inicio</a>
+
+</body>
+</html>

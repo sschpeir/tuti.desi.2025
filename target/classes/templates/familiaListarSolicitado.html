@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Listado de Familias Activas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f8;
+            padding: 30px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            margin-top: 30px;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .back-link {
+            margin-top: 20px;
+            display: block;
+            text-align: center;
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Familias Activas con Miembros Asistidos</h1>
+
+<form th:action="@{/familiaListar/solicitado/filtro}" method="get" style="text-align: center; margin-bottom: 20px;">
+    <select name="tipo" style="padding: 8px; font-size: 14px;">
+        <option value="nombre" th:selected="${tipo == 'nombre'}">Nombre</option>
+        <option value="id" th:selected="${tipo == 'id'}">ID</option>
+    </select>
+
+    <input type="text" name="valor" placeholder="Buscar..." 
+           style="padding: 8px; width: 250px; font-size: 14px;"
+           th:value="${valor}" />
+
+    <button type="submit" style="padding: 8px 12px; font-size: 14px;">🔍 Buscar</button>
+</form>
+
+<table>
+    <thead>
+        <tr>
+            <th>ID Familia</th>
+            <th>Nombre</th>
+            <th>Fecha Registro</th>
+            <th>Activa</th>
+            <th>Miembros Activos</th>
+            <th>Última Asistencia</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="familia : ${familias}">
+            <td th:text="${familia.nroFamilia}">ID</td>
+            <td th:text="${familia.nombre}">Nombre</td>
+            <td th:text="${familia.fechaRegistro}">Fecha Registro</td>
+            <td th:text="${familia.activa}">Activa</td>
+            <td th:text="${familia.cantidadActivos}">Miembros Activos</td>
+            <td th:text="${familia.fechaUltimaAsistencia}">Última Asistencia</td>
+        </tr>
+    </tbody>
+</table>
+
+<a class="back-link" th:href="@{/inicio}">⬅ Volver al inicio</a>
+
+</body>
+</html>

@@ -51,7 +51,7 @@ public class AsistidoRegistrarController {
   		if (result.hasErrors()) {
   	        model.addAttribute("asistidoForm", asistidoForm);
   	        return "asistidoRegistrar";
-  	    }
+  	    	}
   		try {
   			AsistidoDTO asistidoDTO = new AsistidoDTO();
   			
@@ -70,14 +70,14 @@ public class AsistidoRegistrarController {
   			asistidoService.guardarAsistido(asistidoDTO);
   	        //Si guarda, pasa al index.html
   	        return "redirect:/inicio";
-  	    } catch (IllegalArgumentException e) {
-  	        model.addAttribute("error", e.getMessage());
-  	        model.addAttribute("asistidoForm", asistidoForm); 
-  	        List<FamiliaDTO> familias = familiaService.listarTodas();
-  	        model.addAttribute("familias", familias);
-  	        //Si no guarda, deja los datos cargados y devuelve error que se lo agarra con Thymeleaf
-  	        return "asistidoRegistrar"; 
-  	    }
+	  	    } catch (IllegalArgumentException e) {
+	  	        model.addAttribute("error", e.getMessage());
+	  	        model.addAttribute("asistidoForm", asistidoForm); 
+	  	        List<FamiliaDTO> familias = familiaService.listarTodas();
+	  	        model.addAttribute("familias", familias);
+	  	        //Si no guarda, deja los datos cargados y devuelve error que se lo agarra con Thymeleaf
+	  	        return "asistidoRegistrar"; 
+	  	    }
   	}	
 
 //CHECADO 24-06-2025 	
@@ -96,7 +96,7 @@ public class AsistidoRegistrarController {
 
   	    } catch (IllegalArgumentException e) {
   	        model.addAttribute("error", e.getMessage());
-  	        return "familiaError";
+  	        return "asistidoError";
   	    }
   	}
 
@@ -113,6 +113,7 @@ public class AsistidoRegistrarController {
 
   	    try {
   	        AsistidoDTO asistidoDTO = new AsistidoDTO();
+  	        
   	        asistidoDTO.setId(asistidoForm.getId());
   	        asistidoDTO.setActiva(asistidoForm.isActiva());
   	        asistidoDTO.setDni(asistidoForm.getDni());

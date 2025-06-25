@@ -1,10 +1,13 @@
 package tuti.desi.accesoDatos;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import java.util.Optional;
 import java.util.List;
 
+import tuti.desi.DTO.FamiliasConMiembrosActivosDTO;
 import tuti.desi.entidades.Familia;
 
 
@@ -38,5 +41,58 @@ public interface FamiliaRepository extends JpaRepository<Familia, Long> {
 	List<Familia> findByIdAndActivaTrue(Long id);
 
 	List<Familia> findByNombreLikeAndActivaTrue(String nombre);
+	
+	@Query("""
+		    SELECT new tuti.desi.DTO.FamiliasConMiembrosActivosDTO(
+		        f.id,
+		        f.nombre,
+		        f.fechaRegistro,
+		        f.activa,
+		        COUNT(a),
+		        (SELECT MAX(e.fechaEntrega) FROM EntregaAsistencia e WHERE e.familia.id = f.id)
+		    )
+		    FROM Familia f
+		    JOIN Asistido a ON a.familia.id = f.id
+		    WHERE f.activa = true AND a.activa = true
+		    GROUP BY f.id, f.nombre, f.fechaRegistro, f.activa
+		""")
+		List<FamiliasConMiembrosActivosDTO> listadoFamiliasConAsistidosActivos();
+	
+	
+	
+	@Query("""
+		    SELECT new tuti.desi.DTO.FamiliasConMiembrosActivosDTO(
+		        f.id,
+		        f.nombre,
+		        f.fechaRegistro,
+		        f.activa,
+		        COUNT(a),
+		        (SELECT MAX(e.fechaEntrega) FROM EntregaAsistencia e WHERE e.familia.id = f.id)
+		    )
+		    FROM Familia f
+		    JOIN Asistido a ON a.familia.id = f.id
+		    WHERE f.activa = true AND a.activa = true AND f.nombre LIKE %:nombreFiltro%
+		    GROUP BY f.id, f.nombre, f.fechaRegistro, f.activa
+		""")
+		List<FamiliasConMiembrosActivosDTO> listadoFamiliasConAsistidosActivosPorNombre(@Param("nombreFiltro") String nombreFiltro);
+
+	@Query("""
+		    SELECT new tuti.desi.DTO.FamiliasConMiembrosActivosDTO(
+		        f.id,
+		        f.nombre,
+		        f.fechaRegistro,
+		        f.activa,
+		        COUNT(a),
+		        (SELECT MAX(e.fechaEntrega) FROM EntregaAsistencia e WHERE e.familia.id = f.id)
+		    )
+		    FROM Familia f
+		    JOIN Asistido a ON a.familia.id = f.id
+		    WHERE f.activa = true AND a.activa = true AND f.id = :id
+		    GROUP BY f.id, f.nombre, f.fechaRegistro, f.activa
+		""")
+		List<FamiliasConMiembrosActivosDTO> listadoFamiliasConAsistidosActivosPorId(@Param("id") Long id);
+
+
+
     
 }

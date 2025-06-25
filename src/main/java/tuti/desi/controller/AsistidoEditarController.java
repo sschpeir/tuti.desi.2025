@@ -69,7 +69,7 @@ public class AsistidoEditarController {
   	//Si mandas un POST en un formulario, entonces agarra el modelo del form, arma un objeto RecetaDTO y lo manda al Service.
   	@PostMapping
   	public String guardarFormularioAsistido(@Valid @ModelAttribute("asistidoForm") AsistidoForm asistidoForm, BindingResult result, Model model) {
-  		AsistidoDTO asistidoDTO = new AsistidoDTO();
+  		
   		
   		if (result.hasErrors()) {
   	        model.addAttribute("asistidoForm", asistidoForm);
@@ -77,6 +77,8 @@ public class AsistidoEditarController {
   	        return "asistidoRegistrarFamilia";
   	    }
   		try {
+  			AsistidoDTO asistidoDTO = new AsistidoDTO();
+  			
   	        asistidoDTO.setId(asistidoForm.getId());
   	        asistidoDTO.setActiva(asistidoForm.isActiva());
   	        asistidoDTO.setDni(asistidoForm.getDni());
@@ -104,6 +106,7 @@ public class AsistidoEditarController {
   	@GetMapping("/{id}/deshabilitar")
 	public String deshabilitarAsistido(@PathVariable("id") Long id) {
 	    asistidoService.inhabilitar(id);
+	    
 	    return "redirect:/asistidoListar";
 	}
 
@@ -111,7 +114,8 @@ public class AsistidoEditarController {
 	@GetMapping("/{id}/habilitar")
 	public String habilitarAsistido(@PathVariable("id") Long id) {
 		asistidoService.habilitar(id);
-	    return "redirect:/asistidoListar";
+	    
+		return "redirect:/asistidoListar";
 	}
 	
 	//Endpoint para deshabilitar asistidos desde familias, para redireccionar
@@ -121,6 +125,7 @@ public class AsistidoEditarController {
 	    PersonaDTO personaDTO = asistidoService.buscarPorId(id);
 	    if (personaDTO instanceof AsistidoDTO asistidoDTO && asistidoDTO.getFamiliaId() != null) {
 	        Long familiaId = asistidoDTO.getFamiliaId();
+	        
 	        return "redirect:/familiaListar/" + familiaId + "/miembros";
 	    }
 	    // Si no es un Asistido o no tiene familia asociada
@@ -134,6 +139,7 @@ public class AsistidoEditarController {
 	    PersonaDTO personaDTO = asistidoService.buscarPorId(id);
 	    if (personaDTO instanceof AsistidoDTO asistidoDTO && asistidoDTO.getFamiliaId() != null) {
 	        Long familiaId = asistidoDTO.getFamiliaId();
+	        
 	        return "redirect:/familiaListar/" + familiaId + "/miembros";
 	    }
 	    // Si no es un Asistido o no tiene familia asociada

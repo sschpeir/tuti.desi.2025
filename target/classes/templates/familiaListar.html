@@ -64,18 +64,7 @@
 
 <h1>Familias Registradas</h1>
 
-<form th:action="@{/familiaListar/filtro}" method="get" style="text-align: center; margin-bottom: 20px;">
-    <select name="tipo" style="padding: 8px; font-size: 14px;">
-        <option value="nombre" th:selected="${tipo == 'nombre'}">Nombre</option>
-        <option value="id" th:selected="${tipo == 'id'}">ID</option>
-    </select>
 
-    <input type="text" name="valor" placeholder="Buscar..." 
-           style="padding: 8px; width: 250px; font-size: 14px;"
-           th:value="${valor}" />
-
-    <button type="submit" style="padding: 8px 12px; font-size: 14px;">🔍 Buscar</button>
-</form>
 
 <table>
     <thead>

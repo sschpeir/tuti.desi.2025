@@ -19,11 +19,7 @@ public class FamiliaDTO {
 	private boolean activa;
 	
 	private List<AsistidoDTO> integrantes;
-	
-	//metodo auxiliar para vista
-	private Integer cantidadActivos;
-	
-	
+
 	//GETTERS Y SETTERS DTO
 
 	public Long getNroFamilia() {
@@ -64,14 +60,6 @@ public class FamiliaDTO {
 
 	public void setIntegrantes(List<AsistidoDTO> integrantes) {
 		this.integrantes = integrantes;
-	}
-	
-	public Integer getCantidadActivos() {
-		return cantidadActivos;
-	}
-
-	public void setCantidadActivos(Integer cantidadActivos) {
-		this.cantidadActivos = cantidadActivos;
 	}
 
 	//Constructor vacio

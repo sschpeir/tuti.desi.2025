@@ -93,7 +93,7 @@
 </head>
 <body>
 
-<form th:action="@{/asistidoEditar}" th:object="${asistidoDTO}" method="post">
+<form th:action="@{/asistidoEditar}" th:object="${asistidoForm}" method="post">
     <h1>Formulario de edicion de asistidos</h1>
 
     <p th:if="${error}" th:text="${error}" class="error"></p>

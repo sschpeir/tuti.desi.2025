@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import tuti.desi.DTO.FamiliaDTO;
+import tuti.desi.DTO.FamiliasConMiembrosActivosDTO;
 import tuti.desi.DTO.RecetaDTO;
 import tuti.desi.servicios.FamiliaService;
 
@@ -34,7 +35,7 @@ public class FamiliaListarController {
         return "familiaListar";
     }
 
-	//CHECADO X -- VER COMO LISTADO O VER COMO FILTRAR
+	//CHECADO X
 	
 	//Lista de familias activas
 	@GetMapping("/activas")
@@ -48,14 +49,6 @@ public class FamiliaListarController {
 	
 	@GetMapping("/{id}/miembros")
 	public String listarMiembros(@PathVariable Long id, Model model) {
-	    FamiliaDTO familiaDTO = familiaService.buscarPorId(id);
-	    model.addAttribute("familiaDTO", familiaDTO);
-	    model.addAttribute("miembros", familiaDTO.getIntegrantes());
-	    return "familiaListarAsistidos";
-	}
-	
-	@GetMapping("/{id}/miembros/activos")
-	public String listarMiembrosActivos(@PathVariable Long id, Model model) {
 	    FamiliaDTO familiaDTO = familiaService.buscarPorId(id);
 	    model.addAttribute("familiaDTO", familiaDTO);
 	    model.addAttribute("miembros", familiaDTO.getIntegrantes());
@@ -85,25 +78,34 @@ public class FamiliaListarController {
 	}
 	
 	//Filtro del buscador en activas
-	@GetMapping("/activas/filtro")
-	public String filtrarFamiliasActivas(@RequestParam("tipo") String tipo,@RequestParam("valor") String valor,Model model) {
-	    List<FamiliaDTO> familias = familiaService.listarFamiliasActivas();
+	
+	
+	@GetMapping("/solicitado")
+    public String cargarFormularioSolicitado(Model model) {
+		List<FamiliasConMiembrosActivosDTO> familias = familiaService.listadoFamiliasMiembrosActivos();
+        model.addAttribute("familias", familias);
+        return "familiaListarSolicitado";
+    }
+	
+	@GetMapping("/solicitado/filtro")
+	public String filtrarFamiliaSolicitadoFiltro(@RequestParam("tipo") String tipo,@RequestParam("valor") String valor,Model model) {
+	    List<FamiliasConMiembrosActivosDTO> familias = familiaService.listadoFamiliasMiembrosActivos();
 
 	    if ("id".equalsIgnoreCase(tipo)) {
 	        try {
 	            Long id = Long.parseLong(valor);
-	            familias = familiaService.filtrarIdActivas(id);
+	            familias = familiaService.listadoFamiliasMiembrosActivosFiltroId(id);
 	        } catch (NumberFormatException e) {
 	            familias = List.of(); // si no es un número válido
 	        }
 	    } else {
-	        familias = familiaService.filtrarNombreAndActivaTrue(valor);
+	        familias = familiaService.listadoFamiliasMiembrosActivosFiltroNombre(valor);
 	    }
 
 	    model.addAttribute("familias", familias);
 	    model.addAttribute("tipo", tipo);
 	    model.addAttribute("valor", valor);
-	    return "familiaListarActivas";
+	    return "familiaListarSolicitado";
 	}
 	
 }

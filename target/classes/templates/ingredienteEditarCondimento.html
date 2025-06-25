@@ -52,7 +52,7 @@
 </head>
 <body>
 
-<form th:action="@{/ingredienteEditar}" th:object="${ingredienteDTO}" method="post">
+<form th:action="@{/ingredienteEditar}" th:object="${ingredienteForm}" method="post">
     <h2>Modificar Ingrediente</h2>
 
 	<p th:if="${error}" th:text="${error}" class="error"></p>

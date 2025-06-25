@@ -1,7 +1,5 @@
 package tuti.desi.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,8 +10,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import jakarta.validation.Valid;
-import tuti.desi.DTO.AsistidoDTO;
-import tuti.desi.DTO.FamiliaDTO;
 import tuti.desi.DTO.IngredienteDTO;
 import tuti.desi.servicios.IngredienteService;
 
@@ -40,18 +36,21 @@ public class IngredienteRegistrarController {
 	@PostMapping
 	public String guardarFormulario(@Valid @ModelAttribute("ingredienteForm") IngredienteForm ingredienteForm, BindingResult result, Model model){
 		//Le metemos un try-catch por los errores, ejemplo: si hay otra con el mismo nombre
-		IngredienteDTO ingredienteDTO = new IngredienteDTO();
+		
 		if (result.hasErrors()) {
   	        model.addAttribute("ingredienteForm", ingredienteForm);
   	        return "ingredienteRegistrar";
   	    }
 		try {
+			IngredienteDTO ingredienteDTO = new IngredienteDTO();
+			
 			ingredienteDTO.setId(ingredienteForm.getId());
 			ingredienteDTO.setActiva(ingredienteForm.isActiva());
 			ingredienteDTO.setNombre(ingredienteForm.getNombre());
 			ingredienteDTO.setCalorias(ingredienteForm.getCalorias());
 			ingredienteDTO.setPrecioActual(ingredienteForm.getPrecioActual());
 			ingredienteDTO.setStockDisponible(ingredienteForm.getStockDisponible());
+			ingredienteDTO.setTipoCondimento(ingredienteForm.getTipoIngrediente());
   			
 			ingredienteService.guardar(ingredienteDTO);
   	        //Si guarda, pasa al ingredienteListar
