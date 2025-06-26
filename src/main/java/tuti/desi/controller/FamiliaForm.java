@@ -5,12 +5,15 @@ import java.time.LocalDate;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import jakarta.validation.constraints.NotBlank;
+
 public class FamiliaForm {
 	
 	//Propiedades
 
 	private Long nroFamilia;
 	
+	@NotBlank (message = "El nombre de la familia no puede estar vacio")
 	private String nombre;
 	
 	@DateTimeFormat(pattern = "yyyy-MM-dd")

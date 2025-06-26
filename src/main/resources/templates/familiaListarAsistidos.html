@@ -2,28 +2,37 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Lista de Familias</title>
+    <title>Miembros de la Familia</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            padding: 20px;
-            background-color: #f9f9f9;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 40px;
+            background-color: #f4f6f8;
         }
 
         h1 {
-            color: #333;
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .info-familia {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 18px;
+            color: #555;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
             background-color: #fff;
-            box-shadow: 0 0 5px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
 
         th, td {
             padding: 12px 15px;
-            border: 1px solid #ddd;
+            border: 1px solid #dee2e6;
             text-align: left;
         }
 
@@ -33,10 +42,12 @@
         }
 
         tr:nth-child(even) {
-            background-color: #f2f2f2;
+            background-color: #f8f9fa;
         }
 
         a {
+            display: inline-block;
+            margin-top: 20px;
             text-decoration: none;
             color: #007bff;
         }
@@ -44,16 +55,15 @@
         a:hover {
             text-decoration: underline;
         }
-
-        .button-add {
-            display: inline-block;
-            margin-top: 15px;
-            padding: 10px 15px;
-            background-color: #28a745;
-            color: white;
-            text-decoration: none;
-            border-radius: 4px;
-        }
+		.button-add {
+				            display: inline-block;
+				            margin-top: 15px;
+				            padding: 10px 15px;
+				            background-color: #28a745;
+				            color: white;
+				            text-decoration: none;
+				            border-radius: 4px;
+				        }
 
         .button-add:hover {
             background-color: #218838;
@@ -62,70 +72,61 @@
 </head>
 <body>
 
-<h1>Listado de Familias Activas</h1>
+<h1>Miembros de familia</h1>
 
-<form th:action="@{/familiaListar/activas/filtro}" method="get" style="text-align: center; margin-bottom: 20px;">
-    <select name="tipo" style="padding: 8px; font-size: 14px;">
-        <option value="nombre" th:selected="${tipo == 'nombre'}">Nombre</option>
-        <option value="id" th:selected="${tipo == 'id'}">ID</option>
-    </select>
-
-    <input type="text" name="valor" placeholder="Buscar..." 
-           style="padding: 8px; width: 250px; font-size: 14px;"
-           th:value="${valor}" />
-
-    <button type="submit" style="padding: 8px 12px; font-size: 14px;">🔍 Buscar</button>
-</form>
+<div class="info-familia">
+    <p th:text="'Familia: ' + ${familiaDTO.nombre}"></p>
+    <p th:text="'Fecha de Registro: ' + ${familiaDTO.fechaRegistro}"></p>
+</div>
 
 <table>
     <thead>
-    <tr>
-        <th>Numero de Familia</th>
-        <th>Nombre</th>
-        <th>Fecha de Registro</th>
-        <th>Activa</th>
-        <th>Acciones</th>
-    </tr>
+        <tr>
+            <th>DNI</th>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Domicilio</th>
+			<th>Fecha de Nacimiento</th>
+            <th>Ocupación</th>
+			<th>Fecha de Registro</th>
+			<th>Activo</th>
+			<th>Acciones</th>
+        </tr>
     </thead>
     <tbody>
-    <tr th:each="familia : ${familias}">
-        <td th:text="${familia.nroFamilia}">ID</td>
-        <td th:text="${familia.nombre}">Nombre</td>
-        <td th:text="${familia.fechaRegistro}">Fecha</td>
-        <td th:text="${familia.activa ? 'Sí' : 'No'}">Activa</td>
-        <td>
-            <a th:href="@{/asistidoRegistrar/familia/{id}(id=${familia.nroFamilia})}">👤 Agregar Persona</a>
-            &nbsp;|&nbsp;
-            <a th:href="@{/familiaListar/{id}/miembros(id=${familia.nroFamilia})}">👥 Ver Miembros</a>
-            &nbsp;|&nbsp;
-            <a th:href="@{/familiaEditar/{id}(id=${familia.nroFamilia})}">✏️ Editar Familia</a>
-            &nbsp;|&nbsp;
-			<span th:if="${familia.activa}">
-			       <a th:href="@{/familiaEditar/{id}/deshabilitar(id=${familia.nroFamilia})}"
-			          onclick="return confirm('¿Estás seguro de que querés deshabilitar esta familia?')">
-			           ❌ Deshabilitar
-			       </a>
-			   </span>
-			   <span th:unless="${familia.activa}">
-			       <a th:href="@{/familiaEditar/{id}/habilitar(id=${familia.nroFamilia})}"
-			          onclick="return confirm('¿Estás seguro de que querés habilitar esta familia?')">
-			           ✅ Habilitar
-			       </a>
-			   </span>
-        </td>
-    </tr>
+        <tr th:each="persona : ${familiaDTO.integrantes}">
+            <td th:text="${persona.dni}">DNI</td>
+            <td th:text="${persona.nombre}">Nombre</td>
+            <td th:text="${persona.apellido}">Apellido</td>
+            <td th:text="${persona.domicilio}">Domicilio</td>
+			<td th:text="${persona.fechaNacimiento}">Fecha de Nacimiento</td>
+            <td th:text="${persona.ocupacion}">Ocupación</td>
+			<td th:text="${persona.fechaRegistro}">Fecha de Registro</td>
+			<td th:text="${persona.activa ? 'Sí' : 'No'}">Activo</td>
+			<td>            
+	            <a th:href="@{/asistidoEditar/{id}(id=${persona.id})}">✏️ Editar Asistido</a>
+	            &nbsp;|&nbsp;
+				<span th:if="${persona.activa}">
+				       <a th:href="@{/asistidoEditar/{id}/familia/deshabilitar(id=${persona.id})}"
+				          onclick="return confirm('¿Estás seguro de que querés deshabilitar esta familia?')">
+				           ❌ Deshabilitar
+				       </a>
+				   </span>
+				   <span th:unless="${persona.activa}">
+				       <a th:href="@{/asistidoEditar/{id}/familia/habilitar(id=${persona.id})}"
+				          onclick="return confirm('¿Estás seguro de que querés habilitar esta familia?')">
+				           ✅ Habilitar
+				       </a>
+				   </span>
+	        </td>
+        </tr>
     </tbody>
 </table>
 
-<br/>
-<a class="button-add" th:href="@{/familiaRegistrar}">➕ Cargar nueva familia</a>
-<br/>
-<br/>
-<a class="button-add" th:href="@{/familiaListar}">👥 Ver Todas Las Familias</a>
-<br/>
+<a class="button-add" th:href="@{/asistidoRegistrar/familia/{id}(id=${familiaDTO.nroFamilia})}">➕ 👤 Cargar miembros</a>
 <br/>
 
-<a class="button-add" th:href="@{/inicio}">← Volver al inicio</a>
+<a class="button-add" th:href="@{/familiaListar}">⬅ Volver a familias</a>
 
 </body>
 </html>

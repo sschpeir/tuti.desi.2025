@@ -1,11 +1,15 @@
 package tuti.desi.controller;
 
+import jakarta.validation.constraints.NotBlank;
+
 public class RecetaForm {
 
 	private Long id;
 	
+	@NotBlank (message = "El nombre de la receta no puede estar vacio")
 	private String nombre;
 	
+	@NotBlank (message = "Agregue una descripcion")
 	private String descripcion;
 	
 	private boolean activa = true;

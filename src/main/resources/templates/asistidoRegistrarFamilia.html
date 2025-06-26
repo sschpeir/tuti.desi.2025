@@ -133,9 +133,15 @@
     </select>
 	<span th:if="${#fields.hasErrors('ocupacion')}" th:errors="*{ocupacion}" class="error"></span>
 
+	<label>Fecha de Registro:</label>
+	  <input type="date" th:field="*{fechaRegistro}" th:attr="disabled=${bloquear}" />
+	  <span th:if="${#fields.hasErrors('fechaRegistro')}" th:errors="*{fechaRegistro}" class="error"></span>
+
+	
 	<p><strong>Familia:</strong> <span th:text="${familiaSeleccionada.nombre}"></span></p>
 	<input type="hidden" th:field="*{familiaId}" />
 	
+
 
     <div class="checkbox-group">
         <input type="checkbox" th:field="*{activa}" id="activaCheckbox" th:attr="disabled=${bloquear}" />

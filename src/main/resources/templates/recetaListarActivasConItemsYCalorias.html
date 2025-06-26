@@ -6,7 +6,7 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f2f4f8;
+            background-color: rgb(183, 111, 255);
             padding: 30px;
         }
 
@@ -48,6 +48,20 @@
 
         .back-link:hover {
             text-decoration: underline;
+        }
+		
+		.button-add {
+		            display: inline-block;
+		            margin-top: 15px;
+		            padding: 10px 15px;
+		            background-color: #28a745;
+		            color: white;
+		            text-decoration: none;
+		            border-radius: 4px;
+		        }
+
+        .button-add:hover {
+            background-color: #218838;
         }
     </style>
 </head>
@@ -104,9 +118,10 @@
     </tbody>
 </table>
 
-<a class="back-link" th:href="@{/recetaListar}">⬅ Volver al listado de todas las recetas</a>
-
-<a class="back-link" th:href="@{/inicio}">⬅ Volver al inicio</a>
+<a class="button-add" th:href="@{/recetaListar}">⬅ Volver al listado de todas las recetas</a>
+<br/>
+<br/>
+<a class="button-add" th:href="@{/inicio}">⬅ Volver al inicio</a>
 
 </body>
 </html>

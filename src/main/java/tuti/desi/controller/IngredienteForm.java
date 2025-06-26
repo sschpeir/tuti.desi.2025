@@ -1,11 +1,16 @@
 package tuti.desi.controller;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.PositiveOrZero;
+
 public class IngredienteForm {
 
     private Long id;
-
+    
+    @NotBlank (message = "El nombre del ingrediente no puede estar vacio")
     private String nombre;
     
+    @PositiveOrZero (message = "El valor de las calorias no puede ser negativo")
     private Integer calorias;
     
     private boolean activa = true;
@@ -14,7 +19,10 @@ public class IngredienteForm {
     private String tipoIngrediente;
 
     // Solo si el tipo es "Producto"
+    @PositiveOrZero (message = "El precio del producto no puede ser negativo")
     private Float precioActual;
+    
+    @PositiveOrZero (message = "El stock del producto no puede ser negativo")
     private Float stockDisponible;
 
     // Getters y Setters

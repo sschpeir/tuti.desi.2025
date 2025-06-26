@@ -1,15 +1,14 @@
 package tuti.desi.servicios;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import tuti.desi.DTO.AsistidoDTO;
 import tuti.desi.DTO.FamiliaDTO;
 import tuti.desi.DTO.FamiliasConMiembrosActivosDTO;
+import tuti.desi.DTO.FamiliasConMiembrosDTO;
 import tuti.desi.accesoDatos.FamiliaRepository;
 import tuti.desi.entidades.Familia;
 
@@ -68,19 +67,6 @@ public class FamiliaServiceImpl implements FamiliaService{
   	        ))
   	        .collect(Collectors.toList());
   	}
-    
-    //Metodo de obtencion de todas las familias activas
-    public List<FamiliaDTO> listarFamiliasActivas() {
-    	List<Familia> familias = familiaRepository.findByActivaTrue();
-        return familias.stream()
-    	        .map(f -> new FamiliaDTO(
-    	            f.getId(),
-    	            f.getNombre(),
-    	            f.getFechaRegistro(),
-    	            f.isActiva()
-    	        ))
-    	        .collect(Collectors.toList());
-	}
     
     //Metodo para buscar un objeto familia por ID y devolverlo como DTO con sus integrantes
     @Override
@@ -158,7 +144,32 @@ public class FamiliaServiceImpl implements FamiliaService{
 
 	    return familiaDTO;
 	}
-	//Metodo para buscador a traves de familiaListar
+	
+	//Metodo general para buscador en blanco
+	@Override
+	public List<FamiliasConMiembrosActivosDTO> listadoFamiliasMiembrosActivos() {
+	    return familiaRepository.listadoFamiliasConAsistidosActivos();
+	}
+	
+	//Metodo para buscador por parametro nombre
+	@Override
+	public List<FamiliasConMiembrosActivosDTO> listadoFamiliasMiembrosActivosFiltroNombre(String nombre) {
+	return familiaRepository.listadoFamiliasConAsistidosActivosPorNombre(nombre);
+	}
+	
+	//Metodo para buscador por parametro id
+	@Override
+	public List<FamiliasConMiembrosActivosDTO> listadoFamiliasMiembrosActivosFiltroId(Long id) {
+	return familiaRepository.listadoFamiliasConAsistidosActivosPorId(id);
+	}
+	
+	
+	@Override
+	public List<FamiliasConMiembrosDTO> listadoFamiliasConAsistidosTotales() {
+		return familiaRepository.listadoFamiliasConAsistidos();
+	}
+	
+	//EN DESUSO - Metodo para buscador a traves de familiaListar
 	@Override
 	public List<FamiliaDTO> filtrarId(Long id) {
 	    return familiaRepository.findById(id)
@@ -166,7 +177,7 @@ public class FamiliaServiceImpl implements FamiliaService{
 	            .orElse(List.of());
 	}
 	
-	//Metodo para buscador a traves de familiaListar
+	//EN DESUSO - Metodo para buscador a traves de familiaListar
 	@Override
 	public List<FamiliaDTO> filtrarNombre(String nombre) {
 	    List<Familia> familias = familiaRepository.findByNombreLike("%" + nombre + "%");
@@ -176,7 +187,7 @@ public class FamiliaServiceImpl implements FamiliaService{
 	}
 
 	
-	//Metodo para buscador a traves de familiaListar/activas
+	//EN DESUSO - Metodo para buscador a traves de familiaListar/activas
 	@Override
 	public List<FamiliaDTO> filtrarIdActivas(Long id) {
 		List<Familia> familias = familiaRepository.findByIdAndActivaTrue(id);
@@ -185,7 +196,7 @@ public class FamiliaServiceImpl implements FamiliaService{
                 .collect(Collectors.toList());
 	}
 
-	//Metodo para buscador a traves de familiaListar/activas
+	//EN DESUSO - Metodo para buscador a traves de familiaListar/activas
 	@Override
 	public List<FamiliaDTO> filtrarNombreAndActivaTrue(String nombre) {
 		List<Familia> familias = familiaRepository.findByNombreLikeAndActivaTrue("%" + nombre + "%");
@@ -193,22 +204,21 @@ public class FamiliaServiceImpl implements FamiliaService{
                 .map(this::familiaADTO)
                 .collect(Collectors.toList());
 	}
+	
+    //EN DESUSO - Metodo de obtencion de todas las familias activas
+    public List<FamiliaDTO> listarFamiliasActivas() {
+    	List<Familia> familias = familiaRepository.findByActivaTrue();
+        return familias.stream()
+    	        .map(f -> new FamiliaDTO(
+    	            f.getId(),
+    	            f.getNombre(),
+    	            f.getFechaRegistro(),
+    	            f.isActiva()
+    	        ))
+    	        .collect(Collectors.toList());
+	}
 
-	@Override
-	public List<FamiliasConMiembrosActivosDTO> listadoFamiliasMiembrosActivos() {
-	    return familiaRepository.listadoFamiliasConAsistidosActivos();
-	}
-	
-	
-	@Override
-	public List<FamiliasConMiembrosActivosDTO> listadoFamiliasMiembrosActivosFiltroNombre(String nombre) {
-	return familiaRepository.listadoFamiliasConAsistidosActivosPorNombre(nombre);
-	}
-	
-	@Override
-	public List<FamiliasConMiembrosActivosDTO> listadoFamiliasMiembrosActivosFiltroId(Long id) {
-	return familiaRepository.listadoFamiliasConAsistidosActivosPorId(id);
-	}
+
 	
 }
 

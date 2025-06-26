@@ -22,10 +22,6 @@ public interface AsistidoService {
 
 	PersonaDTO buscarPorId(Long id);
 
-	List<AsistidoDTO> listarAsistidosSinFamilia();
-
-	List<AsistidoDTO> listarFiltrado(boolean soloActivos, boolean sinFamilia);
-
 	AsistidoDTO asistidoADTO(Asistido asistido);
 		
 }

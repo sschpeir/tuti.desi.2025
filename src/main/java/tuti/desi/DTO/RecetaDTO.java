@@ -17,8 +17,6 @@ public class RecetaDTO {
 	//Evita problemas de nulidad cuando iteramos
 	private List<ItemRecetaDTO> items = new ArrayList<>();
 
-	
-	List<Object> preparacion;
 
 	public Long getId() {
 		return id;
@@ -60,19 +58,13 @@ public class RecetaDTO {
 		this.items = items;
 	}
 
-	public List<Object> getPreparacion() {
-		return preparacion;
-	}
 
-	public void setPreparacion(List<Object> preparacion) {
-		this.preparacion = preparacion;
-	}
-	
+	//Contructor vacio
 
 	public RecetaDTO() {
 	}
 
-	//Constructor para las listas complejas
+	/*//EN DESUSO - Constructor para las listas complejas
 	
 	public RecetaDTO(Long id, String nombre, String descripcion, boolean activa, List<ItemRecetaDTO> items) {
 	    this.id = id;
@@ -89,6 +81,6 @@ public class RecetaDTO {
 	    this.nombre = nombre;
 	    this.descripcion = descripcion;
 	    this.activa = activa;
-	}
+	}*/
 
 }

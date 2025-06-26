@@ -31,24 +31,24 @@ public class AsistidoServiceImpl implements AsistidoService{
     private FamiliaRepository familiaRepository;
 
 	
-	//Guardamos asistidos por otro lado:
+	//Guarda asistido
 	public Asistido guardarAsistido(AsistidoDTO asistidoDTO) {
 	    boolean esEdicion = asistidoDTO.getId() != null;
 	    Asistido asistido;
 
 	    if (esEdicion) {
-	        // Buscar el asistido existente
+	        // Busca si existe la eprsona como asistido
 	        asistido = (Asistido) personaRepository.findById(asistidoDTO.getId())
 	            .orElseThrow(() -> new IllegalArgumentException("No se encontró el asistido con ID: " + asistidoDTO.getId()));
 
-	        // Validar si se cambió el DNI y evitar duplicados
+	        // valida si cambiamos DNI
 	        if (!asistido.getDni().equals(asistidoDTO.getDni()) &&
 	            personaRepository.existsByDni(asistidoDTO.getDni())) {
 	            throw new IllegalArgumentException("Ya existe otra persona con ese DNI");
 	        }
 
 	    } else {
-	        // Alta nueva: validar DNI único
+	        // Si es un alta nueva, valida el dni
 	        if (personaRepository.existsByDni(asistidoDTO.getDni())) {
 	            throw new IllegalArgumentException("Ya existe una persona con ese DNI");
 	        }
@@ -77,71 +77,8 @@ public class AsistidoServiceImpl implements AsistidoService{
 
 	    return personaRepository.save(asistido);
 	}
-
-	
-	//Listar todos los asistidos
-	 @Override
-	 public List<AsistidoDTO> listarTodosAsistidos() {
-	     List<Asistido> asistidos = asistidoRepository.findAll();
-
-	     return asistidos.stream()
-	         .map(asistido -> {
-	             AsistidoDTO asitidoDTO = new AsistidoDTO(
-	                 asistido.getId(),
-	                 asistido.isActiva(),
-	                 asistido.getNombre(),
-	                 asistido.getApellido(),
-	                 asistido.getDni(),
-	                 asistido.getFechaNacimiento(),
-	                 asistido.getDomicilio(),
-	                 asistido.getOcupacion(),
-	                 asistido.getFamilia() != null ? asistido.getFamilia().getId() : null,
-	                 asistido.getFechaRegistroAsistido()
-	             );
-
-	             // Agrega el nombre de la familia al DTO
-	             if (asistido.getFamilia() != null) {
-	            	 asitidoDTO.setFamiliaNombre(asistido.getFamilia().getNombre());
-	             }
-
-	             return asitidoDTO;
-	         })
-	         .collect(Collectors.toList());
-	 }
-	
-	 //Listar todos los asistidos activos
-	 @Override
-	 public List<AsistidoDTO> listarAsistidosActivos() {
-	     List<Persona> personas = personaRepository.findByActivaTrue();
-
-	     return personas.stream()
-	         .filter(p -> p instanceof Asistido)
-	         .map(p -> {
-	             Asistido asistido = (Asistido) p;
-	             AsistidoDTO asistidoDTO = new AsistidoDTO(
-	                 asistido.getId(),
-	                 asistido.isActiva(),
-	                 asistido.getNombre(),
-	                 asistido.getApellido(),
-	                 asistido.getDni(),
-	                 asistido.getFechaNacimiento(),
-	                 asistido.getDomicilio(),
-	                 asistido.getOcupacion(),
-	                 asistido.getFamilia() != null ? asistido.getFamilia().getId() : null,
-	                 asistido.getFechaRegistroAsistido()
-	             );
-
-	             if (asistido.getFamilia() != null) {
-	            	 asistidoDTO.setFamiliaNombre(asistido.getFamilia().getNombre());
-	             }
-
-	             return asistidoDTO;
-	         })
-	         .collect(Collectors.toList());
-	 }
 		
-		
-	 //Funcion para inhabilitar asistidos
+	//Funcion para inhabilitar asistidos
 	 @Override
     public void inhabilitar(Long id) {
 	 		personaRepository.findById(id).ifPresent(asistido -> {
@@ -183,57 +120,8 @@ public class AsistidoServiceImpl implements AsistidoService{
 	    );
 
 	}
-	
-	
-	//Para prueba
-	@Override
-	public List<AsistidoDTO> listarAsistidosSinFamilia() {
-	    return asistidoRepository.findByFamiliaIsNull()
-	            .stream()
-	            .map(asistido -> new AsistidoDTO( // ajustar constructor
-	                    asistido.getId(),
-	                    asistido.isActiva(),
-	                    asistido.getNombre(),
-	                    asistido.getApellido(),
-	                    asistido.getDni(),
-	                    asistido.getFechaNacimiento(),
-	                    asistido.getDomicilio(),
-	                    asistido.getOcupacion(),
-	                    null,
-	                    asistido.getFechaRegistroAsistido()
-	            ))
-	            .collect(Collectors.toList());
-	}
 
-	@Override
-	public List<AsistidoDTO> listarFiltrado(boolean soloActivos, boolean sinFamilia) {
-	    List<Asistido> asistidos = asistidoRepository.findAll();
-
-	    Stream<Asistido> stream = asistidos.stream();
-
-	    if (soloActivos) {
-	        stream = stream.filter(Asistido::isActiva);
-	    }
-
-	    if (sinFamilia) {
-	        stream = stream.filter(a -> a.getFamilia() == null);
-	    }
-
-	    return stream.map(a -> new AsistidoDTO(
-	            a.getId(),
-	            a.isActiva(),
-	            a.getNombre(),
-	            a.getApellido(),
-	            a.getDni(),
-	            a.getFechaNacimiento(),
-	            a.getDomicilio(),
-	            a.getOcupacion(),
-	            a.getFamilia() != null ? a.getFamilia().getId() : null,
-	            a.getFechaRegistroAsistido()
-	    )).toList();
-
-	}
-
+	//Transforma los objetos asistido a DTO
 	@Override
 	public AsistidoDTO asistidoADTO(Asistido asistido) {
 	    if (asistido == null) return null;
@@ -255,12 +143,67 @@ public class AsistidoServiceImpl implements AsistidoService{
 	    }
 
 	    return asistidoDTO;
-	}
-
-
-
-
+	}	
 	
-		
-	
+	 //EN DESUSO - Listar todos los asistidos activos
+	 @Override
+	 public List<AsistidoDTO> listarAsistidosActivos() {
+	     List<Persona> personas = personaRepository.findByActivaTrue();
+
+	     return personas.stream()
+	         .filter(p -> p instanceof Asistido)
+	         .map(p -> {
+	             Asistido asistido = (Asistido) p;
+	             AsistidoDTO asistidoDTO = new AsistidoDTO(
+	                 asistido.getId(),
+	                 asistido.isActiva(),
+	                 asistido.getNombre(),
+	                 asistido.getApellido(),
+	                 asistido.getDni(),
+	                 asistido.getFechaNacimiento(),
+	                 asistido.getDomicilio(),
+	                 asistido.getOcupacion(),
+	                 asistido.getFamilia() != null ? asistido.getFamilia().getId() : null,
+	                 asistido.getFechaRegistroAsistido()
+	             );
+
+	             if (asistido.getFamilia() != null) {
+	            	 asistidoDTO.setFamiliaNombre(asistido.getFamilia().getNombre());
+	             }
+
+	             return asistidoDTO;
+	         })
+	         .collect(Collectors.toList());
+	 }
+	 
+	 //EN DESUSO - Listar todos los asistidos
+	 @Override
+	 public List<AsistidoDTO> listarTodosAsistidos() {
+	     List<Asistido> asistidos = asistidoRepository.findAll();
+
+	     return asistidos.stream()
+	         .map(asistido -> {
+	             AsistidoDTO asitidoDTO = new AsistidoDTO(
+	                 asistido.getId(),
+	                 asistido.isActiva(),
+	                 asistido.getNombre(),
+	                 asistido.getApellido(),
+	                 asistido.getDni(),
+	                 asistido.getFechaNacimiento(),
+	                 asistido.getDomicilio(),
+	                 asistido.getOcupacion(),
+	                 asistido.getFamilia() != null ? asistido.getFamilia().getId() : null,
+	                 asistido.getFechaRegistroAsistido()
+	             );
+
+	             // Agrega el nombre de la familia al DTO
+	             if (asistido.getFamilia() != null) {
+	            	 asitidoDTO.setFamiliaNombre(asistido.getFamilia().getNombre());
+	             }
+
+	             return asitidoDTO;
+	         })
+	         .collect(Collectors.toList());
+	 }	
+	 
 }

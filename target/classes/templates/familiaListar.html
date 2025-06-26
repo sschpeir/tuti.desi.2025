@@ -72,6 +72,8 @@
         <th>Numero de Familia</th>
         <th>Nombre</th>
         <th>Fecha de Registro</th>
+		<th>Miembros Activos</th>
+		<th>Miembros Totales</th>
         <th>Activa</th>
         <th>Acciones</th>
     </tr>
@@ -81,7 +83,10 @@
         <td th:text="${familia.nroFamilia}">ID</td>
         <td th:text="${familia.nombre}">Nombre</td>
         <td th:text="${familia.fechaRegistro}">Fecha</td>
+		<td th:text="${familia.cantidadActivos}">Miembros Activos</td>
+		<td th:text="${familia.cantidad}">Miembros Totales</td>
         <td th:text="${familia.activa ? 'Sí' : 'No'}">Activa</td>
+		
         <td>
             <a th:href="@{/asistidoRegistrar/familia/{id}(id=${familia.nroFamilia})}">👤 Agregar Persona</a>
             &nbsp;|&nbsp;

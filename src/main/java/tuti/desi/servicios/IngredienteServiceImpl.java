@@ -78,12 +78,6 @@ public class IngredienteServiceImpl implements IngredienteService{
 	}
 
 
-	@Override
-	public List<IngredienteDTO> listarIngredientesActivas() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	//Busca un ingrediente en la BBDD en base al ID y devuelve DTO si encuentra sino error
 	@Override
 	public IngredienteDTO buscarPorId(Long id) {
@@ -118,19 +112,6 @@ public class IngredienteServiceImpl implements IngredienteService{
 	    return ingredienteDTO;
 	}
 
-
-	//Lista ingredientes activos (ideal para filtros o ahorrar laburo)
-	@Override
-	public List<IngredienteDTO> listarIngredientesActivos() {
-	    List<Ingrediente> ingredientes = ingredienteRepository.findAll();
-
-	    return ingredientes.stream()
-	            .filter(Ingrediente::isActiva)
-	            .map(this::ingredienteADTO)
-	            .collect(Collectors.toList());
-	}
-
-	
 	 //Funcion para inhabilitar ingredientes
 	 @Override
 	   public void inhabilitar(Long id) {
@@ -149,5 +130,23 @@ public class IngredienteServiceImpl implements IngredienteService{
 	    });
 	}
 	
+	//EN DESUSO -- Lista ingredientes activos (ideal para filtros o ahorrar laburo)
+	@Override
+	public List<IngredienteDTO> listarIngredientesActivos() {
+	    List<Ingrediente> ingredientes = ingredienteRepository.findAll();
+
+	    return ingredientes.stream()
+	            .filter(Ingrediente::isActiva)
+	            .map(this::ingredienteADTO)
+	            .collect(Collectors.toList());
+	}
+	
+
+	//EN DESUSO - Lista ingredientes con estado activo
+	@Override
+	public List<IngredienteDTO> listarIngredientesActivas() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }

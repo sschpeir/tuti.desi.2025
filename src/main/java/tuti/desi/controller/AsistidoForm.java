@@ -5,6 +5,8 @@ import java.time.LocalDate;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Past;
 
 
 public class AsistidoForm {
@@ -14,10 +16,13 @@ public class AsistidoForm {
 	@Min(value = 1, message = "El DNI debe ser un número positivo")
 	private Integer dni;
 
+	@NotBlank (message = "El nombre del asistido no puede estar vacio")
     private String nombre;
 
+	@NotBlank (message = "El apellido del asistido no puede estar vacio")
     private String apellido;
 
+	@Past (message = "La fecha de nacimiento no puede ser mayor o igual a hoy")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate fechaNacimiento;
     

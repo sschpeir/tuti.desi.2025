@@ -132,6 +132,7 @@ public class RecetaServiceImpl implements RecetaService {
 	    return recetaADTO(receta);
 	}
 
+	//Inhabilita una receta
     @Override
     public void inhabilitar(Long id) {
     	recetaRepository.findById(id).ifPresent(receta -> {
@@ -140,6 +141,7 @@ public class RecetaServiceImpl implements RecetaService {
         });
     }
 
+    //Habilita una receta
 	@Override
 	public void habilitar(Long id) {
 		recetaRepository.findById(id).ifPresent(receta -> {
@@ -148,6 +150,7 @@ public class RecetaServiceImpl implements RecetaService {
 	    });
 	}
 	
+	//Convierte objetos entity a DTO
 	@Override
 	public RecetaDTO recetaADTO(Receta receta) {
 	    if (receta == null) {
@@ -202,13 +205,14 @@ public class RecetaServiceImpl implements RecetaService {
 	    item.setCantidad(itemRecetaDTO.getCantidad());
 	    item.setCalorias(itemRecetaDTO.getCalorias());
 	    
-	    item.setActiva(itemRecetaDTO.isActiva());
+	    item.setActiva(true);
 
 	    item = itemRecetaRepository.save(item); 
 
 	    itemRecetaDTO.setId(item.getId()); 
 	}
 
+	//Metodo para filtro por nombre
 	@Override
 	public List<RecetaDTO> filtrarNombre(String nombre) {
 	    List<Receta> recetas = recetaRepository.findByNombreLike("%"+nombre+"%");
@@ -244,7 +248,7 @@ public class RecetaServiceImpl implements RecetaService {
 	    List<Receta> recetas = recetaRepository.findByActivaTrue();
 
 	    return recetas.stream()
-	            .filter(Receta::isActiva) // <-- solo las activas
+	            .filter(Receta::isActiva) 
 	            .map(this::recetaADTO)
 	            .collect(Collectors.toList());
 	}

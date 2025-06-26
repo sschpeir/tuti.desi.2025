@@ -66,7 +66,7 @@ public class RecetaListarController {
 	    model.addAttribute("itemRecetaDTO", itemRecetaDTO);
 	    
 
-	    return "recetaListarIngredientes2";
+	    return "recetaListarIngredientes";
 	}
 	
 	//Joya..
@@ -87,8 +87,7 @@ public class RecetaListarController {
 
 	        model.addAttribute("itemRecetaDTO", new ItemRecetaDTO());
 
-	        // Volvés directamente a la vista Thymeleaf
-	        return "recetaListarIngredientes2"; // este es el nombre del .html, reemplazalo si tuyo es otro
+	        return "recetaListarIngredientes2"; 
 	    }
 	}
 

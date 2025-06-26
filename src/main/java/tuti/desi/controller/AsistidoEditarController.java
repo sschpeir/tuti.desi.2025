@@ -68,13 +68,12 @@ public class AsistidoEditarController {
     
   	//Si mandas un POST en un formulario, entonces agarra el modelo del form, arma un objeto RecetaDTO y lo manda al Service.
   	@PostMapping
-  	public String guardarFormularioAsistido(@Valid @ModelAttribute("asistidoForm") AsistidoForm asistidoForm, BindingResult result, Model model) {
-  		
+  	public String guardarFormularioAsistido(@Valid @ModelAttribute("asistidoForm") AsistidoForm asistidoForm, BindingResult result, Model model) {	
   		
   		if (result.hasErrors()) {
   	        model.addAttribute("asistidoForm", asistidoForm);
   	        model.addAttribute("familiaSeleccionada", familiaService.buscarPorId(asistidoForm.getFamiliaId()));
-  	        return "asistidoRegistrarFamilia";
+  	        return "asistidoRegistrarFamilia";//ACA
   	    }
   		try {
   			AsistidoDTO asistidoDTO = new AsistidoDTO();
@@ -93,7 +92,12 @@ public class AsistidoEditarController {
   			
   			asistidoService.guardarAsistido(asistidoDTO);
   	        //Si guarda, pasa a la lista de asistidos
-  	        return "redirect:/asistidoListar";
+  			if (asistidoDTO.getFamiliaId()!=null) {
+  				return "redirect:/familiaListar/"+asistidoDTO.getFamiliaId()+"/miembros";
+  			}else {
+  				return "redirect:/familiaListar";
+  			}
+  	        
   	    } catch (IllegalArgumentException e) {
   	        model.addAttribute("error", e.getMessage());
   	        model.addAttribute("asistidoForm", asistidoForm); 

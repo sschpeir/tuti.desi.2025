@@ -49,6 +49,19 @@
         .back-link:hover {
             text-decoration: underline;
         }
+		.button-add {
+		            display: inline-block;
+		            margin-top: 15px;
+		            padding: 10px 15px;
+		            background-color: #28a745;
+		            color: white;
+		            text-decoration: none;
+		            border-radius: 4px;
+		        }
+
+		        .button-add:hover {
+		            background-color: #218838;
+		        }
     </style>
 </head>
 <body>
@@ -84,14 +97,19 @@
             <td th:text="${familia.nroFamilia}">ID</td>
             <td th:text="${familia.nombre}">Nombre</td>
             <td th:text="${familia.fechaRegistro}">Fecha Registro</td>
-            <td th:text="${familia.activa}">Activa</td>
+            <td th:text="${familia.activa ? 'Sí' : 'No'}">Activa</td>
             <td th:text="${familia.cantidadActivos}">Miembros Activos</td>
             <td th:text="${familia.fechaUltimaAsistencia}">Última Asistencia</td>
         </tr>
     </tbody>
 </table>
+<br/>
+<br/>
+<a class="button-add" th:href="@{/familiaListar}">⬅ Ir al Listado de todas las familias</a>
 
-<a class="back-link" th:href="@{/inicio}">⬅ Volver al inicio</a>
+<br/>
+<br/>
+<a class="button-add" th:href="@{/inicio}">⬅ Volver al inicio</a>
 
 </body>
 </html>

@@ -5,6 +5,8 @@ import java.time.LocalDate;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Past;
 
 
 public class VoluntarioForm {
@@ -14,10 +16,13 @@ public class VoluntarioForm {
 	@Min(value = 1, message = "El DNI debe ser un número positivo")
 	private Integer dni;
 
+	@NotBlank (message = "El nombre del voluntario no puede estar vacio")
     private String nombre;
 
+	@NotBlank (message = "El apellido del voluntario no puede estar vacio")
     private String apellido;
 
+	@Past (message = "La fecha de nacimiento no puede ser mayor o igual a hoy")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate fechaNacimiento;
     
@@ -32,6 +37,7 @@ public class VoluntarioForm {
     
     private String tipoPersona = "Voluntario";
     
+    @Min(value = 1000, message = "El numero del seguro debe ser mayor a 1000")
     private Integer nroSeguroSocial;
 
 	//Getters y setters

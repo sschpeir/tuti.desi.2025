@@ -89,7 +89,7 @@ public class AsistidoRegistrarController {
 
   	        AsistidoForm asistidoForm = new AsistidoForm();
   	        asistidoForm.setFamiliaId(id);
-
+  	        asistidoForm.setFechaRegistro(LocalDate.now());
   	        model.addAttribute("asistidoForm", asistidoForm);
   	        model.addAttribute("familiaSeleccionada", familiaDTO);
   	        return "asistidoRegistrarFamilia";

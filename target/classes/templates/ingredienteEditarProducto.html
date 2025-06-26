@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Registrar Ingrediente</title>
+    <title>Editar Ingrediente</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -48,6 +48,19 @@
         .producto-only {
             display: none;
         }
+		.button-add {
+		            display: inline-block;
+		            margin-top: 15px;
+		            padding: 10px 15px;
+		            background-color: #28a745;
+		            color: white;
+		            text-decoration: none;
+		            border-radius: 4px;
+	    }
+	
+	    .button-add:hover {
+	        background-color: #218838;
+	    }
     </style>
 </head>
 <body>
@@ -61,18 +74,22 @@
 
     <label for="nombre">Nombre</label>
     <input type="text" th:field="*{nombre}" required />
+	<span th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}" class="error"></span>
 
     <label for="calorias">Calorías</label>
     <input type="number" th:field="*{calorias}" step="0.01" required />
+	<span th:if="${#fields.hasErrors('calorias')}" th:errors="*{calorias}" class="error"></span>
 
-	<input type="hidden" th:field="*{tipoCondimento}" th:value="'Producto'" />
+	<input type="hidden" th:field="*{tipoIngrediente}" th:value="'Producto'" />
 	<p>Tipo: Producto</p>
 
 	<label for="stockDisponible">Stock Disponible</label>
     <input type="number" th:field="*{stockDisponible}" step="0.01" required />
+	<span th:if="${#fields.hasErrors('stockDisponible')}" th:errors="*{stockDisponible}" class="error"></span>
 	
 	<label for="precioActual">Precio Actual</label>
     <input type="number" th:field="*{precioActual}" step="0.01" required />
+	<span th:if="${#fields.hasErrors('precioActual')}" th:errors="*{precioActual}" class="error"></span>
 
 	<div class="checkbox-group">
 	     <input type="checkbox" th:field="*{activa}" id="activaCheckbox" />
@@ -80,6 +97,12 @@
 	 </div>
 	 
     <button type="submit">Guardar</button>
+	
+	<br/><br/>
+	<a class="button-add" th:href="@{/ingredienteListar}">← Volver al Listado de Ingredientes</a>
+
+	<br/><br/>
+	<a class="button-add" th:href="@{/inicio}">← Volver al inicio</a>
 </form>
 
 </body>

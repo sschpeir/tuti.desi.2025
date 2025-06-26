@@ -20,6 +20,7 @@ public class ItemRecetaServiceImpl implements ItemRecetaService {
     private IngredienteService ingredienteService;
     
     //Guardamos en funcion aparte para no tener problema con los hijos.
+    //Se encontro metodo para guardar todo junto, solamente contempla edicion
     @Override
     public ItemRecetaDTO guardarEdicion(ItemRecetaDTO itemRecetaDTO) {
         if (itemRecetaDTO.getId() == null) {
@@ -38,6 +39,7 @@ public class ItemRecetaServiceImpl implements ItemRecetaService {
         return itemRecetaDTO;
     }
 
+    //Busca un item de una receta en base al ID
     @Override
     public ItemRecetaDTO buscarPorId(Long id) {
         ItemReceta item = itemRecetaRepository.findById(id)
@@ -55,7 +57,7 @@ public class ItemRecetaServiceImpl implements ItemRecetaService {
         return dto;
     }
 
-
+    //Deshabilita los item de receta
 	@Override
 	public void deshabilitar(ItemRecetaDTO itemRecetaDTO) {
 	    ItemReceta item = itemRecetaRepository.findById(itemRecetaDTO.getId())
@@ -65,6 +67,7 @@ public class ItemRecetaServiceImpl implements ItemRecetaService {
 	    itemRecetaRepository.save(item);
 	}
 
+	//Habilita los item de receta
 	@Override
 	public void habilitar(ItemRecetaDTO itemRecetaDTO) {
 	    ItemReceta item = itemRecetaRepository.findById(itemRecetaDTO.getId())
@@ -73,8 +76,5 @@ public class ItemRecetaServiceImpl implements ItemRecetaService {
 	    item.setActiva(true);
 	    itemRecetaRepository.save(item);
 	}
-
-
-
     
 }

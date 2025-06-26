@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import tuti.desi.DTO.FamiliaDTO;
 import tuti.desi.DTO.FamiliasConMiembrosActivosDTO;
+import tuti.desi.DTO.FamiliasConMiembrosDTO;
 import tuti.desi.servicios.FamiliaService;
 
 
@@ -24,13 +25,14 @@ public class FamiliaListarController {
 	
 	//CHECADO X
 	
-	//Si solicitas un GET, carga un modelo de lista de FamiliaDTO
 	@GetMapping
     public String cargarFormulario(Model model) {
-		List<FamiliaDTO> familias = familiaService.listarTodas();
+		 
+		List<FamiliasConMiembrosDTO> familias = familiaService.listadoFamiliasConAsistidosTotales();
         model.addAttribute("familias", familias);
         return "familiaListar";
     }
+
 	
 	//CHECADO X
 	

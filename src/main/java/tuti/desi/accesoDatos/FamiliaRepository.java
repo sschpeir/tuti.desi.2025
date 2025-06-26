@@ -8,6 +8,7 @@ import java.util.Optional;
 import java.util.List;
 
 import tuti.desi.DTO.FamiliasConMiembrosActivosDTO;
+import tuti.desi.DTO.FamiliasConMiembrosDTO;
 import tuti.desi.entidades.Familia;
 
 
@@ -41,6 +42,24 @@ public interface FamiliaRepository extends JpaRepository<Familia, Long> {
 	List<Familia> findByIdAndActivaTrue(Long id);
 
 	List<Familia> findByNombreLikeAndActivaTrue(String nombre);
+	
+	@Query("""
+		    SELECT new tuti.desi.DTO.FamiliasConMiembrosDTO(
+		        f.id,
+		        f.nombre,
+		        f.fechaRegistro,
+		        f.activa,
+		        COUNT(a),
+		        COUNT(CASE WHEN a.activa = true THEN 1 ELSE null END)
+		    )
+		    FROM Familia f
+		    LEFT JOIN Asistido a ON a.familia.id = f.id
+		    GROUP BY f.id, f.nombre, f.fechaRegistro, f.activa
+		""")
+		List<FamiliasConMiembrosDTO> listadoFamiliasConAsistidos();
+
+
+	
 	
 	@Query("""
 		    SELECT new tuti.desi.DTO.FamiliasConMiembrosActivosDTO(

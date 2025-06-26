@@ -7,7 +7,7 @@
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             padding: 40px;
-            background-color: rgb(128, 0, 255);
+            background-color: rgb(183, 111, 255);
             display: flex;
             justify-content: center;
         }
@@ -112,9 +112,11 @@
 
     <label for="nombre">Nombre:</label>
     <input type="text" th:field="*{nombre}" id="nombre" required />
+	<span th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}" class="error"></span>
 
 	<label for="descripcion">Descripcion:</label>
 	<input type="text" th:field="*{descripcion}" id="descripcion" required />
+	<span th:if="${#fields.hasErrors('descripcion')}" th:errors="*{descripcion}" class="error"></span>
 	
 	<div class="checkbox-group">
 	      <input type="checkbox" th:field="*{activa}" id="activaCheckbox" />

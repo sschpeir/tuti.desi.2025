@@ -4,6 +4,7 @@ import java.util.List;
 
 import tuti.desi.DTO.FamiliaDTO;
 import tuti.desi.DTO.FamiliasConMiembrosActivosDTO;
+import tuti.desi.DTO.FamiliasConMiembrosDTO;
 import tuti.desi.entidades.Familia;
 
 public interface FamiliaService {
@@ -46,6 +47,8 @@ public interface FamiliaService {
 	List<FamiliasConMiembrosActivosDTO> listadoFamiliasMiembrosActivosFiltroNombre(String nombre);
 
 	List<FamiliasConMiembrosActivosDTO> listadoFamiliasMiembrosActivosFiltroId(Long id);
+
+	List<FamiliasConMiembrosDTO> listadoFamiliasConAsistidosTotales();
 	
 	
 
