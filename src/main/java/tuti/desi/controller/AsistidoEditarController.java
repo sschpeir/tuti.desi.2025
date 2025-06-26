@@ -95,6 +95,85 @@ public class AsistidoEditarController {
   			if (asistidoDTO.getFamiliaId()!=null) {
   				return "redirect:/familiaListar/"+asistidoDTO.getFamiliaId()+"/miembros";
   			}else {
+  				return "redirect:/asistidoListar";
+  			}
+  	        
+  	    } catch (IllegalArgumentException e) {
+  	        model.addAttribute("error", e.getMessage());
+  	        model.addAttribute("asistidoForm", asistidoForm); 
+  	        //Si no guarda, deja los datos cargados y devuelve error que se lo agarra con Thymeleaf
+  	        return "asistidoEditar"; 
+  	    }
+  	}
+  	
+  	
+    @GetMapping("/{id}/familia")
+    public String cargarFormularioFamilia(@PathVariable("id") Long id, Model model) {
+        AsistidoForm asistidoForm = new AsistidoForm();
+
+    	try {
+            PersonaDTO personaDTO = asistidoService.buscarPorId(id);
+
+            if (!"ASISTIDO".equalsIgnoreCase(personaDTO.getTipoPersona())) {
+                throw new IllegalArgumentException("La persona con ID " + id + " no es un asistido.");
+            }
+
+            AsistidoDTO asistidoDTO = (AsistidoDTO) personaDTO;
+            
+            asistidoForm.setId(asistidoDTO.getId());
+            asistidoForm.setActiva(asistidoDTO.isActiva());
+  			asistidoForm.setDni(asistidoDTO.getDni());
+  			asistidoForm.setNombre(asistidoDTO.getNombre());
+  			asistidoForm.setApellido(asistidoDTO.getApellido());
+  			asistidoForm.setFechaNacimiento(asistidoDTO.getFechaNacimiento());
+  			asistidoForm.setDomicilio(asistidoDTO.getDomicilio());
+  			asistidoForm.setOcupacion(asistidoDTO.getOcupacion());
+  			asistidoForm.setFechaRegistro(asistidoDTO.getFechaRegistro());
+  			asistidoForm.setTipoPersona(asistidoDTO.getTipoPersona());
+  			asistidoForm.setFamiliaId(asistidoDTO.getFamiliaId());
+
+            List<FamiliaDTO> familias = familiaService.listarTodas();
+            model.addAttribute("asistidoForm", asistidoForm);
+            model.addAttribute("familias", familias);
+
+            return "asistidoEditarFamilia";
+
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("error", e.getMessage());
+            return "errorFamilia";
+        }
+    }
+    
+    
+  	//Si mandas un POST en un formulario, entonces agarra el modelo del form, arma un objeto RecetaDTO y lo manda al Service.
+  	@PostMapping("/{id}/familia")
+  	public String guardarFormularioAsistidoFamilia(@Valid @ModelAttribute("asistidoForm") AsistidoForm asistidoForm, BindingResult result, Model model) {	
+  		
+  		if (result.hasErrors()) {
+  	        model.addAttribute("asistidoForm", asistidoForm);
+  	        model.addAttribute("familiaSeleccionada", familiaService.buscarPorId(asistidoForm.getFamiliaId()));
+  	        return "asistidoRegistrarFamilia";//ACA
+  	    }
+  		try {
+  			AsistidoDTO asistidoDTO = new AsistidoDTO();
+  			
+  	        asistidoDTO.setId(asistidoForm.getId());
+  	        asistidoDTO.setActiva(asistidoForm.isActiva());
+  	        asistidoDTO.setDni(asistidoForm.getDni());
+  	        asistidoDTO.setNombre(asistidoForm.getNombre());
+  	        asistidoDTO.setApellido(asistidoForm.getApellido());
+  	        asistidoDTO.setFechaNacimiento(asistidoForm.getFechaNacimiento());
+  	        asistidoDTO.setDomicilio(asistidoForm.getDomicilio());
+  	        asistidoDTO.setOcupacion(asistidoForm.getOcupacion());
+  	        asistidoDTO.setFechaRegistro(asistidoForm.getFechaRegistro());
+  	        asistidoDTO.setTipoPersona(asistidoForm.getTipoPersona());
+  	        asistidoDTO.setFamiliaId(asistidoForm.getFamiliaId());
+  			
+  			asistidoService.guardarAsistido(asistidoDTO);
+  	        //Si guarda, pasa a la lista de asistidos
+  			if (asistidoDTO.getFamiliaId()!=null) {
+  				return "redirect:/familiaListar/"+asistidoDTO.getFamiliaId()+"/miembros";
+  			}else {
   				return "redirect:/familiaListar";
   			}
   	        

@@ -22,8 +22,8 @@ public class AsistidoListarController {
 	//Si solicitas un GET, carga un modelo de lista de FamiliaDTO
 	@GetMapping
     public String cargarFormulario(Model model) {
-		List<AsistidoDTO> asistidos = asistidoService.listarTodosAsistidos();
-        model.addAttribute("asistidos", asistidos);
+		List<AsistidoDTO> personas = asistidoService.listarTodosAsistidos();
+        model.addAttribute("personas", personas);
         return "asistidoListar";
     }	
 	
