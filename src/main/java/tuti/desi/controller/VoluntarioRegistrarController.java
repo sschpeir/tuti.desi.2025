@@ -23,7 +23,9 @@ public class VoluntarioRegistrarController {
     @Autowired
     private VoluntarioService voluntarioService;
     
-    //Si solicitas un GET, carga un modelo de VoluntarioDTO en blanco.
+    
+    //Metodo GET del formulario de Registrar Voluntario que se ve en el inicio
+    //Si solicitas un GET, crea un objeto VoluntarioForm en blanco y lo pasa al modelo.
     @GetMapping
   	public String cargarFormularioVoluntario(Model model) {
     	VoluntarioForm voluntarioForm = new VoluntarioForm();
@@ -34,7 +36,8 @@ public class VoluntarioRegistrarController {
   	    return "voluntarioRegistrar";
   	}
     
-  	//Si mandas un POST en un formulario, entonces agarra el modelo del form, arma un objeto VoluntarioDTO y lo manda al Service.
+    //Metodo POST del formulario de Registrar Voluntario que se ve en el inicio
+  	//Si mandas un POST el formulario crea un objeto Form con los valores de los campos,el objeto form, arma un objeto VoluntarioDTO y lo manda al Service.
   	@PostMapping
   	public String guardarFormularioVoluntario(@Valid @ModelAttribute("voluntarioForm") VoluntarioForm voluntarioForm, BindingResult result, Model model) {
   		if (result.hasErrors()) {
@@ -57,12 +60,12 @@ public class VoluntarioRegistrarController {
   			voluntarioDTO.setTipoPersona(voluntarioForm.getTipoPersona());
   			
   			voluntarioService.guardarVoluntario(voluntarioDTO);
-  	        //Si guarda, pasa al la lista de voluntarios
+  	        //Si guarda, pasa a la lista de voluntarios
   	        return "redirect:/voluntarioListar";
   	    } catch (IllegalArgumentException e) {
   	        model.addAttribute("error", e.getMessage());
   	        model.addAttribute("voluntarioForm", voluntarioForm); 
-  	        //Si no guarda, deja los datos cargados y devuelve error que se lo agarra con Thymeleaf
+  	        //Si no guarda, deja los datos cargados y devuelve error que se muestra con Thymeleaf
   	        return "voluntarioRegistrar"; 
   	    }
   	}

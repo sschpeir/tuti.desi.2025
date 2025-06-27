@@ -24,6 +24,8 @@ public class VoluntarioEditarController {
 	@Autowired
     private VoluntarioService voluntarioService;
 
+	//Metodo GET para cargar el formulario de Editar Voluntario
+	//Si mandamos un GET, se busca un objeto VoluntarioDTO con el ID pasado, si es un voluntario, entonces se arma un voluntarioForm y se le pasan los datos del DTO y este form se carga al modelo, lo que carga datos, sino arroja errores
     @GetMapping("/{id}")
     public String cargarFormulario(@PathVariable("id") Long id, Model model) {
         try {
@@ -57,7 +59,8 @@ public class VoluntarioEditarController {
         }
     }
     
-  	//Si mandas un POST en un formulario, entonces agarra el modelo del form, arma un objeto RecetaDTO y lo manda al Service.
+    //Metodo POST para el formulario Editar Voluntario
+    //Si mandas un POST el formulario crea un objeto Form con los valores de los campos,el objeto form arma un objeto VoluntarioDTO y lo manda al Service.
   	@PostMapping
   	public String guardarFormularioVoluntario(@Valid @ModelAttribute("voluntarioDTO") VoluntarioForm voluntarioForm, BindingResult result, Model model) {
   		if (result.hasErrors()) {
@@ -81,22 +84,26 @@ public class VoluntarioEditarController {
             voluntarioDTO.setTipoPersona(voluntarioForm.getTipoPersona());
   			
   			voluntarioService.guardarVoluntario(voluntarioDTO);
-  	        //Si guarda, pasa al index.html
+  	        //Si guarda, pasa al inicio
   	        return "redirect:/voluntarioListar";
   	    } catch (IllegalArgumentException e) {
   	        model.addAttribute("error", e.getMessage());
   	        model.addAttribute("voluntarioForm", voluntarioForm); 
-  	        //Si no guarda, deja los datos cargados y devuelve error que se lo agarra con Thymeleaf
+  	        //Si no guarda, deja los datos cargados y devuelve error que lo muestra con Thymeleaf
   	        return "voluntarioEditar"; 
   	    }
   	}
   	
+  	//Metodo GET para el metodo deshabilitar que se accede desde el Formulario de Listar Voluntarios.
+    //Si mando un GET, cambia el estado del campo ACTIVA del asistido
   	@GetMapping("/{id}/deshabilitar")
 	public String deshabilitarVoluntario(@PathVariable("id") Long id) {
   		voluntarioService.inhabilitar(id);
 	    return "redirect:/voluntarioListar";
 	}
 
+  	//Metodo GET para el metodo habilitar que se accede desde el Formulario de Listar Voluntarios.
+  	//Si mando un GET, cambia el estado del campo ACTIVA del asistido
 	@GetMapping("/{id}/habilitar")
 	public String habilitarVoluntario(@PathVariable("id") Long id) {
 		voluntarioService.habilitar(id);

@@ -30,9 +30,10 @@ public class AsistidoRegistrarController {
     @Autowired
     private FamiliaService familiaService; 
   	
-//CHECADO 24-06-2025
+//CHECADO 26-06-2025
     
-    //Si solicitas un GET, carga un modelo de PersonaDTO en blanco - Y te Carga un listado de todas las familias para asignar
+    //Metodo GET del formulario Registrar Asistido desde la pagina de inicio
+    //Si solicitas un GET, carga un modelo de AsistidoForm en blanco y lo manda al modelo y te Carga un listado de todas las familias para asignar
     @GetMapping
   	public String cargarFormularioAsistido(Model model) {
   	    AsistidoForm asistidoForm = new AsistidoForm();
@@ -43,9 +44,10 @@ public class AsistidoRegistrarController {
   	    return "asistidoRegistrar";
   	}
     
-//CHECADO 24-06-2025 - FALTA COMPROBACIONES
+//CHECADO 26-06-2025
     
-  	//Si mandas un POST en un formulario, entonces agarra el modelo del form, arma un objeto PersonaDTO y lo manda al Service.
+    //Metodo POST del formulario Registrar Asistido desde la pagina de inicio
+  	//Si mandas un POST en un formulario, entonces agarra el modelo del form, arma un objeto AsistidoDTO y lo manda al Service.
   	@PostMapping
   	public String guardarFormularioAsistido(@Valid @ModelAttribute("asistidoForm") AsistidoForm asistidoForm, BindingResult result, Model model) {
   		if (result.hasErrors()) {
@@ -68,7 +70,7 @@ public class AsistidoRegistrarController {
   			asistidoDTO.setFamiliaId(asistidoForm.getFamiliaId());
   			
   			asistidoService.guardarAsistido(asistidoDTO);
-  	        //Si guarda, pasa al index.html
+  	        //Si guarda, pasa al inicio
   	        return "redirect:/inicio";
 	  	    } catch (IllegalArgumentException e) {
 	  	        model.addAttribute("error", e.getMessage());
@@ -81,7 +83,9 @@ public class AsistidoRegistrarController {
   	}	
 
 //CHECADO 24-06-2025 	
-  	//
+  	
+  	//Metodo GET del formulario de Registrar Asistido desde el detalle de familia
+  	//Carga de formulario de nuevo Asistido desde Formulario de miembros - Busca un objeto Familia y lo guarda en un DTO, este DTO lo transforma en Form y arroja el Form a la vista y luego datos de la familia seleccionada
   	@GetMapping("/familia/{id}")
   	public String cargarFormularioAsistidoFamilia(@PathVariable("id") Long id, Model model) {
   	    try {
@@ -100,9 +104,9 @@ public class AsistidoRegistrarController {
   	    }
   	}
 
-//CHECADO 24-06-2025 - FALTA COMPROBACIONES
-  	
-  	//Si mandas un POST en un formulario, entonces agarra el modelo del form, arma un objeto PersonaDTO y lo manda al Service.
+
+  	//Metodo POST del formulario de Registrar Asistido desde el detalle de familia
+  	//Si mandas un POST en el formulario, entonces agarra el modelo del form, arma un objeto AsistidoDTO y lo manda al Service.
   	@PostMapping("/familia/{id}")
   	public String guardarFormularioAsistidoFamilia(@Valid @ModelAttribute("asistidoForm") AsistidoForm asistidoForm, BindingResult result, Model model) {
   	    if (result.hasErrors()) {

@@ -70,11 +70,8 @@ public class FamiliasConMiembrosDTO {
 	public void setCantidadActivos(Long cantidadActivos) {
 		this.cantidadActivos = cantidadActivos;
 	}
-
 	
 	//Constructores
-
-
 
 	public FamiliasConMiembrosDTO() {
 	}	

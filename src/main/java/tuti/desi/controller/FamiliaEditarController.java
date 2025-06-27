@@ -21,8 +21,9 @@ public class FamiliaEditarController {
 
 	@Autowired
     private FamiliaService familiaService;
-
-	//Si solicitas un GET, carga un modelo de familiaDTO a partir del ID
+	
+	//Metodo GET para cargar el formulario de Editar Familia desde Inicio
+	//Si mandamos un GET, se busca un objeto familiaDTO con el ID pasado, si es un familia, entonces se arma un familiaForm y se le pasan los datos del DTO y este form se carga al modelo, lo que carga datos, sino arroja errores
 	@GetMapping("/{id}")
     public String cargarFormulario(@PathVariable("id") Long id, Model model) {
         try {
@@ -43,8 +44,8 @@ public class FamiliaEditarController {
             return "familiaError"; 
         }
     }
-
-	//Cuando al formulario lo submiteas, entonces intenta guardar, sino catchea el error
+	//Metodo POST para cargar el formulario de Editar Familia desde Inicio
+	//Si mandas un POST el formulario crea un objeto Form con los valores de los campos,el objeto form arma un objeto familiaDTO y lo manda al Service.
 	@PostMapping
     public String guardarFormulario(@Valid @ModelAttribute("familiaForm") FamiliaForm familiaForm, BindingResult result, Model model) {
 		if (result.hasErrors()) {
@@ -72,6 +73,7 @@ public class FamiliaEditarController {
         }
     }
 	
+	//Metodo GET para la funcion de deshabilitar familia del formulario Editar Familia
 	//Endpoint para deshabilitar una familia desde familiarEditar
 	@GetMapping("/{id}/deshabilitar")
 	public String deshabilitarFamilia(@PathVariable("id") Long id) {
@@ -79,7 +81,7 @@ public class FamiliaEditarController {
 	    return "redirect:/familiaListar";
 	}
 
-	
+	//Metodo GET para la funcion de habilitar familia del formulario Editar Familia
 	//Endpoint para habilitar una familia desde familiarEditar
 	@GetMapping("/{id}/habilitar")
 	public String habilitarFamilia(@PathVariable("id") Long id) {

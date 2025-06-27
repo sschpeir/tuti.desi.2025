@@ -22,7 +22,8 @@ public class FamiliaRegistrarController {
 	@Autowired
     private FamiliaService familiaService;
 	
-	//Si solicitas un GET, carga un modelo con un FamiliaForm en blanco
+	//Metodo GET para el formulario de Registrar Familia desde el Inicio
+	//Si solicitas un GET, carga un modelo con un FamiliaForm en blanco y lo pasa al modelo
 	@GetMapping
     public String cargarFormulario(Model model) {
 		FamiliaForm familiaForm = new FamiliaForm();
@@ -31,7 +32,8 @@ public class FamiliaRegistrarController {
         return "familiaRegistrar";
     }
 	
-	//Si mandas un POST en un formulario, entonces agarra el modelo del form, arma un objeto FamiliaDTO y lo manda al Service.
+	//Metodo POST para el formulario de Registrar Familia desde el Inicio
+	//Si mandas un POST en el formulario, toma los datos el modelo del form, arma un objeto FamiliaDTO y lo manda al Service.
 	@PostMapping
 	public String guardarFormulario(@Valid @ModelAttribute("familiaForm") FamiliaForm familiaForm, BindingResult result, Model model){
 	//Le metemos un try-catch por los errores, ejemplo: si hay otra con el mismo nombre

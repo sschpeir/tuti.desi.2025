@@ -29,6 +29,9 @@ public class AsistidoEditarController {
     @Autowired
     private FamiliaService familiaService;
 
+    
+    //Metodo GET del formulario de Editar Asistido
+    //Si mandamos un GET, se busca un objeto asistidoDTO con el ID pasado, si es un asistido, entonces se arma un asistidoForm y se le pasan los datos del DTO y este form se carga al modelo, lo que carga datos, sino arroja errores
     @GetMapping("/{id}")
     public String cargarFormulario(@PathVariable("id") Long id, Model model) {
         AsistidoForm asistidoForm = new AsistidoForm();
@@ -40,7 +43,7 @@ public class AsistidoEditarController {
                 throw new IllegalArgumentException("La persona con ID " + id + " no es un asistido.");
             }
 
-            AsistidoDTO asistidoDTO = (AsistidoDTO) personaDTO;
+            AsistidoDTO asistidoDTO = (AsistidoDTO) personaDTO; //castea persona en asistidoDTO
             
             asistidoForm.setId(asistidoDTO.getId());
             asistidoForm.setActiva(asistidoDTO.isActiva());
@@ -62,11 +65,15 @@ public class AsistidoEditarController {
 
         } catch (IllegalArgumentException e) {
             model.addAttribute("error", e.getMessage());
+            List<FamiliaDTO> familias = familiaService.listarTodas();
+            model.addAttribute("asistidoForm", asistidoForm);
+            model.addAttribute("familias", familias);
             return "errorFamilia";
         }
     }
     
-  	//Si mandas un POST en un formulario, entonces agarra el modelo del form, arma un objeto RecetaDTO y lo manda al Service.
+    //Metodo POST del formulario de Editar Asistido del Inicio
+  	//Si mandas un POST en un formulario, entonces agarra el modelo del form, arma un objeto asistidoDTO y lo manda al Service.
   	@PostMapping
   	public String guardarFormularioAsistido(@Valid @ModelAttribute("asistidoForm") AsistidoForm asistidoForm, BindingResult result, Model model) {	
   		
@@ -106,7 +113,8 @@ public class AsistidoEditarController {
   	    }
   	}
   	
-  	
+  	//Metodo GET del formulario de Editar Asistido desde el listado de miembros por familia
+    //Si mandamos un GET, se busca un objeto asistidoDTO con el ID pasado, si es un asistido, entonces se arma un asistidoForm y se le pasan los datos del DTO y este form se carga al modelo, lo que carga datos, sino arroja errores
     @GetMapping("/{id}/familia")
     public String cargarFormularioFamilia(@PathVariable("id") Long id, Model model) {
         AsistidoForm asistidoForm = new AsistidoForm();
@@ -145,7 +153,8 @@ public class AsistidoEditarController {
     }
     
     
-  	//Si mandas un POST en un formulario, entonces agarra el modelo del form, arma un objeto RecetaDTO y lo manda al Service.
+    //Metodo POST del formulario de Editar Asistido desde el listado de miembros por familia
+  	//Si mandas un POST en un formulario, entonces agarra el modelo del form, arma un objeto asistidoDTO y lo manda al Service.
   	@PostMapping("/{id}/familia")
   	public String guardarFormularioAsistidoFamilia(@Valid @ModelAttribute("asistidoForm") AsistidoForm asistidoForm, BindingResult result, Model model) {	
   		
@@ -185,6 +194,7 @@ public class AsistidoEditarController {
   	    }
   	}
   	
+  	//Metodo GET para la funcion de deshabilitar asistido del formulario de Editar Asistido
   	//Endpoint para deshabilitar asistidos
   	@GetMapping("/{id}/deshabilitar")
 	public String deshabilitarAsistido(@PathVariable("id") Long id) {
@@ -192,8 +202,8 @@ public class AsistidoEditarController {
 	    
 	    return "redirect:/asistidoListar";
 	}
-
-  //Endpoint para habilitar asistidos
+  	//Metodo GET para la funcion de deshabilitar asistido del formulario de Editar Asistido
+  	//Endpoint para habilitar asistidos
 	@GetMapping("/{id}/habilitar")
 	public String habilitarAsistido(@PathVariable("id") Long id) {
 		asistidoService.habilitar(id);
@@ -201,6 +211,7 @@ public class AsistidoEditarController {
 		return "redirect:/asistidoListar";
 	}
 	
+	//Metodo GET para la funcion de deshabilitar asistido del formulario de Listar Asistidos por Familia
 	//Endpoint para deshabilitar asistidos desde familias, para redireccionar
 	@GetMapping("/{id}/familia/deshabilitar")
 	public String deshabilitarAsistidoFamilia(@PathVariable("id") Long id) {
@@ -215,6 +226,7 @@ public class AsistidoEditarController {
 	    return "redirect:/familiaListar";
 	}
 
+	//Metodo GET para la funcion de deshabilitar asistido del formulario de Listar Asistidos por Familia
 	//Endpoint para habilitar asistidos desde familias, para redireccionar
 	@GetMapping("/{id}/familia/habilitar")
 	public String habilitarAsistidoFamilia(@PathVariable("id") Long id) {
