@@ -2,6 +2,7 @@ package tuti.desi.accesoDatos;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import java.util.Optional;
 import java.util.List;
@@ -57,6 +58,49 @@ public interface RecetaRepository extends JpaRepository<Receta, Long> {
 		    GROUP BY r.id, r.nombre, r.activa
 		""")
 		List<RecetasConItemsYCaloriasDTO> listarRecetasConItemsActivosYCalorias();
+	
+	
+	@Query("""
+		    SELECT new tuti.desi.DTO.RecetasConItemsYCaloriasDTO(
+		        r.id,
+		        r.nombre,
+		        r.activa,
+		        SUM(i.calorias),
+		        MIN(i.calorias),
+		        MAX(i.calorias)
+		    )
+		    FROM Receta r
+		    JOIN r.items i
+		    WHERE r.activa = true
+		      AND i.activa = true
+		    GROUP BY r.id, r.nombre, r.activa
+		    HAVING SUM(i.calorias) BETWEEN :minCalorias AND :maxCalorias
+		""")
+		List<RecetasConItemsYCaloriasDTO> listarRecetasConIngredientesActivosYCaloriasMinYMax(
+		    @Param("minCalorias") int minCalorias,
+		    @Param("maxCalorias") int maxCalorias
+		);
+	
+	@Query("""
+		    SELECT new tuti.desi.DTO.RecetasConItemsYCaloriasDTO(
+		        r.id,
+		        r.nombre,
+		        r.activa,
+		        SUM(i.calorias),
+		        MIN(i.calorias),
+		        MAX(i.calorias)
+		    )
+		    FROM Receta r
+		    JOIN r.items i
+		    WHERE r.activa = true
+		      AND i.activa = true
+		      AND r.id = :id
+		    GROUP BY r.id, r.nombre, r.activa
+		""")
+		List<RecetasConItemsYCaloriasDTO> listarRecetasConIngredientesActivosYCaloriasPorId(@Param("id") Long id);
+
+
+
 
 
 

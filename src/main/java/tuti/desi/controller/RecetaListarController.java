@@ -123,26 +123,44 @@ public class RecetaListarController {
     }
 	
 	//Filtro del buscador en activas
-	@GetMapping("/activas/filtro")
-	public String filtrarRecetasActivas(@RequestParam("tipo") String tipo,@RequestParam("valor") String valor,Model model) {
-	    List<RecetaDTO> recetas = recetaService.listarTodasActivas();
+	@GetMapping("/solicitado/filtro")
+	public String mostrarFormularioSolicitadoFiltro(
+	        @RequestParam("tipo") String tipo,
+	        @RequestParam(required = false) String valor,
+	        @RequestParam(required = false) Integer caloriasMin,
+	        @RequestParam(required = false) Integer caloriasMax,
+	        Model model) {
+
+	    List<RecetasConItemsYCaloriasDTO> recetas;
 
 	    if ("id".equalsIgnoreCase(tipo)) {
 	        try {
-	            Long id = Long.parseLong(valor);
-	            recetas = recetaService.filtrarIdActivas(id);
+	            if (valor == null || valor.isEmpty()) {
+	                recetas = recetaService.listarRecetasConIngredientesActivosYCalorias();
+	            } else {
+	                Long id = Long.parseLong(valor);
+	                recetas = recetaService.listarRecetasConIngredientesActivosYCaloriasPorId(id);
+	            }
 	        } catch (NumberFormatException e) {
-	            recetas = List.of(); // si no es un número válido
+	            recetas = List.of(); // ID inválido
 	        }
+	    } else if ("calorias".equalsIgnoreCase(tipo)) {
+	        int min = (caloriasMin != null) ? caloriasMin : 0;
+	        int max = (caloriasMax != null) ? caloriasMax : Integer.MAX_VALUE;
+	        recetas = recetaService.listarRecetasConIngredientesActivosYCaloriasMinYMax(min, max);
 	    } else {
-	        recetas = recetaService.filtrarNombreAndActivaTrue(valor);
+	        recetas = recetaService.listarRecetasConIngredientesActivosYCalorias(); // fallback
 	    }
 
 	    model.addAttribute("recetas", recetas);
 	    model.addAttribute("tipo", tipo);
 	    model.addAttribute("valor", valor);
-	    return "recetaListarActivas";
+	    model.addAttribute("caloriasMin", caloriasMin);
+	    model.addAttribute("caloriasMax", caloriasMax);
+	    return "recetaListarActivasConItemsYCalorias";
 	}
+
+
 	
 	@GetMapping("/solicitado")
     public String mostrarFormularioSolicitado(Model model) {

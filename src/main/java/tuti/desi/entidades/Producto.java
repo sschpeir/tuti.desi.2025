@@ -37,7 +37,4 @@ public class Producto extends Ingrediente {
 		this.precioActual = precioActual;
 	}
 	
-	
-	
-	
 }

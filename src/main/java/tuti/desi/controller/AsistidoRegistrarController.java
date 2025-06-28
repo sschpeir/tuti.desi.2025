@@ -52,6 +52,8 @@ public class AsistidoRegistrarController {
   	public String guardarFormularioAsistido(@Valid @ModelAttribute("asistidoForm") AsistidoForm asistidoForm, BindingResult result, Model model) {
   		if (result.hasErrors()) {
   	        model.addAttribute("asistidoForm", asistidoForm);
+  	        List<FamiliaDTO> familias = familiaService.listarTodas();
+	        model.addAttribute("familias", familias);
   	        return "asistidoRegistrar";
   	    	}
   		try {

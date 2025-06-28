@@ -47,7 +47,8 @@ public interface RecetaService {
 
 	List<RecetasConItemsYCaloriasDTO> listarRecetasConIngredientesActivosYCalorias();
 
-	
-	
+	List<RecetasConItemsYCaloriasDTO> listarRecetasConIngredientesActivosYCaloriasMinYMax(Integer caloriasMin, Integer caloriasMax);
+
+	List<RecetasConItemsYCaloriasDTO> listarRecetasConIngredientesActivosYCaloriasPorId(Long id);
 
 }

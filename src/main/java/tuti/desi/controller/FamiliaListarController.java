@@ -54,15 +54,20 @@ public class FamiliaListarController {
         return "familiaListarSolicitado";
     }
 	
-	
+	//Listado de 
 	@GetMapping("/solicitado/filtro")
 	public String filtrarFamiliaSolicitadoFiltro(@RequestParam("tipo") String tipo,@RequestParam("valor") String valor,Model model) {
 	    List<FamiliasConMiembrosActivosDTO> familias = familiaService.listadoFamiliasMiembrosActivos();
 
 	    if ("id".equalsIgnoreCase(tipo)) {
 	        try {
-	            Long id = Long.parseLong(valor);
-	            familias = familiaService.listadoFamiliasMiembrosActivosFiltroId(id);
+	        	if (valor.isEmpty()) {
+		            familias = familiaService.listadoFamiliasMiembrosActivos();	
+	        	}else {
+	        		Long id = Long.parseLong(valor);
+		            familias = familiaService.listadoFamiliasMiembrosActivosFiltroId(id);
+	        	}
+	            
 	        } catch (NumberFormatException e) {
 	            familias = List.of(); // si no es un número válido
 	        }

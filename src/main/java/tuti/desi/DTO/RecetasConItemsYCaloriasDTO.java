@@ -6,12 +6,23 @@ public class RecetasConItemsYCaloriasDTO {
     private String nombre;
     private Boolean activa;
     private Double totalCalorias;
+    private Double caloriasMin;
+    private Double caloriasMax;
 
     public RecetasConItemsYCaloriasDTO(Long id, String nombre, Boolean activa, Number totalCalorias) {
         this.id = id;
         this.nombre = nombre;
         this.activa = activa;
         this.totalCalorias = totalCalorias.doubleValue();
+    }
+    
+    public RecetasConItemsYCaloriasDTO(Long id, String nombre, Boolean activa, Number totalCalorias, Number caloriasMin, Number caloriasMax) {
+        this.id = id;
+        this.nombre = nombre;
+        this.activa = activa;
+        this.totalCalorias = totalCalorias.doubleValue();
+        this.caloriasMin = caloriasMin.doubleValue();
+        this.caloriasMax = caloriasMax.doubleValue();
     }
 
 
@@ -48,4 +59,22 @@ public class RecetasConItemsYCaloriasDTO {
     public void setTotalCalorias(Double totalCalorias) {
         this.totalCalorias = totalCalorias;
     }
+
+	public Double getCaloriasMin() {
+		return caloriasMin;
+	}
+
+	public void setCaloriasMin(Double caloriasMin) {
+		this.caloriasMin = caloriasMin;
+	}
+
+	public Double getCaloriasMax() {
+		return caloriasMax;
+	}
+
+	public void setCaloriasMax(Double caloriasMax) {
+		this.caloriasMax = caloriasMax;
+	}
+    
+    
 }

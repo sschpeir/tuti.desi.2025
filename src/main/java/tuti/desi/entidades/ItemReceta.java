@@ -3,7 +3,7 @@ package tuti.desi.entidades;
 import jakarta.persistence.*;
 
 @Entity
-//@IdClass(ItemRecetaId.class)
+//@IdClass(ItemRecetaId.class) <--ID compuesto, se descarto por las solicitudes de dejar historial de las eliminaciones
 public class ItemReceta {
 
 	@Id

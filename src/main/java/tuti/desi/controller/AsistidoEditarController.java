@@ -120,15 +120,16 @@ public class AsistidoEditarController {
         AsistidoForm asistidoForm = new AsistidoForm();
 
     	try {
-            PersonaDTO personaDTO = asistidoService.buscarPorId(id);
+            PersonaDTO personaDTO = asistidoService.buscarPorId(id);// llama al servicio para traer los datos de la persona con ese ID
 
             if (!"ASISTIDO".equalsIgnoreCase(personaDTO.getTipoPersona())) {
-                throw new IllegalArgumentException("La persona con ID " + id + " no es un asistido.");
+                throw new IllegalArgumentException("La persona con ID " + id + " no es un asistido.");//LANZA UNA EXCEPCION SI NO ES UN ASISTIDO
             }
 
-            AsistidoDTO asistidoDTO = (AsistidoDTO) personaDTO;
+            AsistidoDTO asistidoDTO = (AsistidoDTO) personaDTO; // castea asistidoDTO
             
-            asistidoForm.setId(asistidoDTO.getId());
+            asistidoForm.setId(asistidoDTO.getId()); // hace el casteo de y trasfiere los datos del asistidoDTO al formulario asistidoform
+            
             asistidoForm.setActiva(asistidoDTO.isActiva());
   			asistidoForm.setDni(asistidoDTO.getDni());
   			asistidoForm.setNombre(asistidoDTO.getNombre());
@@ -141,14 +142,14 @@ public class AsistidoEditarController {
   			asistidoForm.setFamiliaId(asistidoDTO.getFamiliaId());
 
             List<FamiliaDTO> familias = familiaService.listarTodas();
-            model.addAttribute("asistidoForm", asistidoForm);
+            model.addAttribute("asistidoForm", asistidoForm);//agrega los objetos al modelo
             model.addAttribute("familias", familias);
 
             return "asistidoEditarFamilia";
 
         } catch (IllegalArgumentException e) {
             model.addAttribute("error", e.getMessage());
-            return "errorFamilia";
+            return "errorFamilia"; //Si se lanza una excepción, se carga un mensaje de error al modelo y se muestra otra vista
         }
     }
     

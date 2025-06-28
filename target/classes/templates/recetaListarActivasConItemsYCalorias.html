@@ -67,20 +67,45 @@
 </head>
 <body>
 
-<h1>Recetas Activas con Total de Calorías</h1>
+	<h1 style="text-align: center;">Recetas Activas con Total de Calorías</h1>
 
-<form th:action="@{/recetaListar/solicitado/filtro}" method="get" style="text-align: center; margin-bottom: 20px;">
-    <select name="tipo" style="padding: 8px; font-size: 14px;">
-        <option value="nombre" th:selected="${tipo == 'nombre'}">Nombre</option>
-        <option value="id" th:selected="${tipo == 'id'}">ID</option>
-    </select>
+	<div style="
+	    background-color: white;
+	    padding: 25px;
+	    border-radius: 12px;
+	    box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+	    width: fit-content;
+	    margin: 0 auto 30px auto;
+	    text-align: center;
+	">
 
-    <input type="text" name="valor" placeholder="Buscar..." 
-           style="padding: 8px; width: 250px; font-size: 14px;"
-           th:value="${valor}" />
+	    <form th:action="@{/recetaListar/solicitado/filtro}" method="get">
+	        <label for="tipo">Tipo de búsqueda:</label>
+	        <select name="tipo" id="tipo" onchange="alternarCampos()" style="padding: 8px; font-size: 14px;">
+	            <option value="id" th:selected="${tipo == 'id'}">Por ID</option>
+	            <option value="calorias" th:selected="${tipo == 'calorias'}">Por Calorías</option>
+	        </select>
 
-    <button type="submit" style="padding: 8px 12px; font-size: 14px;">🔍 Buscar</button>
-</form>
+	        <br><br>
+
+	        <!-- Campo para ID -->
+	        <div id="campoId">
+	            <input type="text" name="valor" placeholder="ID de la receta"
+	                   th:value="${valor}" style="padding: 8px; width: 250px; font-size: 14px;" />
+	        </div>
+
+	        <!-- Campos para calorías -->
+	        <div id="campoCalorias" style="display: none;">
+	            <input type="number" name="caloriasMin" placeholder="Calorías mín"
+	                   th:value="${caloriasMin}" style="padding: 8px; width: 120px; font-size: 14px;" />
+	            <input type="number" name="caloriasMax" placeholder="Calorías máx"
+	                   th:value="${caloriasMax}" style="padding: 8px; width: 120px; font-size: 14px;" />
+	        </div>
+
+	        <br><br>
+	        <button type="submit" style="padding: 8px 12px; font-size: 14px;">🔍 Buscar</button>
+	    </form>
+	</div>
 
 <table>
     <thead>
@@ -117,6 +142,17 @@
         </tr>
     </tbody>
 </table>
+
+<script>
+    function alternarCampos() {
+        const tipo = document.getElementById("tipo").value;
+        document.getElementById("campoId").style.display = (tipo === "id") ? "block" : "none";
+        document.getElementById("campoCalorias").style.display = (tipo === "calorias") ? "block" : "none";
+    }
+
+    // Ejecutar al cargar para que se muestre correctamente según el valor actual
+    document.addEventListener("DOMContentLoaded", alternarCampos);
+</script>
 
 <a class="button-add" th:href="@{/recetaListar}">⬅ Volver al listado de todas las recetas</a>
 <br/>

@@ -258,5 +258,17 @@ public class RecetaServiceImpl implements RecetaService {
         return recetaRepository.listarRecetasConItemsActivosYCalorias();
     }
 
+
+	@Override
+	public List<RecetasConItemsYCaloriasDTO> listarRecetasConIngredientesActivosYCaloriasMinYMax(Integer caloriasMin, Integer caloriasMax) {
+		return recetaRepository.listarRecetasConIngredientesActivosYCaloriasMinYMax(caloriasMin, caloriasMax);
+	}
+
+
+	@Override
+	public List<RecetasConItemsYCaloriasDTO> listarRecetasConIngredientesActivosYCaloriasPorId(Long id) {
+		return recetaRepository.listarRecetasConIngredientesActivosYCaloriasPorId(id);
+	}
+
     
 }

@@ -5,10 +5,10 @@ import java.time.LocalDate;
 public class AsistidoDTO extends PersonaDTO {
 	
 	
-	//Propiedad para referenciarlo
+	//Propiedad auxiliar para referenciar el id de la familia
 	private Long familiaId;
 	
-	//Propiedad para referenciar el nombre de las familias desde los listados
+	//Propiedad auxiliar para referenciar el nombre de las familias desde los listados
 	private String familiaNombre;
 
 	//Getters y setters

@@ -19,7 +19,8 @@ public class AsistidoListarController {
 	@Autowired
     private AsistidoService asistidoService;
 	
-	//Si solicitas un GET, carga un modelo de lista de FamiliaDTO
+	//Metodo GET de listadod e asistidos desde inicio
+	//Si solicitas un GET, carga un modelo de lista de FamiliaDTO y lo envia al modelo
 	@GetMapping
     public String cargarFormulario(Model model) {
 		List<AsistidoDTO> personas = asistidoService.listarTodosAsistidos();
