@@ -39,16 +39,21 @@ public interface RecetaService {
 	//Filtrar por ID
 	List<RecetaDTO> filtrarId(Long id);
 
+	//Lista todas las recetas activas
 	List<RecetaDTO> listarTodasActivas();
 
-	List<RecetaDTO> filtrarIdActivas(Long id);
-
-	List<RecetaDTO> filtrarNombreAndActivaTrue(String nombre);
-
+	//Listado de recetas activas con ingredientes activos y sumatoria de calorias
 	List<RecetasConItemsYCaloriasDTO> listarRecetasConIngredientesActivosYCalorias();
 
+	//Listado de recetas activas con ingredientes activos y sumatoria de calorias con filtro por calorias
 	List<RecetasConItemsYCaloriasDTO> listarRecetasConIngredientesActivosYCaloriasMinYMax(Integer caloriasMin, Integer caloriasMax);
 
+	//Listado de recetas activas con ingredientes activos y sumatoria de calorias con filtro por id
 	List<RecetasConItemsYCaloriasDTO> listarRecetasConIngredientesActivosYCaloriasPorId(Long id);
+	
+	//EN DESUSO - Lista todas las recetas por nombre y que esten activas - Intento de filtro
+	//List<RecetaDTO> filtrarNombreAndActivaTrue(String nombre);
 
+	//EN DESUSO - Lista todas las recetas con id activas
+	//List<RecetaDTO> filtrarIdActivas(Long id);
 }

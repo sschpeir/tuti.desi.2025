@@ -25,7 +25,6 @@ public class Familia {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate fechaRegistro;
     
-
     @OneToMany(mappedBy = "familia", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Asistido> integrantes;
 

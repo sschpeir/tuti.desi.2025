@@ -34,6 +34,5 @@ public class Asistido extends Persona {
 	public Asistido() {
 	}
     
-    
 }
 

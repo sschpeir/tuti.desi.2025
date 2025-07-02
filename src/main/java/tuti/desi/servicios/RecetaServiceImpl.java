@@ -220,29 +220,17 @@ public class RecetaServiceImpl implements RecetaService {
 	                  .map(this::recetaADTO)
 	                  .collect(Collectors.toList());
 	}
+
 	
-	@Override
-	public List<RecetaDTO> filtrarNombreAndActivaTrue(String nombre) {
-	    List<Receta> recetas = recetaRepository.findByNombreLikeAndActivaTrue("%"+nombre+"%");
-	    return recetas.stream()
-	                  .map(this::recetaADTO)
-	                  .collect(Collectors.toList());
-	}
-	
+	//Filtrar por ID
 	@Override
 	public List<RecetaDTO> filtrarId(Long id) {
 	    return recetaRepository.findById(id)
 	            .map(r -> List.of(recetaADTO(r)))
 	            .orElse(List.of());
 	}
-	
-	@Override
-	public List<RecetaDTO> filtrarIdActivas(Long id) {
-	    return recetaRepository.findByIdAndActivaTrue(id)
-	            .map(r -> List.of(recetaADTO(r)))
-	            .orElse(List.of());
-	}
 
+	//Lista todas las recetas activas
 	@Override
 	public List<RecetaDTO> listarTodasActivas() {
 	    List<Receta> recetas = recetaRepository.findByActivaTrue();
@@ -252,23 +240,39 @@ public class RecetaServiceImpl implements RecetaService {
 	            .map(this::recetaADTO)
 	            .collect(Collectors.toList());
 	}
-	
+	//Listado de recetas activas con ingredientes activos y sumatoria de calorias
 	@Override
     public List<RecetasConItemsYCaloriasDTO> listarRecetasConIngredientesActivosYCalorias() {
         return recetaRepository.listarRecetasConItemsActivosYCalorias();
     }
 
-
+	//Listado de recetas activas con ingredientes activos y sumatoria de calorias con filtro por calorias
 	@Override
 	public List<RecetasConItemsYCaloriasDTO> listarRecetasConIngredientesActivosYCaloriasMinYMax(Integer caloriasMin, Integer caloriasMax) {
 		return recetaRepository.listarRecetasConIngredientesActivosYCaloriasMinYMax(caloriasMin, caloriasMax);
 	}
 
-
+	//Listado de recetas activas con ingredientes activos y sumatoria de calorias con filtro por id
 	@Override
 	public List<RecetasConItemsYCaloriasDTO> listarRecetasConIngredientesActivosYCaloriasPorId(Long id) {
 		return recetaRepository.listarRecetasConIngredientesActivosYCaloriasPorId(id);
 	}
+	
+	//EN DESUSO - Listado para filtro por ID y recetas activas
+	/*@Override
+	public List<RecetaDTO> filtrarIdActivas(Long id) {
+	    return recetaRepository.findByIdAndActivaTrue(id)
+	            .map(r -> List.of(recetaADTO(r)))
+	            .orElse(List.of());
+	}*/
 
+	//EN DESUSO - Listado para filtro por nombre y que el estado de la receta sea activa
+	/*@Override
+	public List<RecetaDTO> filtrarNombreAndActivaTrue(String nombre) {
+	    List<Receta> recetas = recetaRepository.findByNombreLikeAndActivaTrue("%"+nombre+"%");
+	    return recetas.stream()
+	                  .map(this::recetaADTO)
+	                  .collect(Collectors.toList());
+	}*/
     
 }

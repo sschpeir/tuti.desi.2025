@@ -8,8 +8,7 @@ import tuti.desi.entidades.Asistido;
 
 public interface AsistidoService {
 	
-	//NUEVOS METODOS
-	
+	//VER si se usa
 	List<AsistidoDTO> listarAsistidosActivos();
 
 	Asistido guardarAsistido(AsistidoDTO asistidoDTO);

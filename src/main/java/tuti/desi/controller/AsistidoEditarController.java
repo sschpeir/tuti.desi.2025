@@ -65,10 +65,7 @@ public class AsistidoEditarController {
 
         } catch (IllegalArgumentException e) {
             model.addAttribute("error", e.getMessage());
-            List<FamiliaDTO> familias = familiaService.listarTodas();
-            model.addAttribute("asistidoForm", asistidoForm);
-            model.addAttribute("familias", familias);
-            return "errorFamilia";
+            return "paginaError";
         }
     }
     
@@ -107,9 +104,7 @@ public class AsistidoEditarController {
   	        
   	    } catch (IllegalArgumentException e) {
   	        model.addAttribute("error", e.getMessage());
-  	        model.addAttribute("asistidoForm", asistidoForm); 
-  	        //Si no guarda, deja los datos cargados y devuelve error que se lo agarra con Thymeleaf
-  	        return "asistidoEditar"; 
+  	        return "paginaError"; 
   	    }
   	}
   	
@@ -149,7 +144,7 @@ public class AsistidoEditarController {
 
         } catch (IllegalArgumentException e) {
             model.addAttribute("error", e.getMessage());
-            return "errorFamilia"; //Si se lanza una excepción, se carga un mensaje de error al modelo y se muestra otra vista
+            return "paginaError";
         }
     }
     
@@ -189,9 +184,7 @@ public class AsistidoEditarController {
   	        
   	    } catch (IllegalArgumentException e) {
   	        model.addAttribute("error", e.getMessage());
-  	        model.addAttribute("asistidoForm", asistidoForm); 
-  	        //Si no guarda, deja los datos cargados y devuelve error que se lo agarra con Thymeleaf
-  	        return "asistidoEditar"; 
+  	        return "paginaError"; 
   	    }
   	}
   	

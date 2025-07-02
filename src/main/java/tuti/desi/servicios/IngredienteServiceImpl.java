@@ -131,7 +131,7 @@ public class IngredienteServiceImpl implements IngredienteService{
 	}
 	
 	//EN DESUSO -- Lista ingredientes activos (ideal para filtros o ahorrar laburo)
-	@Override
+	/*@Override
 	public List<IngredienteDTO> listarIngredientesActivos() {
 	    List<Ingrediente> ingredientes = ingredienteRepository.findAll();
 
@@ -139,14 +139,14 @@ public class IngredienteServiceImpl implements IngredienteService{
 	            .filter(Ingrediente::isActiva)
 	            .map(this::ingredienteADTO)
 	            .collect(Collectors.toList());
-	}
+	}*/
 	
 
 	//EN DESUSO - Lista ingredientes con estado activo
-	@Override
+	/*@Override
 	public List<IngredienteDTO> listarIngredientesActivas() {
 		// TODO Auto-generated method stub
 		return null;
-	}
+	}*/
 	
 }

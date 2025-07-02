@@ -2,7 +2,6 @@ package tuti.desi.servicios;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -176,7 +175,7 @@ public class AsistidoServiceImpl implements AsistidoService{
 	         .collect(Collectors.toList());
 	 }
 	 
-	 //EN DESUSO - Listar todos los asistidos
+	 //Listar todos los asistidos
 	 @Override
 	 public List<AsistidoDTO> listarTodosAsistidos() {
 	     List<Asistido> asistidos = asistidoRepository.findAll();
@@ -204,6 +203,7 @@ public class AsistidoServiceImpl implements AsistidoService{
 	             return asitidoDTO;
 	         })
 	         .collect(Collectors.toList());
-	 }	
+	 }
+
 	 
 }

@@ -24,7 +24,7 @@ public class PersonaServiceImpl implements PersonaService {
     private PersonaRepository personaRepository;
     
     //EN DESUSO -- Para guardar/edita una persona como DTO
-    @Override
+    /*@Override
     public Persona guardar(PersonaDTO personaDTO) {
         boolean esEdicion = personaDTO.getId() != null;
         Persona persona;
@@ -75,10 +75,10 @@ public class PersonaServiceImpl implements PersonaService {
         persona.setActiva(personaDTO.isActiva());
 
         return personaRepository.save(persona);
-    }
+    }*/
     
     //EN DESUSO -- Listar todos los tipos de persona
-    @Override
+    /*@Override
     public List<PersonaDTO> listarTodos() {
         List<Persona> personas = personaRepository.findAll();
 
@@ -115,10 +115,10 @@ public class PersonaServiceImpl implements PersonaService {
                 }
             })
             .collect(Collectors.toList());
-    }
+    }*/
     
     //EN DESUSO - Listar todos los tipos de persona activas
-  	@Override
+  	/*@Override
   	public List<PersonaDTO> listarPersonasActivas() {
   		List<Persona> personas = personaRepository.findByActivaTrue();
   		return personas.stream()
@@ -154,10 +154,10 @@ public class PersonaServiceImpl implements PersonaService {
   	                }
   	            })
   	            .collect(Collectors.toList());
-  	}
+  	}*/
   	
   	//EN DESUSO - Listar todos los tipos de persona inactivas
-  	@Override
+  	/*@Override
   	public List<PersonaDTO> listarPersonasInactivas() {
   		List<Persona> personas = personaRepository.findByActivaFalse();
   		return personas.stream()
@@ -193,10 +193,10 @@ public class PersonaServiceImpl implements PersonaService {
   	                }
   	            })
   	            .collect(Collectors.toList());
-  	}
+  	}*/
 
     //EN DESUSO - Busca una persona por su ID, devuelve un PersonaDTO
-    @Override
+    /*@Override
     public PersonaDTO buscarPorId(Long id) {
         Persona persona = personaRepository.findById(id)
             .orElseThrow(() -> new IllegalArgumentException("No se encontró la persona con ID: " + id));
@@ -231,18 +231,18 @@ public class PersonaServiceImpl implements PersonaService {
         }
 
         throw new IllegalArgumentException("Tipo de persona desconocido");
-    }
+    }*/
 
     //EN DESUSO - Busca persona por el DNI
-	 @Override
+	 /*@Override
     public Optional<Persona> buscarPorDni(Integer dni) {
         return personaRepository.findByDni(dni);
-    }
+    }*/
 	 
 	//EN DESUSO - Eliminaba definitivamente una persona - Ideal pruebas 
-    @Override
+    /*@Override
     public void eliminar(Long id) {
         personaRepository.deleteById(id);
-    }
+    }*/
 	
 }

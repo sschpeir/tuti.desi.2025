@@ -9,7 +9,7 @@ import java.time.LocalDate;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn
+@DiscriminatorColumn(name = "tipoPersona")
 @Table(name = "persona")
 public class Persona {
 

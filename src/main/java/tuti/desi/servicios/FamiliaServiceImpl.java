@@ -170,42 +170,43 @@ public class FamiliaServiceImpl implements FamiliaService{
 	}
 	
 	//EN DESUSO - Metodo para buscador a traves de familiaListar
-	@Override
+	/*@Override
 	public List<FamiliaDTO> filtrarId(Long id) {
 	    return familiaRepository.findById(id)
 	            .map(f -> List.of(familiaADTO(f)))
 	            .orElse(List.of());
-	}
+	}*/
 	
 	//EN DESUSO - Metodo para buscador a traves de familiaListar
-	@Override
+	/*@Override
 	public List<FamiliaDTO> filtrarNombre(String nombre) {
 	    List<Familia> familias = familiaRepository.findByNombreLike("%" + nombre + "%");
 	    return familias.stream()
 	                   .map(this::familiaADTO)
 	                   .collect(Collectors.toList());
-	}
+	}*/
 
 	
 	//EN DESUSO - Metodo para buscador a traves de familiaListar/activas
-	@Override
+	/*@Override
 	public List<FamiliaDTO> filtrarIdActivas(Long id) {
 		List<Familia> familias = familiaRepository.findByIdAndActivaTrue(id);
 		return familias.stream()
                 .map(this::familiaADTO)
                 .collect(Collectors.toList());
-	}
+	}*/
 
 	//EN DESUSO - Metodo para buscador a traves de familiaListar/activas
-	@Override
+	/*@Override
 	public List<FamiliaDTO> filtrarNombreAndActivaTrue(String nombre) {
 		List<Familia> familias = familiaRepository.findByNombreLikeAndActivaTrue("%" + nombre + "%");
 		return familias.stream()
                 .map(this::familiaADTO)
                 .collect(Collectors.toList());
-	}
+	}*/
 	
     //EN DESUSO - Metodo de obtencion de todas las familias activas
+	/*@Override
     public List<FamiliaDTO> listarFamiliasActivas() {
     	List<Familia> familias = familiaRepository.findByActivaTrue();
         return familias.stream()
@@ -216,9 +217,7 @@ public class FamiliaServiceImpl implements FamiliaService{
     	            f.isActiva()
     	        ))
     	        .collect(Collectors.toList());
-	}
-
-
+	}*/
 	
 }
 

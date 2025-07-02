@@ -58,8 +58,7 @@ public interface FamiliaRepository extends JpaRepository<Familia, Long> {
 		""")
 		List<FamiliasConMiembrosDTO> listadoFamiliasConAsistidos();
 
-
-	
+	//Listado de mimbros activos
 	
 	@Query("""
 		    SELECT new tuti.desi.DTO.FamiliasConMiembrosActivosDTO(
@@ -77,7 +76,7 @@ public interface FamiliaRepository extends JpaRepository<Familia, Long> {
 		""")
 		List<FamiliasConMiembrosActivosDTO> listadoFamiliasConAsistidosActivos();
 	
-	
+	//Listado de mimbros activos por nombre like
 	
 	@Query("""
 		    SELECT new tuti.desi.DTO.FamiliasConMiembrosActivosDTO(
@@ -95,6 +94,8 @@ public interface FamiliaRepository extends JpaRepository<Familia, Long> {
 		""")
 		List<FamiliasConMiembrosActivosDTO> listadoFamiliasConAsistidosActivosPorNombre(@Param("nombreFiltro") String nombreFiltro);
 
+	//Listado de mimbros activos por id
+	
 	@Query("""
 		    SELECT new tuti.desi.DTO.FamiliasConMiembrosActivosDTO(
 		        f.id,

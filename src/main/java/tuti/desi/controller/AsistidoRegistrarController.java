@@ -102,7 +102,7 @@ public class AsistidoRegistrarController {
 
   	    } catch (IllegalArgumentException e) {
   	        model.addAttribute("error", e.getMessage());
-  	        return "asistidoError";
+  	        return "paginaError";
   	    }
   	}
 

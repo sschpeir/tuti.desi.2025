@@ -76,20 +76,6 @@
 
 <h1>Listado de asistidos</h1>
 
-<form method="get" th:action="@{/asistidoListar}" id="filtroForm" class="checkbox-form">
-    <label style="margin-right: 20px;">
-        <input type="checkbox" name="soloActivos" value="true"
-               th:checked="${soloActivos}" onchange="document.getElementById('filtroForm').submit()" />
-        Mostrar solo activos
-    </label>
-
-    <label>
-        <input type="checkbox" name="sinFamilia" value="true"
-               th:checked="${sinFamilia}" onchange="document.getElementById('filtroForm').submit()" />
-        Mostrar solo sin familia
-    </label>
-</form>
-
 <table>
     <thead>
     <tr>
@@ -100,7 +86,8 @@
         <th>Domicilio</th>
         <th>Ocupación</th>
         <th>Fecha de Nacimiento</th>
-        <th>Familia</th>
+		<th>Fecha de Registro</th>
+		<th>Familia</th>
 		<th>Activa</th>
         <th>Acciones</th>
     </tr>
@@ -114,6 +101,7 @@
         <td th:text="${persona.domicilio}">Domicilio</td>
         <td th:text="${persona.ocupacion}">Ocupación</td>
         <td th:text="${persona.fechaNacimiento}">Fecha</td>
+		<td th:text="${persona.fechaRegistro}">Fecha</td>
 		<td th:text="${persona.familiaNombre} ?: 'Sin familia asignada'">Familia</td>
 		<td th:text="${persona.activa ? 'Sí' : 'No'}">Activa</td>
         <td class="action-links">
@@ -136,10 +124,6 @@
 </table>
 
 <a class="add-link" th:href="@{/asistidoRegistrar}">➕ Cargar nuevo asistido</a>
-<br/><br/>
-<a class="button-add" th:href="@{/asistidoListar(soloActivos=${soloActivos})}">🔄 Recargar listado</a>
-<br/><br/>
-<a class="button-add" th:href="@{/asistidoListar/sinFamilia}">👥 Ver sin familia</a>
 <br/><br/>
 <a class="button-add" th:href="@{/inicio}">🏠 Ir al Inicio</a>
 

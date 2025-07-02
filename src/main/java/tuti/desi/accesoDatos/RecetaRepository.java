@@ -43,7 +43,8 @@ public interface RecetaRepository extends JpaRepository<Receta, Long> {
 	//Listar por recetas parecidas al nombre
 	List<Receta> findByNombreLikeAndActivaTrue(String nombre);
 	
-	//Listado solicitado TP
+	//Listado solicitado por el TP
+	
 	@Query("""
 		    SELECT new tuti.desi.DTO.RecetasConItemsYCaloriasDTO(
 		        r.id,
@@ -59,6 +60,7 @@ public interface RecetaRepository extends JpaRepository<Receta, Long> {
 		""")
 		List<RecetasConItemsYCaloriasDTO> listarRecetasConItemsActivosYCalorias();
 	
+	//Listado solicitado por el TP, pero para el filtro por calorias
 	
 	@Query("""
 		    SELECT new tuti.desi.DTO.RecetasConItemsYCaloriasDTO(
@@ -81,6 +83,8 @@ public interface RecetaRepository extends JpaRepository<Receta, Long> {
 		    @Param("maxCalorias") int maxCalorias
 		);
 	
+	//Listado solicitado por el TP, pero para el filtro por id
+	
 	@Query("""
 		    SELECT new tuti.desi.DTO.RecetasConItemsYCaloriasDTO(
 		        r.id,
@@ -98,10 +102,7 @@ public interface RecetaRepository extends JpaRepository<Receta, Long> {
 		    GROUP BY r.id, r.nombre, r.activa
 		""")
 		List<RecetasConItemsYCaloriasDTO> listarRecetasConIngredientesActivosYCaloriasPorId(@Param("id") Long id);
-
-
-
-
-
+	
+	
 
 }

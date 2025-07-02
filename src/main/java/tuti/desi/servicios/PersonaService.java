@@ -7,20 +7,25 @@ import java.util.List;
 
 public interface PersonaService {
 
-	//Metodo de guardado/edicion
-    Persona guardar(PersonaDTO personaDTO);
+	//EN DESUSO - Metodo de guardado/edicion
+    //Persona guardar(PersonaDTO personaDTO);
 
-    //Metodo de obtencion de todas las personas
-    List<PersonaDTO> listarTodos();
+    //EN DESUSO - Metodo de obtencion de todas las personas
+    //List<PersonaDTO> listarTodos();
     
-    Optional<Persona> buscarPorDni(Integer dni);
+	//EN DESUSO - Metodo para buscar una persona por DNI
+    //Optional<Persona> buscarPorDni(Integer dni);
     
-    PersonaDTO buscarPorId(Long id);
+	//EN DESUSO - Metodo para buscar una persona por ID
+    //PersonaDTO buscarPorId(Long id);
 
-	void eliminar(Long id);
+	//EN DESUSO - Metodo para eliminar una persona
+	//void eliminar(Long id);
 
-	List<PersonaDTO> listarPersonasInactivas();
-
-	List<PersonaDTO> listarPersonasActivas();
+	//EN DESUSO - Metodo para listas todas las personas inactivas
+	//List<PersonaDTO> listarPersonasInactivas();
+	
+	//EN DESUSO - Metodo para listar todas las personas activas
+	//List<PersonaDTO> listarPersonasActivas();
 
 }
